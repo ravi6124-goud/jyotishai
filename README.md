@@ -1,0 +1,2 @@
+# jyotishai
+AI Astrology Website
