@@ -1,158 +1,732 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JyotishAI</title><link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}:root{--g:#C9A84C;--gl:#F0D080;--d:#05020F;--r:#8B3A62;--t:#E8DFC8;--m:#8A7F6A}body{background:var(--d);color:var(--t);font-family:Lato,sans-serif;font-weight:300;min-height:100vh}nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:rgba(5,2,15,.95);border-bottom:1px solid rgba(201,168,76,.15)}.logo{font-family:"Cinzel Decorative",serif;font-size:1.3rem;color:var(--g);text-decoration:none}.logo span{color:var(--gl)}.nb{font-family:Cinzel,serif;font-size:.7rem;color:var(--d);background:var(--g);padding:8px 16px;border:none;border-radius:2px;cursor:pointer;text-decoration:none}.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;background:radial-gradient(ellipse at center,rgba(42,26,94,.4) 0,transparent 70%)}.badge{font-family:Cinzel,serif;font-size:.65rem;letter-spacing:3px;color:var(--g);border:1px solid rgba(201,168,76,.3);padding:6px 16px;margin-bottom:24px;display:inline-block}h1{font-family:"Cinzel Decorative",serif;font-size:clamp(2rem,8vw,4rem);color:var(--gl);margin-bottom:8px}h1 em{font-style:normal;color:var(--t);font-size:.5em;display:block;letter-spacing:4px;margin-top:6px}.sub{font-size:1rem;color:var(--m);max-width:500px;margin:20px auto 36px;line-height:1.8}.sub strong{color:var(--t);font-weight:400}.btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}.b1{font-family:Cinzel,serif;font-size:.75rem;color:var(--d);background:linear-gradient(135deg,var(--g),var(--gl));padding:14px 28px;border:none;border-radius:2px;cursor:pointer;text-decoration:none}.b2{font-family:Cinzel,serif;font-size:.75rem;color:var(--g);background:transparent;padding:14px 28px;border:1px solid rgba(201,168,76,.3);border-radius:2px;cursor:pointer;text-decoration:none}.sec{padding:60px 24px;max-width:900px;margin:0 auto}.sl{font-family:Cinzel,serif;font-size:.65rem;letter-spacing:3px;color:var(--g);text-align:center;margin-bottom:12px}.st{font-family:"Cinzel Decorative",serif;font-size:clamp(1.3rem,4vw,2rem);color:var(--gl);text-align:center;margin-bottom:40px}.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-bottom:60px}.fc{background:rgba(42,26,94,.2);border:1px solid rgba(201,168,76,.1);padding:28px 24px}.fc span{font-size:1.8rem;display:block;margin-bottom:14px}.fc h3{font-family:Cinzel,serif;font-size:.9rem;color:var(--gl);margin-bottom:8px}.fc p{font-size:.82rem;color:var(--m);line-height:1.6}.cb{background:rgba(12,7,32,.9);border:1px solid rgba(201,168,76,.2);border-radius:4px;overflow:hidden;max-width:700px;margin:0 auto}.ch{background:linear-gradient(135deg,rgba(42,26,94,.8),rgba(139,58,98,.4));padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(201,168,76,.15)}.ca{width:36px;height:36px;background:linear-gradient(135deg,var(--g),var(--r));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}.cn{font-family:Cinzel,serif;font-size:.82rem;color:var(--gl)}.cs{font-size:.7rem;color:#5EC98A}.ab{padding:20px;border-bottom:1px solid rgba(201,168,76,.1);background:rgba(42,26,94,.2)}.ab p{font-size:.8rem;color:var(--m);margin-bottom:10px}.ar{display:flex;gap:8px}.ak{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:10px 12px;color:var(--t);font-size:.82rem;outline:none}.ak::placeholder{color:var(--m)}.abtn{background:linear-gradient(135deg,var(--g),var(--gl));border:none;border-radius:2px;padding:10px 16px;font-family:Cinzel,serif;font-size:.7rem;color:var(--d);cursor:pointer}.ms{padding:20px;min-height:260px;max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}.mg{display:flex;gap:10px;align-items:flex-start}.mg.u{flex-direction:row-reverse}.mv{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}.mg.ai .mv{background:linear-gradient(135deg,rgba(201,168,76,.5),var(--r))}.mg.u .mv{background:linear-gradient(135deg,#2A1A5E,#4A3A8E)}.mb{max-width:78%;padding:10px 14px;border-radius:2px;font-size:.85rem;line-height:1.6}.mg.ai .mb{background:rgba(42,26,94,.5);border:1px solid rgba(201,168,76,.15);color:var(--t)}.mg.u .mb{background:rgba(139,58,98,.3);border:1px solid rgba(139,58,98,.3);color:var(--t)}.ia{padding:14px 20px;border-top:1px solid rgba(201,168,76,.1);display:flex;gap:10px}.ci{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:11px 14px;color:var(--t);font-size:.85rem;outline:none}.ci::placeholder{color:var(--m)}.sb{background:linear-gradient(135deg,var(--g),var(--gl));border:none;border-radius:2px;width:40px;height:40px;cursor:pointer;font-size:1rem}.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--g);animation:bl 1.2s infinite;margin:0 2px}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}@keyframes bl{0%,80%,100%{opacity:.2}40%{opacity:1}}.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;margin-top:40px}.pc{background:rgba(12,7,32,.8);border:1px solid rgba(201,168,76,.1);padding:36px 28px;position:relative}.pc.ft{border-color:rgba(201,168,76,.35)}.pc.ft::after{content:"POPULAR";position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--g);color:var(--d);font-family:Cinzel,serif;font-size:.55rem;letter-spacing:2px;padding:4px 14px}.pn{font-family:Cinzel,serif;font-size:.72rem;letter-spacing:2px;color:var(--g);margin-bottom:14px}.pa{font-family:"Cinzel Decorative",serif;font-size:2.4rem;color:var(--gl);line-height:1;margin-bottom:6px}.pa span{font-size:.9rem;color:var(--m)}.pd{font-size:.78rem;color:var(--m);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(201,168,76,.1)}.pf{list-style:none;margin-bottom:28px}.pf li{font-size:.82rem;color:var(--t);padding:6px 0;display:flex;align-items:center;gap:8px}.pf li::before{content:"✦";color:var(--g);font-size:.55rem}.pb{width:100%;background:linear-gradient(135deg,var(--g),var(--gl));border:none;border-radius:2px;padding:12px;font-family:Cinzel,serif;font-size:.72rem;color:var(--d);cursor:pointer;margin-bottom:6px}.pb2{width:100%;background:transparent;border:1px solid rgba(201,168,76,.25);border-radius:2px;padding:12px;font-family:Cinzel,serif;font-size:.72rem;color:var(--g);cursor:pointer;text-decoration:none;display:block;text-align:center}footer{text-align:center;padding:40px 24px;border-top:1px solid rgba(201,168,76,.1)}.fl{font-family:"Cinzel Decorative",serif;font-size:1.3rem;color:var(--g);margin-bottom:8px}.as{font-size:.75rem;margin-top:8px;color:var(--m)}.ub{display:none;padding:16px;text-align:center;background:linear-gradient(135deg,rgba(139,58,98,.3),rgba(42,26,94,.5));border-top:1px solid rgba(201,168,76,.15)}.qp{display:none;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px 20px;border-top:1px solid rgba(201,168,76,.1)}.qb{background:rgba(42,26,94,.4);border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:6px 14px;color:var(--t);font-size:.75rem;cursor:pointer}.info-box{margin:12px 0 0;padding:10px 14px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:3px;font-size:.78rem;color:var(--m);line-height:1.6}</style></head><body>
-<nav><a href="#" class="logo">Jyotish<span>AI</span></a><a href="#chat" class="nb">Free Reading</a></nav>
-<section class="hero"><div class="badge">✦ Ancient Wisdom Meets Artificial Intelligence ✦</div><h1>JyotishAI<em>ज्योतिष + Intelligence</em></h1><p class="sub">Your personal AI astrologer blending <strong>Vedic Jyotish</strong> and <strong>Western Astrology</strong> to illuminate your path.</p><div class="btns"><a href="#chat" class="b1">✦ Get Free Reading</a><a href="#features" class="b2">Explore Features</a></div></section>
-<section class="sec" id="features"><p class="sl">✦ What We Offer ✦</p><h2 class="st">The Complete Cosmic Experience</h2><div class="fg"><div class="fc"><span>🪐</span><h3>Kundli and Birth Chart</h3><p>Personalised Vedic birth chart with deep AI analysis of planetary positions, houses, and doshas.</p></div><div class="fc"><span>☀️</span><h3>Daily Horoscope</h3><p>Personalised daily, weekly, and monthly horoscopes tailored to your chart.</p></div><div class="fc"><span>🔢</span><h3>Numerology</h3><p>Discover your Life Path, Destiny, and Soul Urge numbers.</p></div><div class="fc"><span>🃏</span><h3>Tarot and Prashna</h3><p>Ask a burning question and receive ancient Prashna Kundli wisdom.</p></div><div class="fc"><span>💑</span><h3>Kundli Matching</h3><p>Check compatibility using Ashtakoot Guna Milan.</p></div><div class="fc"><span>🌙</span><h3>Muhurta</h3><p>Find the perfect auspicious moment for any life event.</p></div></div></section>
-<section class="sec" id="chat"><p class="sl">✦ Live AI Astrologer ✦</p><h2 class="st">Ask the Stars Anything</h2>
-<div class="cb">
-  <div class="ch"><div class="ca">🔮</div><div><div class="cn">Jyotish Guru AI</div><div class="cs" id="cs">● Enter API key below to activate</div></div></div>
-  <div class="ab">
-    <p>Enter Anthropic API key. Get free at <a href="https://console.anthropic.com" target="_blank" style="color:var(--g)">console.anthropic.com</a></p>
-    <div class="ar"><input type="password" class="ak" id="ak" placeholder="sk-ant-..."><button class="abtn" onclick="activate()">Activate</button></div>
-    <p class="as" id="as"></p>
-    <div class="info-box" id="info-box" style="display:none">
-      ⚠️ <strong style="color:var(--gl)">API key not working?</strong> Go to 
-      <a href="https://console.anthropic.com/settings/api-keys" target="_blank" style="color:var(--g)">console.anthropic.com</a> 
-      → make sure your key has no restrictions and billing is active.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JyotishAI — Your Cosmic Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold2:#F0D080;--gold3:#8B6914;--goldGlow:rgba(201,168,76,.3);
+  --deep:#03010A;--dark:#07030F;--card:#0A0518;--card2:#0D0720;
+  --purple:#1A0A3A;--rose:#6B1F4A;--roseDark:#3A0F28;
+  --text:#EDE5D0;--muted:#9A8F78;--mutedLight:#C4B99A;
+  --green:#4CAF7D;--red:#E05555;--blue:#4A7FD4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--deep);color:var(--text);font-family:'Nunito',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+
+/* ===== CURSOR ===== */
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold2);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .08s;mix-blend-mode:screen}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(240,208,128,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .18s ease;mix-blend-mode:screen}
+.cursor-ring.expand{width:50px;height:50px;border-color:var(--gold)}
+
+/* ===== CANVAS BG ===== */
+#cosmosCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:18px 48px;background:linear-gradient(to bottom,rgba(3,1,10,.95),rgba(3,1,10,.7));backdrop-filter:blur(24px);border-bottom:1px solid rgba(201,168,76,.08);transition:all .4s}
+nav.scrolled{padding:12px 48px;background:rgba(3,1,10,.98)}
+.logo{font-family:'Cinzel',serif;font-size:1.35rem;font-weight:700;color:var(--gold);text-decoration:none;letter-spacing:3px;position:relative}
+.logo::after{content:'AI';position:absolute;top:-6px;right:-22px;font-size:.45em;color:var(--gold2);background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
+.nav-links{display:flex;gap:36px}
+.nav-links a{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:3px;color:var(--muted);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-btns{display:flex;gap:10px;align-items:center}
+.btn-ghost{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;color:var(--gold);background:transparent;border:1px solid rgba(201,168,76,.25);padding:9px 20px;border-radius:2px;cursor:pointer;transition:all .3s}
+.btn-ghost:hover{background:rgba(201,168,76,.08);border-color:var(--gold);box-shadow:0 0 20px rgba(201,168,76,.1)}
+.btn-solid{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;color:var(--deep);background:linear-gradient(135deg,var(--gold),var(--gold2));padding:9px 20px;border-radius:2px;border:none;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.btn-solid::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold));opacity:0;transition:opacity .3s}
+.btn-solid:hover::before{opacity:1}
+.btn-solid:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,168,76,.35)}
+.user-pill{display:none;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:6px 14px 6px 8px;cursor:pointer}
+.user-dot{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--rose));display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.65rem;font-weight:700;color:var(--deep)}
+.user-name-nav{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:1px;color:var(--gold2)}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 100px;position:relative;z-index:1;overflow:hidden}
+.hero-glow{position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(107,31,74,.25) 0%,rgba(42,10,90,.15) 40%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:glowPulse 4s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.8}50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}}
+.hero-orb1,.hero-orb2,.hero-orb3{position:absolute;border-radius:50%;border:1px solid;animation:orbSpin linear infinite}
+.hero-orb1{width:560px;height:560px;border-color:rgba(201,168,76,.07);top:50%;left:50%;margin:-280px 0 0 -280px;animation-duration:55s}
+.hero-orb2{width:780px;height:780px;border-color:rgba(107,31,74,.08);top:50%;left:50%;margin:-390px 0 0 -390px;animation-duration:80s;animation-direction:reverse}
+.hero-orb3{width:1000px;height:1000px;border-color:rgba(201,168,76,.04);top:50%;left:50%;margin:-500px 0 0 -500px;animation-duration:110s}
+@keyframes orbSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+/* Orbit dots */
+.orb-dot{position:absolute;width:5px;height:5px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold)}
+
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:5px;color:var(--gold);border:1px solid rgba(201,168,76,.2);padding:8px 22px;display:inline-flex;align-items:center;gap:10px;margin-bottom:36px;animation:fadeUp .9s ease both;background:rgba(201,168,76,.04)}
+.eyebrow-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;animation:blinkDot 2s infinite}
+@keyframes blinkDot{0%,100%{opacity:.2}50%{opacity:1}}
+h1.hero-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4rem,11vw,8rem);color:transparent;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 40%,#fff 60%,var(--gold2) 80%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;line-height:.95;animation:fadeUp .9s .15s ease both;letter-spacing:-2px;position:relative}
+.hero-hindi{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.3em;font-weight:300;color:var(--muted);letter-spacing:6px;margin-top:14px;background:none;-webkit-text-fill-color:var(--muted)}
+.hero-desc{font-size:1rem;color:var(--muted);max-width:500px;margin:30px auto 48px;line-height:2;animation:fadeUp .9s .3s ease both}
+.hero-desc strong{color:var(--mutedLight);font-weight:400}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .9s .45s ease both}
+.cta-primary{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:2px;color:var(--deep);background:linear-gradient(135deg,#B8861C,var(--gold),var(--gold2),var(--gold));background-size:200% 200%;padding:16px 36px;border:none;border-radius:2px;cursor:pointer;text-decoration:none;transition:all .4s;animation:shimmerBtn 4s infinite;position:relative;overflow:hidden}
+@keyframes shimmerBtn{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.cta-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(201,168,76,.4)}
+.cta-secondary{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:2px;color:var(--gold);padding:16px 36px;border:1px solid rgba(201,168,76,.25);border-radius:2px;cursor:pointer;text-decoration:none;transition:all .4s;background:transparent;position:relative;overflow:hidden}
+.cta-secondary::before{content:'';position:absolute;inset:0;background:rgba(201,168,76,.05);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.cta-secondary:hover::before{transform:scaleX(1)}
+.cta-secondary:hover{border-color:var(--gold);transform:translateY(-2px)}
+.hero-scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;animation:fadeUp 1s .8s ease both;opacity:.6}
+.hero-scroll-hint span{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:4px;color:var(--muted)}
+.scroll-mouse{width:22px;height:36px;border:1px solid rgba(201,168,76,.3);border-radius:12px;display:flex;align-items:flex-start;justify-content:center;padding-top:6px}
+.scroll-wheel{width:2px;height:7px;background:var(--gold);border-radius:2px;animation:scrollWheel 2s infinite}
+@keyframes scrollWheel{0%{transform:translateY(0);opacity:1}100%{transform:translateY(12px);opacity:0}}
+
+/* ===== MARQUEE ===== */
+.marquee-wrap{overflow:hidden;border-top:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);padding:14px 0;background:rgba(201,168,76,.02);position:relative;z-index:1}
+.marquee-track{display:flex;gap:0;animation:marqueeSlide 30s linear infinite;width:max-content}
+.marquee-item{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:3px;color:var(--muted);padding:0 32px;white-space:nowrap;display:flex;align-items:center;gap:12px}
+.marquee-item::after{content:'✦';color:var(--gold);font-size:.6rem}
+@keyframes marqueeSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ===== STATS ===== */
+.stats-section{padding:80px 48px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,.06);max-width:1000px;margin:0 auto;position:relative;z-index:1}
+.stat-card{background:var(--dark);padding:44px 24px;text-align:center;position:relative;overflow:hidden;transition:transform .4s}
+.stat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(201,168,76,.05),transparent 60%);opacity:0;transition:opacity .4s}
+.stat-card:hover{transform:translateY(-4px)}
+.stat-card:hover::before{opacity:1}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;line-height:1;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.stat-label{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:3px;color:var(--muted)}
+
+/* ===== SECTION COMMON ===== */
+.section{padding:100px 24px;max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.sec-eyebrow{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:4px;color:var(--gold);text-align:center;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:14px}
+.sec-eyebrow::before,.sec-eyebrow::after{content:'';flex:1;max-width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:300;color:var(--gold2);text-align:center;margin-bottom:16px;line-height:1.1}
+.sec-sub{font-size:.88rem;color:var(--muted);text-align:center;max-width:520px;margin:0 auto 60px;line-height:1.9}
+
+/* ===== FEATURES ===== */
+.features-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,168,76,.05)}
+.feat-card{background:var(--card2);padding:44px 32px;position:relative;overflow:hidden;transition:all .5s;group:true}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .5s}
+.feat-card:hover::before{transform:scaleX(1)}
+.feat-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(201,168,76,.06),transparent 60%);opacity:0;transition:opacity .5s}
+.feat-card:hover::after{opacity:1}
+.feat-card:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.feat-icon-wrap{width:56px;height:56px;background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(107,31,74,.15));border:1px solid rgba(201,168,76,.15);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:22px;transition:all .4s}
+.feat-card:hover .feat-icon-wrap{background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(107,31,74,.25));box-shadow:0 0 20px rgba(201,168,76,.15)}
+.feat-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold2);margin-bottom:12px;letter-spacing:1px}
+.feat-desc{font-size:.82rem;color:var(--muted);line-height:1.8}
+
+/* ===== TESTIMONIALS ===== */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
+.testi-card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:32px;position:relative;overflow:hidden;transition:all .4s}
+.testi-card::before{content:'"';position:absolute;top:-10px;left:20px;font-family:'Cormorant Garamond',serif;font-size:8rem;color:rgba(201,168,76,.06);line-height:1;pointer-events:none}
+.testi-card:hover{border-color:rgba(201,168,76,.25);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.testi-stars{color:var(--gold);font-size:.8rem;margin-bottom:14px;letter-spacing:2px}
+.testi-text{font-size:.85rem;color:var(--mutedLight);line-height:1.8;margin-bottom:20px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold3),var(--rose));display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.8rem;color:var(--text)}
+.testi-info strong{display:block;font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold2);letter-spacing:1px}
+.testi-info span{font-size:.72rem;color:var(--muted)}
+
+/* ===== HOW IT WORKS ===== */
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px;position:relative}
+.how-grid::before{content:'';position:absolute;top:36px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.3),rgba(201,168,76,.3),rgba(201,168,76,.3),transparent)}
+.how-step{text-align:center;padding:0 20px;position:relative}
+.how-num{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(107,31,74,.2));border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold2);position:relative;z-index:1;transition:all .4s}
+.how-step:hover .how-num{background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(107,31,74,.3));box-shadow:0 0 30px rgba(201,168,76,.2)}
+.how-title{font-family:'Cinzel',serif;font-size:.78rem;color:var(--gold2);margin-bottom:10px;letter-spacing:1px}
+.how-desc{font-size:.8rem;color:var(--muted);line-height:1.7}
+
+/* ===== CHAT ===== */
+.chat-section{padding:100px 24px;max-width:860px;margin:0 auto;position:relative;z-index:1}
+/* Decorative corner elements */
+.chat-box{background:rgba(8,4,20,.97);border:1px solid rgba(201,168,76,.15);border-radius:12px;overflow:hidden;box-shadow:0 60px 120px rgba(0,0,0,.7),0 0 60px rgba(107,31,74,.1),inset 0 1px 0 rgba(201,168,76,.1);position:relative}
+.chat-box::before,.chat-box::after{content:'✦';position:absolute;font-size:.7rem;color:var(--gold);opacity:.4}
+.chat-box::before{top:12px;left:12px}
+.chat-box::after{bottom:12px;right:12px}
+.chat-hd{background:linear-gradient(135deg,rgba(26,10,58,.95),rgba(107,31,74,.4));padding:18px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.1)}
+.chat-ai{display:flex;align-items:center;gap:14px}
+.chat-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--rose));display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;box-shadow:0 0 24px rgba(201,168,76,.3),0 0 60px rgba(107,31,74,.2);animation:avatarPulse 3s ease infinite}
+@keyframes avatarPulse{0%,100%{box-shadow:0 0 24px rgba(201,168,76,.3),0 0 60px rgba(107,31,74,.2)}50%{box-shadow:0 0 40px rgba(201,168,76,.5),0 0 80px rgba(107,31,74,.3)}}
+.chat-ai-name{font-family:'Cinzel',serif;font-size:.95rem;color:var(--gold2);letter-spacing:1px}
+.chat-ai-status{font-size:.68rem;color:var(--green);margin-top:3px;display:flex;align-items:center;gap:5px}
+.status-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:statusPulse 2s infinite}
+@keyframes statusPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(76,175,125,.4)}50%{opacity:.8;box-shadow:0 0 0 6px rgba(76,175,125,0)}}
+.chat-right-info{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.free-badge{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:1px;padding:5px 12px;border-radius:20px;border:1px solid rgba(201,168,76,.25);background:rgba(201,168,76,.07);color:var(--gold)}
+.chat-msgs{padding:28px;min-height:320px;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:20px;scrollbar-width:thin;scrollbar-color:rgba(201,168,76,.15) transparent}
+.chat-msgs::-webkit-scrollbar{width:2px}
+.chat-msgs::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);border-radius:2px}
+.msg{display:flex;gap:12px;animation:msgPop .35s cubic-bezier(.175,.885,.32,1.275) both}
+@keyframes msgPop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.msg.user{flex-direction:row-reverse}
+.msg-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;font-family:'Cinzel',serif;font-size:.7rem;font-weight:700}
+.msg.ai .msg-av{background:linear-gradient(135deg,rgba(201,168,76,.35),var(--rose))}
+.msg.user .msg-av{background:linear-gradient(135deg,#2A1A5E,#6A4ABE);color:var(--text)}
+.msg-body{max-width:76%;padding:14px 18px;font-size:.85rem;line-height:1.75;position:relative}
+.msg.ai .msg-body{background:rgba(26,10,58,.7);border:1px solid rgba(201,168,76,.1);color:var(--text);border-radius:2px 14px 14px 14px}
+.msg.user .msg-body{background:linear-gradient(135deg,rgba(107,31,74,.5),rgba(58,26,130,.4));border:1px solid rgba(107,31,74,.3);color:var(--text);border-radius:14px 2px 14px 14px}
+.msg-time{font-size:.62rem;color:var(--muted);margin-top:5px;text-align:right}
+.msg.ai .msg-time{text-align:left}
+.limit-bar{display:none;padding:18px 26px;text-align:center;background:linear-gradient(135deg,rgba(107,31,74,.2),rgba(26,10,58,.4));border-top:1px solid rgba(201,168,76,.1)}
+.quick-wrap{display:flex;flex-wrap:wrap;gap:8px;padding:14px 26px;border-top:1px solid rgba(201,168,76,.07);background:rgba(5,2,14,.4)}
+.q-chip{background:rgba(26,10,58,.6);border:1px solid rgba(201,168,76,.12);border-radius:20px;padding:7px 16px;color:var(--mutedLight);font-size:.75rem;cursor:pointer;transition:all .3s;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:5px}
+.q-chip:hover{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3);color:var(--gold);transform:translateY(-2px)}
+.chat-input-wrap{padding:16px 20px;border-top:1px solid rgba(201,168,76,.08);display:flex;gap:10px;background:rgba(3,1,10,.6)}
+.c-input{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:6px;padding:13px 18px;color:var(--text);font-size:.87rem;outline:none;font-family:'Nunito',sans-serif;transition:all .3s;resize:none}
+.c-input:focus{border-color:rgba(201,168,76,.35);background:rgba(255,255,255,.04);box-shadow:0 0 0 3px rgba(201,168,76,.05)}
+.c-input::placeholder{color:rgba(154,143,120,.5)}
+.c-send{background:linear-gradient(135deg,var(--gold3),var(--gold),var(--gold2));border:none;border-radius:6px;width:46px;height:46px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s;flex-shrink:0;position:relative;overflow:hidden}
+.c-send::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold));opacity:0;transition:opacity .3s}
+.c-send:hover::before{opacity:1}
+.c-send:hover{transform:scale(1.06);box-shadow:0 6px 20px rgba(201,168,76,.4)}
+.c-send:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);animation:dotBounce 1.2s infinite;margin:0 2px}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes dotBounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-6px);opacity:1}}
+
+/* ===== PRICING ===== */
+.pricing-section{padding:100px 24px;position:relative;z-index:1}
+.pricing-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(107,31,74,.08),transparent 70%)}
+.pricing-cards{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,168,76,.04)}
+.p-card{background:var(--card);padding:48px 34px;position:relative;overflow:hidden;transition:all .5s}
+.p-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,rgba(201,168,76,.06),transparent 60%);opacity:0;transition:opacity .5s}
+.p-card:hover{transform:translateY(-8px);box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.p-card:hover::before{opacity:1}
+.p-card.featured{border:1px solid rgba(201,168,76,.25);background:linear-gradient(180deg,rgba(26,10,58,.8),var(--card))}
+.p-popular{position:absolute;top:-1px;left:50%;transform:translateX(-50%);white-space:nowrap;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--deep);font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:2px;padding:5px 18px;border-radius:0 0 8px 8px}
+.p-name{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:3px;color:var(--gold);margin-bottom:20px}
+.p-price{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;line-height:1;color:var(--gold2);margin-bottom:4px}
+.p-price-period{font-size:.85rem;color:var(--muted)}
+.p-desc{font-size:.8rem;color:var(--muted);margin:14px 0 28px;padding-bottom:24px;border-bottom:1px solid rgba(201,168,76,.08)}
+.p-feats{list-style:none;margin-bottom:36px}
+.p-feats li{font-size:.83rem;color:var(--text);padding:8px 0;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.03)}
+.p-feats li::before{content:'✦';color:var(--gold);font-size:.45rem;flex-shrink:0}
+.p-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:2px;padding:14px;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:2px;color:var(--deep);cursor:pointer;transition:all .3s;margin-bottom:8px;position:relative;overflow:hidden}
+.p-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold));opacity:0;transition:opacity .3s}
+.p-btn:hover::before{opacity:1}
+.p-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,168,76,.3)}
+.p-btn-out{width:100%;background:transparent;border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:14px;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:2px;color:var(--gold);cursor:pointer;transition:all .3s;display:block;text-align:center;text-decoration:none}
+.p-btn-out:hover{background:rgba(201,168,76,.06);border-color:var(--gold)}
+
+/* ===== MODALS ===== */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);z-index:500;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid rgba(201,168,76,.18);border-radius:12px;width:100%;max-width:420px;padding:44px 40px;position:relative;animation:modalPop .35s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes modalPop{from{opacity:0;transform:scale(.92)translateY(16px)}to{opacity:1;transform:scale(1)translateY(0)}}
+.modal-top-dec{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.modal-close{position:absolute;top:18px;right:18px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;transition:all .3s;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:rgba(255,255,255,.06);color:var(--text)}
+.modal-icon{font-size:2.8rem;text-align:center;margin-bottom:16px}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--gold2);text-align:center;margin-bottom:6px}
+.modal-sub{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:32px}
+.f-group{margin-bottom:18px}
+.f-label{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:2px;color:var(--muted);display:block;margin-bottom:8px}
+.f-input{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:4px;padding:13px 16px;color:var(--text);font-size:.88rem;outline:none;font-family:'Nunito',sans-serif;transition:all .3s}
+.f-input:focus{border-color:rgba(201,168,76,.35);box-shadow:0 0 0 3px rgba(201,168,76,.05);background:rgba(255,255,255,.04)}
+.f-input::placeholder{color:rgba(154,143,120,.45)}
+.f-btn{width:100%;background:linear-gradient(135deg,var(--gold3),var(--gold),var(--gold2));border:none;border-radius:4px;padding:14px;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:2px;color:var(--deep);cursor:pointer;margin-top:10px;transition:all .3s;position:relative;overflow:hidden}
+.f-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,168,76,.3)}
+.f-switch{text-align:center;margin-top:20px;font-size:.8rem;color:var(--muted)}
+.f-switch a{color:var(--gold);cursor:pointer;text-decoration:none;transition:color .3s}
+.f-switch a:hover{color:var(--gold2)}
+.f-err{font-size:.74rem;color:var(--red);margin-top:8px;display:none;padding:8px 12px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.2);border-radius:3px}
+.f-ok{font-size:.74rem;color:var(--green);margin-top:8px;display:none;padding:8px 12px;background:rgba(76,175,125,.08);border:1px solid rgba(76,175,125,.2);border-radius:3px;text-align:center}
+
+/* ===== FOOTER ===== */
+footer{text-align:center;padding:70px 24px 40px;position:relative;z-index:1;overflow:hidden}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.2),transparent)}
+.footer-logo{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:4px;color:var(--gold);margin-bottom:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer-tagline{font-size:.85rem;color:var(--muted);margin-bottom:32px;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.1rem}
+.footer-links{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.footer-links a{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--muted);text-decoration:none;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-divider{width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:0 auto 20px}
+.footer-copy{font-size:.7rem;color:rgba(154,143,120,.35)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:900px){
+  .features-wrap{grid-template-columns:1fr 1fr}
+  .stats-section{grid-template-columns:repeat(2,1fr)}
+  .how-grid{grid-template-columns:repeat(2,1fr);gap:40px}
+  .how-grid::before{display:none}
+  .pricing-cards{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  .features-wrap{grid-template-columns:1fr}
+  .stats-section{grid-template-columns:1fr 1fr;padding:40px 20px}
+  .modal{padding:28px 22px}
+  .how-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+<canvas id="cosmosCanvas"></canvas>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="logo">JYOTISH</a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it Works</a>
+    <a href="#chat">Reading</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-ghost" onclick="openModal('login')">Sign In</button>
+    <button class="btn-solid" onclick="openModal('signup')">✦ Get Started</button>
+    <div class="user-pill" id="userPill" onclick="logout()">
+      <div class="user-dot" id="userDot">R</div>
+      <span class="user-name-nav" id="userNameNav">Ravi</span>
     </div>
   </div>
-  <div class="ms" id="ms"><div class="mg ai"><div class="mv">🔮</div><div class="mb">Namaste 🙏 I am your <strong>Jyotish Guru AI</strong>. Share your <strong>name, date of birth, time and place</strong> for a personalised reading. Or ask any cosmic question! 🌟</div></div></div>
-  <div class="ub" id="ub"><p style="font-family:Cinzel,serif;font-size:.78rem;color:var(--gl);margin-bottom:6px">Free readings used</p><a href="#pricing" style="color:var(--g);font-size:.78rem">Upgrade to 199 per month</a></div>
-  <div class="qp" id="qp"><button class="qb" onclick="qa('What is my sun sign?')">Sun Sign</button><button class="qb" onclick="qa('Give me numerology reading')">Numerology</button><button class="qb" onclick="qa('Todays reading for me')">Today</button><button class="qb" onclick="qa('Do tarot reading')">Tarot</button></div>
-  <div class="ia" id="ia"><input class="ci" id="ui" placeholder="Ask anything..." disabled><button class="sb" id="sb" onclick="send()" disabled style="opacity:.4">✦</button></div>
-</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-orb1"><div class="orb-dot" style="top:-2px;left:50%;margin-left:-2px"></div></div>
+  <div class="hero-orb2"><div class="orb-dot" style="top:50%;right:-2px;margin-top:-2px"></div></div>
+  <div class="hero-orb3"></div>
+  <div class="hero-eyebrow"><span class="eyebrow-dot"></span>ANCIENT WISDOM · ARTIFICIAL INTELLIGENCE<span class="eyebrow-dot"></span></div>
+  <h1 class="hero-title">JyotishAI<span class="hero-hindi">ज्योतिष + Intelligence</span></h1>
+  <p class="hero-desc">Your personal AI astrologer blending <strong>Vedic Jyotish</strong> and <strong>Western Astrology</strong> to illuminate your cosmic path with divine precision.</p>
+  <div class="hero-ctas">
+    <a href="#chat" class="cta-primary">✦ Get Free Reading</a>
+    <a href="#features" class="cta-secondary">Explore Features</a>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+  </div>
 </section>
-<section class="sec" id="pricing"><p class="sl">✦ Choose Your Path ✦</p><h2 class="st">Sacred Plans for Every Seeker</h2><div class="pg"><div class="pc"><p class="pn">SEEKER</p><div class="pa">Free</div><p class="pd">Begin your cosmic journey</p><ul class="pf"><li>3 AI questions per day</li><li>Daily horoscope</li><li>Basic numerology</li><li>Hindi and English</li></ul><a href="#chat" class="pb2">Start Free</a></div><div class="pc ft"><p class="pn">DEVOTEE</p><div class="pa">199 <span>per month</span></div><p class="pd">For the dedicated explorer</p><ul class="pf"><li>Unlimited AI questions</li><li>Personalised Kundli chart</li><li>Weekly and monthly readings</li><li>Tarot and Prashna</li><li>Kundli compatibility</li><li>PDF reports</li></ul><button class="pb" onclick="pay('devotee',199)">Pay 199 with Razorpay</button></div><div class="pc"><p class="pn">ENLIGHTENED</p><div class="pa">599 <span>per month</span></div><p class="pd">The complete cosmic experience</p><ul class="pf"><li>Everything in Devotee</li><li>Muhurta timing</li><li>Annual predictions</li><li>Gemstone advice</li></ul><button class="pb" onclick="pay('enlightened',599)">Pay 599 with Razorpay</button></div></div></section>
-<footer><div class="fl">JyotishAI</div><p style="font-size:.82rem;color:var(--m);margin:6px 0 16px">Ancient Wisdom. Cosmic Intelligence.</p><p style="font-size:.75rem;color:var(--m)">2025 JyotishAI. All rights reserved.</p></footer>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mqTrack">
+    <div class="marquee-item">Vedic Kundli</div><div class="marquee-item">Birth Chart Analysis</div><div class="marquee-item">Daily Horoscope</div><div class="marquee-item">Numerology</div><div class="marquee-item">Tarot Reading</div><div class="marquee-item">Kundli Matching</div><div class="marquee-item">Muhurta</div><div class="marquee-item">Planetary Transit</div><div class="marquee-item">Dasha Predictions</div><div class="marquee-item">Prashna Kundli</div>
+    <div class="marquee-item">Vedic Kundli</div><div class="marquee-item">Birth Chart Analysis</div><div class="marquee-item">Daily Horoscope</div><div class="marquee-item">Numerology</div><div class="marquee-item">Tarot Reading</div><div class="marquee-item">Kundli Matching</div><div class="marquee-item">Muhurta</div><div class="marquee-item">Planetary Transit</div><div class="marquee-item">Dasha Predictions</div><div class="marquee-item">Prashna Kundli</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div style="position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 24px">
+  <div class="stats-section">
+    <div class="stat-card"><div class="stat-num">50K+</div><div class="stat-label">READINGS DONE</div></div>
+    <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">ASTRO SYSTEMS</div></div>
+    <div class="stat-card"><div class="stat-num">4.9★</div><div class="stat-label">USER RATING</div></div>
+    <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-label">AI AVAILABLE</div></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <p class="sec-eyebrow">WHAT WE OFFER</p>
+  <h2 class="sec-title">The Complete Cosmic Experience</h2>
+  <p class="sec-sub">Six powerful tools to decode your destiny and guide your every step with AI-powered ancient wisdom.</p>
+  <div class="features-wrap">
+    <div class="feat-card"><div class="feat-icon-wrap">🪐</div><h3 class="feat-title">Kundli & Birth Chart</h3><p class="feat-desc">Deep AI analysis of your Vedic birth chart — planets, houses, doshas, yogas, and their impact on your life explained simply.</p></div>
+    <div class="feat-card"><div class="feat-icon-wrap">☀️</div><h3 class="feat-title">Daily Horoscope</h3><p class="feat-desc">Personalised daily, weekly and monthly forecasts tailored to your unique chart — not generic Sun sign predictions.</p></div>
+    <div class="feat-card"><div class="feat-icon-wrap">🔢</div><h3 class="feat-title">Numerology</h3><p class="feat-desc">Discover your Life Path, Destiny, Soul Urge and Karmic numbers and how they shape your personality and destiny.</p></div>
+    <div class="feat-card"><div class="feat-icon-wrap">🃏</div><h3 class="feat-title">Tarot & Prashna</h3><p class="feat-desc">Ask any burning life question and receive wisdom from Prashna Kundli and Tarot cards combined with deep AI insight.</p></div>
+    <div class="feat-card"><div class="feat-icon-wrap">💑</div><h3 class="feat-title">Kundli Matching</h3><p class="feat-desc">Check compatibility using Ashtakoot Guna Milan — perfect for marriage decisions and understanding relationship dynamics.</p></div>
+    <div class="feat-card"><div class="feat-icon-wrap">🌙</div><h3 class="feat-title">Muhurta</h3><p class="feat-desc">Find the perfect auspicious moment for weddings, business launches, new ventures, travel, and any important life event.</p></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="padding-top:0">
+  <p class="sec-eyebrow">THE PROCESS</p>
+  <h2 class="sec-title">How JyotishAI Works</h2>
+  <p class="sec-sub">From question to cosmic answer in under 30 seconds.</p>
+  <div class="how-grid">
+    <div class="how-step"><div class="how-num">1</div><h3 class="how-title">Create Account</h3><p class="how-desc">Sign up free in seconds. No credit card needed to start your cosmic journey.</p></div>
+    <div class="how-step"><div class="how-num">2</div><h3 class="how-title">Share Details</h3><p class="how-desc">Provide your birth date, time and place for a fully personalised reading.</p></div>
+    <div class="how-step"><div class="how-num">3</div><h3 class="how-title">Ask Anything</h3><p class="how-desc">Type your question in Hindi or English. Love, career, health — anything.</p></div>
+    <div class="how-step"><div class="how-num">4</div><h3 class="how-title">Receive Wisdom</h3><p class="how-desc">Get a deep, personalised reading with remedies from your Jyotish Guru AI.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="padding-top:0">
+  <p class="sec-eyebrow">WHAT PEOPLE SAY</p>
+  <h2 class="sec-title">Loved by Seekers</h2>
+  <div class="testi-grid">
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">The Kundli reading was incredibly accurate. It described my personality and life events with shocking precision. Truly mind-blowing!</p><div class="testi-author"><div class="testi-av">P</div><div class="testi-info"><strong>Priya Sharma</strong><span>Mumbai, Maharashtra</span></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">Maine Hindi mein pucha aur jawab bhi Hindi mein mila. Bahut accurate prediction thi. Main ab roz use karta hoon!</p><div class="testi-author"><div class="testi-av">R</div><div class="testi-info"><strong>Rajesh Kumar</strong><span>Delhi, India</span></div></div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">The compatibility check saved my relationship. The AI gave such detailed insights about our Kundli match. Highly recommended!</p><div class="testi-author"><div class="testi-av">A</div><div class="testi-info"><strong>Ananya Patel</strong><span>Bangalore, Karnataka</span></div></div></div>
+  </div>
+</section>
+
+<!-- CHAT -->
+<section class="chat-section" id="chat">
+  <p class="sec-eyebrow">LIVE AI ASTROLOGER</p>
+  <h2 class="sec-title">Ask the Stars Anything</h2>
+  <p class="sec-sub">Chat with your personal Jyotish Guru AI right now — free.</p>
+  <div class="chat-box">
+    <div class="chat-hd">
+      <div class="chat-ai">
+        <div class="chat-av">🔮</div>
+        <div>
+          <div class="chat-ai-name">Jyotish Guru AI</div>
+          <div class="chat-ai-status"><span class="status-dot"></span>Online — Ready to read your stars</div>
+        </div>
+      </div>
+      <div class="chat-right-info">
+        <div class="free-badge" id="freeBadge">3 FREE READINGS</div>
+      </div>
+    </div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="msg ai">
+        <div class="msg-av">🔮</div>
+        <div>
+          <div class="msg-body">Namaste 🙏 I am your <strong>Jyotish Guru AI</strong> — a fusion of ancient Vedic wisdom and modern artificial intelligence.<br><br>Share your <strong>name, date of birth, time and place of birth</strong> for a complete personalised reading. Or simply ask any cosmic question! 🌟</div>
+          <div class="msg-time">Just now</div>
+        </div>
+      </div>
+    </div>
+    <div class="limit-bar" id="limitBar">
+      <p style="font-family:'Cinzel',serif;font-size:.78rem;color:var(--gold2);margin-bottom:8px">✦ Free readings exhausted ✦</p>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Create a free account for 10 readings/day or upgrade for unlimited</p>
+      <button class="p-btn" style="width:auto;padding:9px 26px;font-size:.65rem" onclick="openModal('signup')">Create Free Account</button>
+    </div>
+    <div class="quick-wrap">
+      <button class="q-chip" onclick="qa('What is my sun sign?')">☀️ Sun Sign</button>
+      <button class="q-chip" onclick="qa('Give me a numerology reading')">🔢 Numerology</button>
+      <button class="q-chip" onclick="qa('What does today hold for me?')">🌅 Today</button>
+      <button class="q-chip" onclick="qa('Do a tarot reading for me')">🃏 Tarot</button>
+      <button class="q-chip" onclick="qa('Check my kundli compatibility')">💑 Compatibility</button>
+    </div>
+    <div class="chat-input-wrap">
+      <input class="c-input" id="chatInput" placeholder="Ask Jyotish Guru anything... (Hindi or English)">
+      <button class="c-send" id="sendBtn" onclick="sendMsg()">✦</button>
+    </div>
+  </div>
+</section>
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <p class="sec-eyebrow">CHOOSE YOUR PATH</p>
+  <h2 class="sec-title">Sacred Plans for Every Seeker</h2>
+  <p class="sec-sub">Start free, upgrade when ready. All plans include Hindi and English support.</p>
+  <div class="pricing-cards">
+    <div class="p-card">
+      <p class="p-name">SEEKER</p>
+      <div class="p-price">Free</div>
+      <p class="p-desc">Begin your cosmic journey</p>
+      <ul class="p-feats">
+        <li>3 AI questions per day</li>
+        <li>Daily horoscope</li>
+        <li>Basic numerology</li>
+        <li>Hindi &amp; English</li>
+      </ul>
+      <button class="p-btn-out" onclick="openModal('signup')">Start Free ✦</button>
+    </div>
+    <div class="p-card featured">
+      <div class="p-popular">✦ MOST POPULAR</div>
+      <p class="p-name">DEVOTEE</p>
+      <div class="p-price">₹199 <span class="p-price-period">/ month</span></div>
+      <p class="p-desc">For the dedicated seeker</p>
+      <ul class="p-feats">
+        <li>Unlimited AI questions</li>
+        <li>Full Kundli birth chart</li>
+        <li>Weekly &amp; monthly readings</li>
+        <li>Tarot &amp; Prashna Kundli</li>
+        <li>Kundli compatibility</li>
+        <li>PDF reports</li>
+      </ul>
+      <button class="p-btn" onclick="startPayment('devotee',199)">Pay ₹199 / month</button>
+    </div>
+    <div class="p-card">
+      <p class="p-name">ENLIGHTENED</p>
+      <div class="p-price">₹599 <span class="p-price-period">/ month</span></div>
+      <p class="p-desc">The complete cosmic experience</p>
+      <ul class="p-feats">
+        <li>Everything in Devotee</li>
+        <li>Muhurta timing</li>
+        <li>Annual predictions</li>
+        <li>Gemstone advice</li>
+        <li>Priority AI responses</li>
+      </ul>
+      <button class="p-btn" onclick="startPayment('enlightened',599)">Pay ₹599 / month</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">JYOTISHAI</div>
+  <p class="footer-tagline">Ancient Wisdom. Cosmic Intelligence.</p>
+  <div class="footer-links">
+    <a href="#features">Features</a><a href="#how">How it Works</a><a href="#chat">Free Reading</a><a href="#pricing">Pricing</a><a href="#">Privacy</a><a href="#">Terms</a>
+  </div>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">© 2025 JyotishAI. All rights reserved. Built with ✦ and cosmic energy.</p>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="overlay" id="loginModal">
+  <div class="modal">
+    <div class="modal-top-dec"></div>
+    <button class="modal-close" onclick="closeModal('login')">✕</button>
+    <div class="modal-icon">🔮</div>
+    <div class="modal-title">Welcome Back</div>
+    <p class="modal-sub">Sign in to your cosmic account</p>
+    <div class="f-group"><label class="f-label">EMAIL ADDRESS</label><input type="email" class="f-input" id="loginEmail" placeholder="your@email.com"></div>
+    <div class="f-group"><label class="f-label">PASSWORD</label><input type="password" class="f-input" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <p class="f-err" id="loginErr">Invalid email or password. Please try again.</p>
+    <button class="f-btn" onclick="doLogin()">Sign In ✦</button>
+    <p class="f-switch">New here? <a onclick="switchModal('login','signup')">Create free account</a></p>
+  </div>
+</div>
+
+<!-- SIGNUP MODAL -->
+<div class="overlay" id="signupModal">
+  <div class="modal">
+    <div class="modal-top-dec"></div>
+    <button class="modal-close" onclick="closeModal('signup')">✕</button>
+    <div class="modal-icon">✨</div>
+    <div class="modal-title">Begin Your Journey</div>
+    <p class="modal-sub">Create your free cosmic account — no credit card needed</p>
+    <div class="f-group"><label class="f-label">YOUR NAME</label><input type="text" class="f-input" id="signupName" placeholder="Enter your name"></div>
+    <div class="f-group"><label class="f-label">EMAIL ADDRESS</label><input type="email" class="f-input" id="signupEmail" placeholder="your@email.com"></div>
+    <div class="f-group"><label class="f-label">PASSWORD</label><input type="password" class="f-input" id="signupPass" placeholder="Minimum 6 characters" onkeydown="if(event.key==='Enter')doSignup()"></div>
+    <p class="f-err" id="signupErr">Please fill all fields correctly</p>
+    <p class="f-ok" id="signupOk">🌟 Account created! Welcome to JyotishAI!</p>
+    <button class="f-btn" onclick="doSignup()">Create Account ✦</button>
+    <p class="f-switch">Already a member? <a onclick="switchModal('signup','login')">Sign in</a></p>
+  </div>
+</div>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-var key="";var hist=[];var free=3;var prem=false;
+// ====================================================
+// CONFIG — Render server URL yahan daalo
+// ====================================================
+var SERVER = "https://jyotishai-backend.onrender.com";
 
-function activate(){
-  var k=document.getElementById("ak").value.trim();
-  var s=document.getElementById("as");
-  if(k.length<20){s.style.color="#E87070";s.textContent="Please enter a valid API key";return;}
-  key=k;
-  s.style.color="#5EC98A";
-  s.textContent="Activated! Jyotish Guru is ready";
-  document.getElementById("ui").disabled=false;
-  document.getElementById("sb").disabled=false;
-  document.getElementById("sb").style.opacity="1";
-  document.getElementById("cs").textContent="Online - Ready to read your stars";
-  document.getElementById("qp").style.display="flex";
-  document.getElementById("info-box").style.display="none";
+// ====================================================
+// CURSOR
+// ====================================================
+var cur=document.getElementById("cur"),ring=document.getElementById("curRing");
+document.addEventListener("mousemove",function(e){
+  cur.style.left=e.clientX+"px";cur.style.top=e.clientY+"px";
+  setTimeout(function(){ring.style.left=e.clientX+"px";ring.style.top=e.clientY+"px";},60);
+});
+document.querySelectorAll("a,button,input").forEach(function(el){
+  el.addEventListener("mouseenter",function(){ring.classList.add("expand")});
+  el.addEventListener("mouseleave",function(){ring.classList.remove("expand")});
+});
+
+// ====================================================
+// COSMOS CANVAS
+// ====================================================
+(function(){
+  var c=document.getElementById("cosmosCanvas");
+  var ctx=c.getContext("2d");
+  var W,H,particles=[],shootingStars=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener("resize",resize);
+  for(var i=0;i<200;i++){
+    particles.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.8+.3,op:Math.random()*.8+.1,speed:Math.random()*.3+.05,twinkle:Math.random()*Math.PI*2});
+  }
+  function addShoot(){
+    if(Math.random()<.003){
+      shootingStars.push({x:Math.random()*W,y:Math.random()*H*.3,vx:Math.random()*6+4,vy:Math.random()*3+2,life:1,maxLife:1});
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(function(p){
+      p.twinkle+=.02;
+      var op=p.op*(0.6+0.4*Math.sin(p.twinkle));
+      ctx.beginPath();ctx.arc(p.x%W,p.y%H,p.r,0,Math.PI*2);
+      ctx.fillStyle="rgba(255,255,255,"+op+")";ctx.fill();
+      p.y-=p.speed;if(p.y<0)p.y=H;
+    });
+    addShoot();
+    shootingStars.forEach(function(s,i){
+      s.x+=s.vx;s.y+=s.vy;s.life-=.025;
+      if(s.life<=0){shootingStars.splice(i,1);return;}
+      var grad=ctx.createLinearGradient(s.x,s.y,s.x-s.vx*12,s.y-s.vy*12);
+      grad.addColorStop(0,"rgba(240,208,128,"+s.life+")");
+      grad.addColorStop(1,"rgba(201,168,76,0)");
+      ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-s.vx*12,s.y-s.vy*12);
+      ctx.strokeStyle=grad;ctx.lineWidth=1.5;ctx.stroke();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ====================================================
+// NAV SCROLL
+// ====================================================
+window.addEventListener("scroll",function(){
+  document.getElementById("mainNav").classList.toggle("scrolled",window.scrollY>60);
+});
+
+// ====================================================
+// AUTH
+// ====================================================
+var currentUser=JSON.parse(localStorage.getItem("jya_user")||"null");
+updateNav();
+function updateNav(){
+  var pill=document.getElementById("userPill");
+  var bl=document.querySelector(".btn-ghost");
+  var bs=document.querySelector(".btn-solid");
+  if(currentUser){
+    pill.style.display="flex";
+    document.getElementById("userDot").textContent=currentUser.name.charAt(0).toUpperCase();
+    document.getElementById("userNameNav").textContent=currentUser.name.split(" ")[0];
+    if(bl)bl.style.display="none";
+    if(bs)bs.style.display="none";
+    if(!prem&&free<10){free=10;updateBadge();}
+  }else{
+    pill.style.display="none";
+    if(bl)bl.style.display="";
+    if(bs)bs.style.display="";
+  }
+}
+function doSignup(){
+  var n=document.getElementById("signupName").value.trim();
+  var e=document.getElementById("signupEmail").value.trim();
+  var p=document.getElementById("signupPass").value;
+  var err=document.getElementById("signupErr"),ok=document.getElementById("signupOk");
+  err.style.display="none";ok.style.display="none";
+  if(!n||!e.includes("@")||p.length<6){err.textContent="Please fill all fields correctly (password min 6 chars)";err.style.display="block";return;}
+  var users=JSON.parse(localStorage.getItem("jya_users")||"[]");
+  if(users.find(function(u){return u.email===e;})){err.textContent="This email is already registered. Please sign in.";err.style.display="block";return;}
+  var user={name:n,email:e,pass:p,plan:"free",joined:new Date().toISOString()};
+  users.push(user);
+  localStorage.setItem("jya_users",JSON.stringify(users));
+  localStorage.setItem("jya_user",JSON.stringify(user));
+  currentUser=user;ok.style.display="block";
+  setTimeout(function(){closeModal("signup");updateNav();},1400);
+}
+function doLogin(){
+  var e=document.getElementById("loginEmail").value.trim();
+  var p=document.getElementById("loginPass").value;
+  var err=document.getElementById("loginErr");err.style.display="none";
+  var users=JSON.parse(localStorage.getItem("jya_users")||"[]");
+  var user=users.find(function(u){return u.email===e&&u.pass===p;});
+  if(!user){err.style.display="block";return;}
+  localStorage.setItem("jya_user",JSON.stringify(user));
+  currentUser=user;closeModal("login");updateNav();
+}
+function logout(){if(confirm("Sign out of JyotishAI?"))
+{localStorage.removeItem("jya_user");currentUser=null;prem=false;free=3;updateNav();updateBadge();}}
+
+// ====================================================
+// MODALS
+// ====================================================
+function openModal(t){document.getElementById(t+"Modal").classList.add("open");}
+function closeModal(t){document.getElementById(t+"Modal").classList.remove("open");}
+function switchModal(a,b){closeModal(a);setTimeout(function(){openModal(b);},250);}
+document.querySelectorAll(".overlay").forEach(function(el){
+  el.addEventListener("click",function(e){if(e.target===el)el.classList.remove("open");});
+});
+
+// ====================================================
+// CHAT
+// ====================================================
+var hist=[],free=3,prem=currentUser&&currentUser.plan!=="free";
+
+function updateBadge(){
+  var b=document.getElementById("freeBadge");
+  if(prem){b.textContent="UNLIMITED ∞";b.style.color="var(--green)";}
+  else{b.textContent=free+" FREE READING"+(free!==1?"S":"")+" LEFT";}
+}
+updateBadge();
+
+function getTime(){
+  var d=new Date();
+  return d.getHours().toString().padStart(2,"0")+":"+d.getMinutes().toString().padStart(2,"0");
 }
 
 function addMsg(role,text){
-  var m=document.getElementById("ms");
+  var m=document.getElementById("chatMsgs");
   var d=document.createElement("div");
-  d.className="mg "+(role==="u"?"u":"ai");
-  var f=text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>");
-  d.innerHTML='<div class="mv">'+(role==="u"?"👤":"🔮")+'</div><div class="mb">'+f+"</div>";
-  m.appendChild(d);
-  m.scrollTop=m.scrollHeight;
-}
-
-function addTyping(){
-  var m=document.getElementById("ms");
-  var d=document.createElement("div");
-  d.className="mg ai";d.id="ty";
-  d.innerHTML='<div class="mv">🔮</div><div class="mb"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  d.className="msg "+(role==="u"?"user":"ai");
+  var f=text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br>");
+  var av=role==="u"?(currentUser?currentUser.name.charAt(0).toUpperCase():"👤"):"🔮";
+  d.innerHTML='<div class="msg-av">'+av+'</div><div><div class="msg-body">'+f+'</div><div class="msg-time">'+getTime()+'</div></div>';
   m.appendChild(d);m.scrollTop=m.scrollHeight;
 }
 
-function removeTyping(){
-  var t=document.getElementById("ty");
-  if(t)t.remove();
+function addTyping(){
+  var m=document.getElementById("chatMsgs");
+  var d=document.createElement("div");d.className="msg ai";d.id="tyMsg";
+  d.innerHTML='<div class="msg-av">🔮</div><div><div class="msg-body"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>';
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
 }
 
-function send(){
-  var i=document.getElementById("ui");
-  var t=i.value.trim();
-  if(!t||!key)return;
+function sendMsg(){
+  var i=document.getElementById("chatInput");
+  var t=i.value.trim();if(!t)return;
+  if(!prem&&free<=0){document.getElementById("limitBar").style.display="block";return;}
   i.value="";
   addMsg("u",t);
+  var sb=document.getElementById("sendBtn");
+  sb.disabled=true;i.disabled=true;
   addTyping();
-  i.disabled=true;
-  document.getElementById("sb").disabled=true;
   hist.push({role:"user",content:t});
-  callAPI();
-}
-
-function callAPI(){
-  fetch("https://api.anthropic.com/v1/messages",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "x-api-key":key,
-      "anthropic-version":"2023-06-01",
-      "anthropic-dangerous-direct-browser-access":"true"
-    },
-    body:JSON.stringify({
-      model:"claude-haiku-4-5-20251001",
-      max_tokens:800,
-      system:"You are Jyotish Guru, a warm and wise Vedic and Western astrologer. Always ask for name, date of birth, time and place if not given. Give personalised readings. Reply in same language as user (Hindi or English). End each reading with a simple remedy or mantra. Be concise - max 4 paragraphs.",
-      messages:hist
-    })
+  fetch(SERVER+"/chat",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({messages:hist,user:currentUser?currentUser.name:null})
   })
-  .then(function(r){
-    if(r.status===401){throw new Error("INVALID_KEY");}
-    if(r.status===429){throw new Error("RATE_LIMIT");}
-    if(r.status===403){throw new Error("CORS_BLOCK");}
-    if(!r.ok){return r.json().then(function(e){throw new Error(e.error?e.error.message:"HTTP "+r.status);});}
-    return r.json();
-  })
+  .then(function(r){return r.json();})
   .then(function(data){
-    removeTyping();
-    if(!data.content||!data.content[0]){throw new Error("Empty response");}
-    var rep=data.content[0].text;
-    hist.push({role:"assistant",content:rep});
-    addMsg("ai",rep);
-    if(!prem){
-      free--;
-      if(free<=0){
-        document.getElementById("ub").style.display="block";
-        document.getElementById("ia").style.display="none";
-        document.getElementById("qp").style.display="none";
-        return;
-      }
+    var ty=document.getElementById("tyMsg");if(ty)ty.remove();
+    if(data.error)throw new Error(data.error);
+    hist.push({role:"assistant",content:data.reply});
+    addMsg("ai",data.reply);
+    if(!prem){free--;updateBadge();
+      if(free<=0){document.getElementById("limitBar").style.display="block";document.querySelector(".chat-input-wrap").style.display="none";document.querySelector(".quick-wrap").style.display="none";}
     }
-    document.getElementById("ui").disabled=false;
-    document.getElementById("sb").disabled=false;
   })
   .catch(function(e){
-    removeTyping();
-    var msg="";
-    if(e.message==="INVALID_KEY"){
-      msg="❌ API key invalid hai. Please console.anthropic.com pe check karo aur naya key try karo.";
-      document.getElementById("info-box").style.display="block";
-    } else if(e.message==="RATE_LIMIT"){
-      msg="⏳ Too many requests. Please 1 minute baad try karo.";
-    } else if(e.message==="CORS_BLOCK"||e.message==="Failed to fetch"){
-      msg="🌐 Browser se direct API call block ho rahi hai. Neeche diye step follow karo:\n\n1. console.anthropic.com → API Keys\n2. Apni key ke settings mein jaao\n3. 'Allowed origins' mein https://ravi6124-goud.github.io add karo\n4. Save karo aur dobara try karo";
-      document.getElementById("info-box").style.display="block";
-    } else {
-      msg="❌ Error: "+e.message;
-    }
-    addMsg("ai",msg);
-    document.getElementById("ui").disabled=false;
-    document.getElementById("sb").disabled=false;
-  });
+    var ty=document.getElementById("tyMsg");if(ty)ty.remove();
+    addMsg("ai","❌ Connection error. Make sure the server is running and try again.");
+  })
+  .finally(function(){sb.disabled=false;i.disabled=false;i.focus();});
 }
 
-function qa(p){
-  document.getElementById("ui").value=p;
-  document.getElementById("ui").focus();
-}
+function qa(p){document.getElementById("chatInput").value=p;document.getElementById("chatInput").focus();}
+document.getElementById("chatInput").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMsg();}});
 
-document.getElementById("ui").addEventListener("keydown",function(e){
-  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}
-});
-
-var rk=localStorage.getItem("jrk")||"";
-function pay(plan,amt){
-  if(!rk){var k=prompt("Enter Razorpay Key ID:");if(!k)return;rk=k;localStorage.setItem("jrk",k);}
+// ====================================================
+// RAZORPAY
+// ====================================================
+var rzpKey=localStorage.getItem("jya_rzp")||"";
+function startPayment(plan,amt){
+  if(!currentUser){openModal("signup");return;}
+  if(!rzpKey){rzpKey=prompt("Enter your Razorpay Key ID:");if(!rzpKey)return;localStorage.setItem("jya_rzp",rzpKey);}
   try{
-    new Razorpay({key:rk,amount:amt*100,currency:"INR",name:"JyotishAI",description:plan,theme:{color:"#C9A84C"},handler:function(r){prem=true;free=999;alert("Payment successful! ID: "+r.razorpay_payment_id);}}).open();
-  }catch(e){alert("Razorpay error: "+e.message);}
+    new Razorpay({
+      key:rzpKey,amount:amt*100,currency:"INR",name:"JyotishAI",
+      description:plan.charAt(0).toUpperCase()+plan.slice(1)+" Plan",
+      theme:{color:"#C9A84C"},
+      prefill:{name:currentUser.name,email:currentUser.email},
+      handler:function(r){
+        currentUser.plan=plan;prem=true;free=99999;
+        var users=JSON.parse(localStorage.getItem("jya_users")||"[]");
+        var idx=users.findIndex(function(u){return u.email===currentUser.email;});
+        if(idx>-1){users[idx].plan=plan;localStorage.setItem("jya_users",JSON.stringify(users));}
+        localStorage.setItem("jya_user",JSON.stringify(currentUser));
+        updateBadge();
+        document.getElementById("limitBar").style.display="none";
+        document.querySelector(".chat-input-wrap").style.display="";
+        document.querySelector(".quick-wrap").style.display="";
+        alert("🌟 Payment successful! Welcome to "+plan+" plan!\nPayment ID: "+r.razorpay_payment_id);
+      }
+    }).open();
+  }catch(e){alert("Error: "+e.message);}
 }
-</script></body></html>
+</script>
+</body>
+</html>
