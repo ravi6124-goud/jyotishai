@@ -1,1 +1,621 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JyotishAI — अपनी कुण्डली का राज़ जानो</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;600;700&family=Noto+Serif+Devanagari:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --saffron:#FF6B00;--saffron2:#FF8C00;--saffron3:#FFA500;--saffron4:#FFD700;--saffron5:#FFF3E0;
+  --ink:#050200;--ink2:#0A0500;--ink3:#120800;--ink4:#1A0C00;
+  --gold:#D4AF37;--gold2:#F5C842;--gold3:#B8962E;
+  --cream:#FFF8EE;--text:#F5E6D0;--muted:#A08060;--muted2:#705040;
+  --border:rgba(255,107,0,0.2);--border2:rgba(255,107,0,0.08);
+  --glow:rgba(255,107,0,0.15);--glow2:rgba(212,175,55,0.1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:'Cormorant Garamond',serif;font-weight:300;min-height:100vh;overflow-x:hidden}
 
+/* STAR RIVER BACKGROUND */
+#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
+.star-river{position:absolute;width:2px;height:2px;background:rgba(255,200,100,0.8);border-radius:50%;animation:riverFlow var(--rf,15s) linear infinite var(--rfd,0s);opacity:0}
+@keyframes riverFlow{0%{transform:translateY(-20px) translateX(0);opacity:0}10%{opacity:var(--ro,0.6)}90%{opacity:var(--ro,0.6)}100%{transform:translateY(110vh) translateX(var(--rx,20px));opacity:0}}
+.bg-glow{position:absolute;border-radius:50%;filter:blur(100px);animation:bgPulse 10s ease-in-out infinite}
+.bg1{width:800px;height:400px;background:radial-gradient(ellipse,rgba(255,107,0,0.08) 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);animation-delay:0s}
+.bg2{width:400px;height:600px;background:radial-gradient(ellipse,rgba(212,175,55,0.06) 0%,transparent 70%);top:30%;right:-100px;animation-delay:4s}
+.bg3{width:500px;height:400px;background:radial-gradient(ellipse,rgba(255,140,0,0.05) 0%,transparent 70%);bottom:0;left:-100px;animation-delay:7s}
+@keyframes bgPulse{0%,100%{opacity:0.5}50%{opacity:1}}
+
+/* FLOATING DIYAS */
+.diya{position:fixed;pointer-events:none;z-index:1;animation:diyaFloat var(--df,8s) ease-in-out infinite var(--dfd,0s)}
+@keyframes diyaFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-15px) rotate(5deg)}}
+.diya-flame{animation:flameFlicker 0.3s ease-in-out infinite alternate}
+@keyframes flameFlicker{from{transform:scaleY(1) scaleX(1)}to{transform:scaleY(1.1) scaleX(0.9)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(5,2,0,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-om{font-family:'Noto Serif Devanagari',serif;font-size:1.2rem;color:var(--saffron);animation:omGlow 3s ease-in-out infinite}
+@keyframes omGlow{0%,100%{text-shadow:0 0 10px rgba(255,107,0,0.5)}50%{text-shadow:0 0 20px rgba(255,107,0,0.9),0 0 40px rgba(255,107,0,0.4)}}
+.nav-brand{font-family:'Cinzel',serif;font-size:1.15rem;letter-spacing:3px;color:var(--saffron3)}
+.nav-brand span{color:var(--gold2)}
+.nav-mid{font-family:'Noto Serif Devanagari',serif;font-size:0.72rem;color:var(--muted);letter-spacing:2px}
+.nav-right{display:flex;align-items:center;gap:10px}
+.live-pill{display:flex;align-items:center;gap:5px;font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:1.5px;color:#5EC98A;border:1px solid rgba(94,201,138,0.2);padding:5px 10px;border-radius:20px}
+.lpulse{width:5px;height:5px;background:#5EC98A;border-radius:50%;animation:lp 2s infinite}
+@keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(94,201,138,0.5)}50%{box-shadow:0 0 0 5px rgba(94,201,138,0)}}
+.nav-cta{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:2px;background:linear-gradient(135deg,var(--saffron),var(--saffron3));color:var(--ink);padding:7px 16px;border:none;text-decoration:none;text-transform:uppercase}
+
+/* TEMPLE ARCH HERO */
+.hero{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 20px 40px}
+
+/* Temple arch SVG */
+.temple-arch{width:min(340px,90vw);margin:0 auto 0;position:relative}
+.temple-arch svg{width:100%;height:auto}
+
+/* Lotus */
+.lotus-wrap{position:relative;width:160px;height:160px;margin:-20px auto 20px;z-index:2}
+.lotus-wrap svg{width:100%;height:100%;animation:lotusBreath 4s ease-in-out infinite}
+@keyframes lotusBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.lotus-glow{position:absolute;inset:-20px;background:radial-gradient(ellipse,rgba(255,107,0,0.2) 0%,transparent 70%);border-radius:50%;animation:lotusGlowPulse 4s ease-in-out infinite}
+@keyframes lotusGlowPulse{0%,100%{opacity:0.5}50%{opacity:1}}
+
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:5px;color:var(--saffron);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;max-width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--saffron))}
+.hero-eyebrow::after{background:linear-gradient(90deg,var(--saffron),transparent)}
+.hero-h1{font-family:'Cinzel',serif;font-size:clamp(2.2rem,8vw,4.5rem);font-weight:700;letter-spacing:5px;color:transparent;background:linear-gradient(180deg,var(--saffron4) 0%,var(--saffron3) 40%,var(--saffron) 100%);-webkit-background-clip:text;background-clip:text;line-height:1;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(255,107,0,0.4))}
+.hero-hindi{font-family:'Noto Serif Devanagari',serif;font-size:clamp(1rem,3vw,1.3rem);color:var(--muted);letter-spacing:3px;margin-bottom:16px;font-weight:400}
+.hero-divider{display:flex;align-items:center;gap:12px;margin:12px auto;width:fit-content}
+.hero-divider::before,.hero-divider::after{content:'';width:60px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,0,0.4))}
+.hero-divider::after{background:linear-gradient(90deg,rgba(255,107,0,0.4),transparent)}
+.hero-divider span{color:var(--saffron);font-size:0.9rem}
+.hero-sub{font-size:clamp(0.88rem,2vw,1rem);color:var(--muted);max-width:460px;line-height:2;text-align:center;font-style:italic}
+.hero-sub strong{color:var(--text);font-style:normal;font-weight:400}
+.hero-tags{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:16px 0}
+.htag{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;color:var(--saffron);border:1px solid rgba(255,107,0,0.25);padding:5px 12px;border-radius:1px}
+
+/* CHAT */
+.chat-section{width:100%;max-width:700px;margin:20px auto 0;position:relative;z-index:20}
+.chat-aura{position:absolute;inset:-25px;background:radial-gradient(ellipse,rgba(255,107,0,0.07) 0%,transparent 65%);pointer-events:none}
+
+/* Temple frame for chat */
+.chat-temple{position:relative}
+.temple-top{width:100%;overflow:hidden;line-height:0}
+.temple-top svg{width:100%;display:block}
+.chat-body{background:linear-gradient(180deg,rgba(18,8,0,0.98) 0%,rgba(10,5,0,1) 100%);border-left:1px solid var(--border);border-right:1px solid var(--border);overflow:hidden}
+.temple-bottom{width:100%;overflow:hidden;line-height:0;transform:rotate(180deg)}
+
+/* Chat header */
+.chat-hd{padding:16px 22px;background:linear-gradient(135deg,rgba(255,107,0,0.15),rgba(212,175,55,0.08),rgba(255,107,0,0.1));border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ch-left{display:flex;align-items:center;gap:12px}
+.guru-diya{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;animation:guruGlow 3s ease-in-out infinite;flex-shrink:0}
+@keyframes guruGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(255,107,0,0.5))}50%{filter:drop-shadow(0 0 20px rgba(255,107,0,0.9))}}
+.guru-info .name{font-family:'Cinzel',serif;font-size:0.88rem;color:var(--saffron3);letter-spacing:1px}
+.guru-info .title{font-family:'Noto Serif Devanagari',serif;font-size:0.65rem;color:var(--muted);margin-top:2px}
+.guru-info .status{font-size:0.62rem;color:#5EC98A;margin-top:3px;font-family:'Cinzel',serif;letter-spacing:1px}
+.ch-right{text-align:right}
+.viewers{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--saffron3);letter-spacing:1px}
+.system-tag{font-size:0.58rem;color:var(--muted);font-style:italic;margin-top:3px}
+
+/* Active bar */
+.act-bar{padding:8px 22px;background:rgba(255,107,0,0.06);border-bottom:1px solid rgba(255,107,0,0.1);display:flex;align-items:center;gap:8px}
+.act-dot{width:6px;height:6px;background:var(--saffron);border-radius:50%;animation:lp 2s infinite;flex-shrink:0}
+.act-txt{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:1.5px;color:var(--saffron)}
+
+/* Free bar */
+.free-bar{display:none;align-items:center;justify-content:space-between;padding:7px 22px;background:rgba(5,2,0,0.8);border-bottom:1px solid var(--border2)}
+.free-lbl{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:2px;color:var(--saffron)}
+.free-diyas{display:flex;gap:5px}
+.fdiya{font-size:0.85rem;transition:opacity 0.3s;filter:drop-shadow(0 0 4px rgba(255,107,0,0.6))}
+.fdiya.off{opacity:0.15;filter:none}
+.free-cnt{font-size:0.68rem;color:var(--muted);font-style:italic}
+
+/* Quick prompts */
+.qprompts{display:none;padding:12px 22px;gap:7px;flex-wrap:wrap;border-bottom:1px solid var(--border2);background:rgba(10,5,0,0.7)}
+.qp{background:rgba(255,107,0,0.08);border:1px solid rgba(255,107,0,0.2);padding:7px 13px;color:var(--text);font-size:0.72rem;font-family:'Cormorant Garamond',serif;font-style:italic;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px}
+.qp:hover{background:rgba(255,107,0,0.18);border-color:rgba(255,107,0,0.5);color:var(--saffron3)}
+
+/* Messages */
+.msgs{padding:22px;min-height:280px;max-height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:2px}
+.msgs::-webkit-scrollbar-thumb{background:rgba(255,107,0,0.3)}
+.msg{display:flex;gap:10px;align-items:flex-start;animation:msgIn 0.35s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.mav{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.95rem;flex-shrink:0;border:1px solid rgba(255,107,0,0.2)}
+.msg.ai .mav{background:linear-gradient(135deg,rgba(255,107,0,0.2),rgba(212,175,55,0.2))}
+.msg.user .mav{background:rgba(255,107,0,0.1)}
+.mbubble{max-width:80%;padding:13px 17px;font-size:0.87rem;line-height:1.85;font-family:'Cormorant Garamond',serif}
+.msg.ai .mbubble{background:rgba(255,107,0,0.06);border:1px solid rgba(255,107,0,0.12);border-radius:2px 12px 12px 12px;color:var(--text)}
+.msg.user .mbubble{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.15);border-radius:12px 2px 12px 12px;color:var(--text)}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--saffron);animation:db 1.4s infinite;margin:0 2px}
+.dot:nth-child(2){animation-delay:.25s}
+.dot:nth-child(3){animation-delay:.5s}
+@keyframes db{0%,80%,100%{opacity:0.1;transform:scale(0.7)}40%{opacity:1;transform:scale(1)}}
+
+/* Upgrade */
+.upg{display:none;padding:14px 22px;text-align:center;background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(212,175,55,0.05));border-top:1px solid var(--border)}
+.upg p{font-family:'Cinzel',serif;font-size:0.72rem;color:var(--saffron3);margin-bottom:6px;letter-spacing:1px}
+.upg a{color:var(--gold2);font-size:0.75rem;font-style:italic}
+
+/* Input */
+.chat-input{padding:14px 22px;border-top:1px solid var(--border2);display:flex;gap:10px;background:rgba(5,2,0,0.7)}
+.inp{flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(255,107,0,0.2);padding:12px 16px;color:var(--text);font-size:0.87rem;font-family:'Cormorant Garamond',serif;outline:none;transition:border-color 0.3s;font-style:italic}
+.inp:focus{border-color:rgba(255,107,0,0.5);background:rgba(255,107,0,0.03)}
+.inp::placeholder{color:var(--muted2);font-style:italic}
+.inp:disabled{opacity:0.5}
+.sbtn{width:46px;height:46px;background:linear-gradient(135deg,var(--saffron),var(--saffron3),var(--gold2));border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:1rem;color:var(--ink);transition:all 0.2s;flex-shrink:0}
+.sbtn:hover{box-shadow:0 0 20px rgba(255,107,0,0.5);transform:scale(1.05)}
+.sbtn:disabled{opacity:0.3;cursor:default;transform:none;box-shadow:none}
+
+/* SECTION STYLES */
+.section{padding:60px 24px;max-width:1000px;margin:0 auto;position:relative;z-index:10}
+.sec-ey{font-family:'Noto Serif Devanagari',serif;font-size:0.72rem;color:var(--saffron);text-align:center;margin-bottom:8px;letter-spacing:3px}
+.sec-h{font-family:'Cinzel',serif;font-size:clamp(1.4rem,4vw,2.4rem);color:transparent;background:linear-gradient(180deg,var(--saffron4),var(--saffron3));-webkit-background-clip:text;background-clip:text;text-align:center;margin-bottom:10px;letter-spacing:2px}
+.sec-sub{font-size:0.85rem;color:var(--muted);text-align:center;font-style:italic;margin-bottom:44px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.8}
+
+/* Lotus divider */
+.lotus-div{display:flex;align-items:center;gap:16px;padding:32px 24px;max-width:600px;margin:0 auto;position:relative;z-index:10}
+.lotus-div::before,.lotus-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,0,0.3))}
+.lotus-div::after{background:linear-gradient(90deg,rgba(255,107,0,0.3),transparent)}
+.lotus-div span{color:var(--saffron);font-size:1.1rem;white-space:nowrap;filter:drop-shadow(0 0 6px rgba(255,107,0,0.5))}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(255,107,0,0.06)}
+.fcard{background:var(--ink2);padding:34px 30px;position:relative;overflow:hidden;transition:background 0.3s}
+.fcard:hover{background:rgba(255,107,0,0.05)}
+.fcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,107,0,0.4),transparent);opacity:0;transition:opacity 0.3s}
+.fcard:hover::before{opacity:1}
+.ficon{width:50px;height:50px;border:1px solid rgba(255,107,0,0.2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:18px;background:rgba(255,107,0,0.04)}
+.fnum{position:absolute;top:14px;right:18px;font-family:'Cinzel',serif;font-size:0.58rem;color:rgba(255,107,0,0.2);letter-spacing:2px}
+.fcard h3{font-family:'Cinzel',serif;font-size:0.83rem;color:var(--saffron3);margin-bottom:8px;letter-spacing:1px}
+.fcard p{font-size:0.8rem;color:var(--muted);line-height:1.8;font-style:italic}
+
+/* TESTIMONIALS */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.tcard{background:rgba(18,8,0,0.8);border:1px solid var(--border);padding:30px 26px;position:relative}
+.tcard::after{content:'"';position:absolute;top:8px;right:18px;font-family:'Cormorant Garamond',serif;font-size:5rem;color:rgba(255,107,0,0.06);line-height:1}
+.t-stars{color:var(--saffron);font-size:0.7rem;letter-spacing:4px;margin-bottom:12px}
+.tcard p{font-size:0.86rem;color:var(--text);line-height:1.9;font-style:italic;margin-bottom:14px}
+.tperson{display:flex;align-items:center;gap:10px}
+.tav{width:34px;height:34px;border-radius:50%;background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.2);display:flex;align-items:center;justify-content:center;font-size:0.9rem}
+.tname{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--saffron3);letter-spacing:1px}
+.tsign{font-size:0.62rem;color:var(--muted);font-style:italic}
+
+/* PRICING */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(255,107,0,0.05);margin-top:44px}
+.pcard{background:var(--ink2);padding:40px 32px;position:relative}
+.pcard.feat{background:linear-gradient(180deg,rgba(255,107,0,0.08),var(--ink2));border-top:2px solid var(--saffron)}
+.pop-tag{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--saffron),var(--saffron3));color:var(--ink);font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:3px;padding:5px 16px;white-space:nowrap}
+.plan-badge{font-family:'Noto Serif Devanagari',serif;font-size:0.72rem;color:var(--saffron);margin-bottom:4px;opacity:0.8}
+.plan-nm{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:4px;color:var(--saffron3);margin-bottom:18px;text-transform:uppercase}
+.plan-pr{font-family:'Cormorant Garamond',serif;font-size:3.2rem;color:transparent;background:linear-gradient(180deg,var(--saffron4),var(--saffron3));-webkit-background-clip:text;background-clip:text;line-height:1;margin-bottom:4px;font-weight:600}
+.plan-pr span{font-size:0.95rem;color:var(--muted);font-family:'Cinzel',serif}
+.plan-desc{font-size:0.8rem;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border2);font-style:italic;line-height:1.7}
+.plan-feats{list-style:none;margin-bottom:32px}
+.plan-feats li{font-size:0.8rem;color:var(--text);padding:8px 0;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,107,0,0.05);font-style:italic}
+.plan-feats li::before{content:"🪔";font-size:0.65rem;flex-shrink:0;font-style:normal}
+.pbtn{width:100%;background:linear-gradient(135deg,var(--saffron),var(--saffron3),var(--gold2));border:none;padding:14px;font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:2px;color:var(--ink);cursor:pointer;font-weight:700;transition:all 0.3s;text-transform:uppercase}
+.pbtn:hover{box-shadow:0 8px 30px rgba(255,107,0,0.4);transform:translateY(-1px)}
+.pbtn.out{background:transparent;border:1px solid rgba(255,107,0,0.3);color:var(--saffron);display:block;text-align:center;text-decoration:none}
+.trust-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:28px;padding-top:28px;border-top:1px solid var(--border2)}
+.tb{font-size:0.7rem;color:var(--muted);font-style:italic;display:flex;align-items:center;gap:5px}
+
+/* FOOTER */
+footer{text-align:center;padding:50px 24px 36px;position:relative;z-index:10;border-top:1px solid var(--border2)}
+.f-om{font-family:'Noto Serif Devanagari',serif;font-size:2rem;color:var(--saffron);margin-bottom:12px;animation:omGlow 3s ease-in-out infinite;display:block}
+.f-logo{font-family:'Cinzel',serif;font-size:1.5rem;letter-spacing:5px;color:transparent;background:linear-gradient(180deg,var(--saffron4),var(--saffron3));-webkit-background-clip:text;background-clip:text;margin-bottom:6px}
+.f-hin{font-family:'Noto Serif Devanagari',serif;font-size:0.78rem;color:var(--muted);letter-spacing:2px;margin-bottom:18px}
+.f-copy{font-size:0.65rem;color:var(--muted2);letter-spacing:1px}
+</style></head>
+<body>
+
+<!-- BACKGROUND -->
+<div id="bg">
+  <div class="bg-glow bg1"></div>
+  <div class="bg-glow bg2"></div>
+  <div class="bg-glow bg3"></div>
+  <div id="starRiver"></div>
+</div>
+
+<!-- FLOATING DIYAS -->
+<div class="diya" style="left:3%;top:20%;--df:7s;--dfd:0s;font-size:1.5rem">🪔</div>
+<div class="diya" style="right:4%;top:35%;--df:9s;--dfd:2s;font-size:1.2rem">🪔</div>
+<div class="diya" style="left:6%;top:60%;--df:8s;--dfd:4s;font-size:1rem">🪔</div>
+<div class="diya" style="right:3%;top:70%;--df:10s;--dfd:1s;font-size:1.3rem">🪔</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-om">ॐ</span>
+    <span class="nav-brand">Jyotish<span>AI</span></span>
+  </a>
+  <div class="nav-mid">ज्योतिष शास्त्र</div>
+  <div class="nav-right">
+    <div class="live-pill"><div class="lpulse"></div><span id="lc">31 online</span></div>
+    <a href="#pricing" class="nav-cta">Plans</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- TEMPLE ARCH -->
+  <div class="temple-arch">
+    <svg viewBox="0 0 340 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Temple arch shape -->
+      <path d="M10,120 L10,60 Q10,10 170,10 Q330,10 330,60 L330,120" stroke="rgba(255,107,0,0.3)" stroke-width="1" fill="rgba(255,107,0,0.02)"/>
+      <path d="M25,120 L25,65 Q25,25 170,25 Q315,25 315,65 L315,120" stroke="rgba(255,107,0,0.15)" stroke-width="0.5" fill="none"/>
+      <!-- Top ornaments -->
+      <circle cx="170" cy="12" r="6" fill="rgba(255,107,0,0.3)" stroke="rgba(255,107,0,0.6)" stroke-width="1"/>
+      <circle cx="170" cy="12" r="3" fill="rgba(255,200,0,0.5)"/>
+      <!-- Side pillars -->
+      <rect x="5" y="60" width="12" height="60" fill="rgba(255,107,0,0.06)" stroke="rgba(255,107,0,0.2)" stroke-width="0.5"/>
+      <rect x="323" y="60" width="12" height="60" fill="rgba(255,107,0,0.06)" stroke="rgba(255,107,0,0.2)" stroke-width="0.5"/>
+      <!-- Pillar decorations -->
+      <circle cx="11" cy="75" r="3" fill="rgba(255,107,0,0.3)"/>
+      <circle cx="11" cy="95" r="3" fill="rgba(255,107,0,0.3)"/>
+      <circle cx="329" cy="75" r="3" fill="rgba(255,107,0,0.3)"/>
+      <circle cx="329" cy="95" r="3" fill="rgba(255,107,0,0.3)"/>
+      <!-- Top decorative bells/kalash shapes -->
+      <ellipse cx="50" cy="30" rx="8" ry="12" fill="rgba(255,107,0,0.1)" stroke="rgba(255,107,0,0.3)" stroke-width="0.8"/>
+      <ellipse cx="290" cy="30" rx="8" ry="12" fill="rgba(255,107,0,0.1)" stroke="rgba(255,107,0,0.3)" stroke-width="0.8"/>
+      <line x1="50" y1="18" x2="50" y2="10" stroke="rgba(255,107,0,0.4)" stroke-width="1"/>
+      <line x1="290" y1="18" x2="290" y2="10" stroke="rgba(255,107,0,0.4)" stroke-width="1"/>
+      <!-- Hanging elements -->
+      <path d="M80,30 Q170,50 260,30" stroke="rgba(255,107,0,0.2)" stroke-width="0.5" fill="none" stroke-dasharray="4 4"/>
+    </svg>
+  </div>
+
+  <!-- LOTUS -->
+  <div class="lotus-wrap">
+    <div class="lotus-glow"></div>
+    <svg viewBox="0 0 160 160" fill="none">
+      <!-- Outer petals -->
+      <g opacity="0.7">
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8"/>
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(45 80 80)"/>
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(90 80 80)"/>
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(135 80 80)"/>
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(180 80 80)"/>
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(225 80 80)"/>
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(270 80 80)"/>
+        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(315 80 80)"/>
+      </g>
+      <!-- Inner petals -->
+      <g opacity="0.9">
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(22.5 80 80)"/>
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(67.5 80 80)"/>
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(112.5 80 80)"/>
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(157.5 80 80)"/>
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(202.5 80 80)"/>
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(247.5 80 80)"/>
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(292.5 80 80)"/>
+        <ellipse cx="80" cy="38" rx="8" ry="18" fill="rgba(255,140,0,0.3)" stroke="rgba(255,140,0,0.7)" stroke-width="1" transform="rotate(337.5 80 80)"/>
+      </g>
+      <!-- Center -->
+      <circle cx="80" cy="80" r="22" fill="rgba(255,107,0,0.15)" stroke="rgba(255,107,0,0.5)" stroke-width="1.5"/>
+      <circle cx="80" cy="80" r="14" fill="rgba(255,140,0,0.2)" stroke="rgba(255,165,0,0.6)" stroke-width="1"/>
+      <text x="80" y="87" font-size="16" fill="rgba(255,200,50,0.9)" text-anchor="middle" font-family="Noto Serif Devanagari,serif">ॐ</text>
+    </svg>
+  </div>
+
+  <div class="hero-eyebrow">India Ka #1 AI Jyotishi</div>
+  <h1 class="hero-h1">JYOTISHAI</h1>
+  <p class="hero-hindi">अपनी कुण्डली का राज़ जानो</p>
+  <div class="hero-divider"><span>🪔</span></div>
+  <p class="hero-sub"><strong>AI-powered Vedic Jyotishi</strong> — Career, Shaadi, Business, Health — har sawaal ka jawab. <strong>Bilkul free mein try karo!</strong></p>
+  <div class="hero-tags">
+    <span class="htag">🪐 Vedic Jyotish</span>
+    <span class="htag">⭐ Nakshatra</span>
+    <span class="htag">🔢 Ank Jyotish</span>
+    <span class="htag">🃏 Prashna Kundli</span>
+  </div>
+
+  <!-- CHAT BOX -->
+  <div class="chat-section">
+    <div class="chat-aura"></div>
+    <div class="chat-temple">
+      <!-- Temple top border -->
+      <div class="temple-top">
+        <svg viewBox="0 0 700 24" preserveAspectRatio="none" fill="none">
+          <path d="M0,24 L0,12 Q50,0 100,12 Q150,24 200,12 Q250,0 300,12 Q350,24 400,12 Q450,0 500,12 Q550,24 600,12 Q650,0 700,12 L700,24 Z" fill="rgba(255,107,0,0.08)" stroke="rgba(255,107,0,0.25)" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="chat-body">
+        <div class="chat-hd">
+          <div class="ch-left">
+            <div class="guru-diya">🪔</div>
+            <div class="guru-info">
+              <div class="name">Jyotish Guru AI</div>
+              <div class="title">ज्योतिषाचार्य · Vedic Jyotishi</div>
+              <div class="status" id="gs">● सक्रिय · Online &amp; Ready</div>
+            </div>
+          </div>
+          <div class="ch-right">
+            <div class="viewers" id="vc">🪔 <span id="vn">31</span> consulting now</div>
+            <div class="system-tag">Vedic Sidereal · Lahiri Ayanamsa</div>
+          </div>
+        </div>
+
+        <div class="act-bar">
+          <div class="act-dot"></div>
+          <span class="act-txt">JYOTISH GURU AI ACTIVE HAI — ABHI POOCHHO, BILKUL FREE!</span>
+        </div>
+
+        <div class="free-bar" id="fb">
+          <span class="free-lbl">AAJ KI FREE READINGS</span>
+          <div class="free-diyas"><span class="fdiya" id="d1">🪔</span><span class="fdiya" id="d2">🪔</span><span class="fdiya" id="d3">🪔</span></div>
+          <span class="free-cnt" id="fc">3 of 3 remaining</span>
+        </div>
+
+        <div class="qprompts" id="qp">
+          <button class="qp" onclick="qa('Meri job kab lagegi ya promotion kab milega? Kundli dekho.')">💼 Job &amp; Promotion</button>
+          <button class="qp" onclick="qa('Meri shaadi kab hogi? Kundli mein vivah yog kab hai?')">💑 Shaadi Kab?</button>
+          <button class="qp" onclick="qa('Mera business succeed karega? Kya karna chahiye?')">📈 Business</button>
+          <button class="qp" onclick="qa('Aaj ka din mera kaisa rahega? Lucky color aur number batao.')">🌅 Aaj Ka Din</button>
+          <button class="qp" onclick="qa('Meri Rashi aur Nakshatra kya hai?')">🪐 Meri Rashi</button>
+          <button class="qp" onclick="qa('Mujhe kaunsa Ratna pehenna chahiye aur kyun?')">💎 Lucky Ratna</button>
+        </div>
+
+        <div class="msgs" id="ms">
+          <div class="msg ai">
+            <div class="mav">🪔</div>
+            <div class="mbubble">नमस्ते 🙏 Main hoon aapka <strong>Jyotish Guru AI</strong>!<br><br>Career mein rukawat? Shaadi mein delay? Business mein confusion? Ya bas jaanna chahte ho ki <strong>aapke stars kya kehte hain?</strong><br><br>Apna <strong>naam, janm tithi, samay aur sthan</strong> batao — main aapki poori Kundli ka vishleshan karunga. Aaj ke <strong>3 readings FREE</strong> hain! ✨</div>
+          </div>
+        </div>
+
+        <div class="upg" id="ub">
+          <p>✦ Aaj ki 3 FREE readings use ho gayi! ✦</p>
+          <a href="#pricing">Sirf ₹6/din — Unlimited readings ke liye ₹199/month upgrade karo →</a>
+        </div>
+
+        <div class="chat-input" id="ia">
+          <input class="inp" id="ui" placeholder="Kuch bhi poochho... Career? Shaadi? Business? Sab FREE hai! 🔮" disabled>
+          <button class="sbtn" id="sb" onclick="sendMsg()" disabled>✦</button>
+        </div>
+      </div>
+      <div class="temple-bottom">
+        <svg viewBox="0 0 700 24" preserveAspectRatio="none" fill="none">
+          <path d="M0,24 L0,12 Q50,0 100,12 Q150,24 200,12 Q250,0 300,12 Q350,24 400,12 Q450,0 500,12 Q550,24 600,12 Q650,0 700,12 L700,24 Z" fill="rgba(255,107,0,0.08)" stroke="rgba(255,107,0,0.25)" stroke-width="0.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="lotus-div"><span>🪷 ॐ 🪷</span></div>
+
+<!-- FEATURES -->
+<div class="section" id="features">
+  <p class="sec-ey">सेवाएँ · Kya Milega Tumhe</p>
+  <h2 class="sec-h">Har Sawaal Ka Jawab</h2>
+  <p class="sec-sub">Career se lekar Shaadi tak — Vedic Jyotish ke through har problem ka cosmic solution</p>
+  <div class="feat-grid">
+    <div class="fcard"><div class="fnum">01</div><div class="ficon">🪐</div><h3>Kundli Vishleshan</h3><p>Sampurna Vedic birth chart — graha positions, bhav, dosha aur personalised upay with Lahiri Ayanamsa correction.</p></div>
+    <div class="fcard"><div class="fnum">02</div><div class="ficon">⭐</div><h3>Nakshatra Vigyan</h3><p>Aapka janm Nakshatra, Pada, Devata aur uska aapke jeevan par gehri chhap — pehchano apna asli swabhav.</p></div>
+    <div class="fcard"><div class="fnum">03</div><div class="ficon">🔢</div><h3>Ank Jyotish</h3><p>Vedic Numerology — Janm Ank, Bhagya Ank aur Naam Ank — sacred numbers jo aapki kismat banate hain.</p></div>
+    <div class="fcard"><div class="fnum">04</div><div class="ficon">🃏</div><h3>Prashna Kundli</h3><p>Koi bhi ek sawaal poochho — ancient Prashna Shastra se turant jawab. Koi birth details ki zaroorat nahi!</p></div>
+    <div class="fcard"><div class="fnum">05</div><div class="ficon">💑</div><h3>Vivah Milan</h3><p>Ashtakoot Guna Milan — 36 point matching se jaano kya tumhara rishta destiny mein likha hai!</p></div>
+    <div class="fcard"><div class="fnum">06</div><div class="ficon">🌙</div><h3>Muhurta Shastra</h3><p>Shaadi, business launch, griha pravesh — stars se choose karo sabse shubh samay aur safalta pakki karo.</p></div>
+  </div>
+</div>
+
+<div class="lotus-div"><span>🪷 प्रशंसापत्र 🪷</span></div>
+
+<!-- TESTIMONIALS -->
+<div class="section">
+  <p class="sec-ey">अनुभव · Real Users, Real Results</p>
+  <h2 class="sec-h">Logo Ki Zindagi Badal Gayi!</h2>
+  <div class="tgrid">
+    <div class="tcard"><div class="t-stars">★ ★ ★ ★ ★</div><p>"Jyotish Guru AI ne meri Kundli mein jo bataya woh bilkul sach nikla — career change 3 mahine pehle hi predict kar diya. Adbhut accuracy!"</p><div class="tperson"><div class="tav">🙏</div><div><div class="tname">PRIYA SHARMA</div><div class="tsign">♏ Vrishchik Rashi · Mumbai</div></div></div></div>
+    <div class="tcard"><div class="t-stars">★ ★ ★ ★ ★</div><p>"Maine Prashna Kundli mein business ke baare mein pucha — AI ka jawab itna sahi tha ki main hairan reh gaya. Ab roz poochta hoon!"</p><div class="tperson"><div class="tav">🙏</div><div><div class="tname">RAHUL VERMA</div><div class="tsign">♐ Dhanu Rashi · Delhi</div></div></div></div>
+    <div class="tcard"><div class="t-stars">★ ★ ★ ★ ★</div><p>"Shaadi ke baare mein pooch ke jo prediction mili woh 100% sach hui! JyotishAI ne meri zindagi mein naya vishwas jagaya hai!"</p><div class="tperson"><div class="tav">🙏</div><div><div class="tname">KAVITHA REDDY</div><div class="tsign">♉ Vrishabh Rashi · Hyderabad</div></div></div></div>
+  </div>
+</div>
+
+<div class="lotus-div"><span>🪷 मूल्य निर्धारण 🪷</span></div>
+
+<!-- PRICING -->
+<div class="section" id="pricing">
+  <p class="sec-ey">योजनाएँ · Apna Plan Chuno</p>
+  <h2 class="sec-h">Sirf ₹6 Per Din — Unlimited Jyotish!</h2>
+  <p class="sec-sub">Ek chai se bhi sasta — aur faayda? Zindagi bhar ka! ☕</p>
+  <div class="trust-row">
+    <span class="tb">🔒 Secure Payments</span>
+    <span class="tb">⚡ Instant Access</span>
+    <span class="tb">🇮🇳 UPI · Cards · NetBanking</span>
+    <span class="tb">↩️ Cancel Anytime</span>
+  </div>
+  <div class="pgrid">
+    <div class="pcard">
+      <div class="plan-badge">साधक</div>
+      <div class="plan-nm">Sadhak — Free</div>
+      <div class="plan-pr">₹0</div>
+      <p class="plan-desc">Apni cosmic journey shuru karo — teen muft readings se JyotishAI ka jaadu mehsoos karo!</p>
+      <ul class="plan-feats">
+        <li>3 Vedic readings per day</li>
+        <li>Daily Panchang guidance</li>
+        <li>Basic Ank Jyotish</li>
+        <li>Hindi &amp; English</li>
+      </ul>
+      <a href="#" class="pbtn out" onclick="scrollToChat()">Abhi Free Mein Try Karo →</a>
+    </div>
+    <div class="pcard feat">
+      <div class="pop-tag">✦ SABSE POPULAR ✦</div>
+      <div class="plan-badge">भक्त</div>
+      <div class="plan-nm">Bhakt</div>
+      <div class="plan-pr">₹199 <span>/ month</span></div>
+      <p class="plan-desc">Sirf ₹6.60/din! Unlimited readings, Kundli, PDF reports — ek real Jyotishi se hazaar guna sasta!</p>
+      <ul class="plan-feats">
+        <li>Unlimited Vedic readings</li>
+        <li>Detailed Kundli AI analysis</li>
+        <li>Weekly &amp; monthly predictions</li>
+        <li>Prashna Kundli &amp; Tarot</li>
+        <li>Vivah Kundli matching</li>
+        <li>Full Ank Jyotish report</li>
+        <li>📄 PDF reading downloads</li>
+        <li>Hindi &amp; English support</li>
+      </ul>
+      <button class="pbtn" onclick="pay('Bhakt',199)">🪔 Pay ₹199 · Razorpay</button>
+    </div>
+    <div class="pcard">
+      <div class="plan-badge">ज्ञानी</div>
+      <div class="plan-nm">Gyani</div>
+      <div class="plan-pr">₹599 <span>/ month</span></div>
+      <p class="plan-desc">Complete Vedic experience — jo ek real Jyotishi ₹5000+ mein deta, woh sirf ₹599 mein!</p>
+      <ul class="plan-feats">
+        <li>Everything in Bhakt</li>
+        <li>Muhurta Shastra timing</li>
+        <li>Full annual predictions</li>
+        <li>Gemstone &amp; Ratna advice</li>
+        <li>Detailed Lagna chart reading</li>
+        <li>Vimshottari Dasha analysis</li>
+        <li>📄 Branded PDF reports</li>
+      </ul>
+      <button class="pbtn" style="background:linear-gradient(135deg,#8B1A3A,var(--saffron),var(--gold2))" onclick="pay('Gyani',599)">🪔 Pay ₹599 · Razorpay</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="f-om">ॐ</span>
+  <div class="f-logo">JYOTISHAI</div>
+  <p class="f-hin">ज्योतिष शास्त्र · नक्षत्र विज्ञान · प्रश्न कुण्डली</p>
+  <p class="f-copy">© 2025 JyotishAI · Spiritual guidance only · सर्वाधिकार सुरक्षित</p>
+</footer>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+// STAR RIVER
+(function(){
+  var sr=document.getElementById('starRiver');
+  for(var i=0;i<80;i++){
+    var s=document.createElement('div');s.className='star-river';
+    var x=Math.random()*100;
+    s.style.cssText='left:'+x+'%;top:'+(Math.random()*-20)+'px;width:'+(Math.random()*2+1)+'px;height:'+(Math.random()*2+1)+'px;--rf:'+(Math.random()*15+8)+'s;--rfd:'+(Math.random()*10)+'s;--ro:'+(Math.random()*0.5+0.3);
+    s.style.setProperty('--rx',(Math.random()*40-20)+'px');
+    sr.appendChild(s);
+  }
+})();
+
+// LIVE COUNTER
+var base=31;
+function updateLive(){
+  base=Math.max(20,Math.min(55,base+Math.floor(Math.random()*5-2)));
+  document.getElementById('lc').textContent=base+' online';
+  document.getElementById('vn').textContent=base;
+}
+updateLive();setInterval(updateLive,7000);
+
+// CHAT
+var hist=[],free=3,prem=false,lastReading='';
+var SYS='You are Jyotish Guru, expert Vedic astrologer using ONLY Vedic Sidereal (Nirayana) system with Lahiri Ayanamsa. CRITICAL RULES: 1) Use Vedic Sidereal system ALWAYS — apply ~23 degree Ayanamsa correction. 2) VEDIC SUN SIGN dates: Mesh(Aries) Apr14-May14, Vrishabh(Taurus) May15-Jun14, Mithun(Gemini) Jun15-Jul14, Kark(Cancer) Jul15-Aug14, Simha(Leo) Aug15-Sep15, Kanya(Virgo) Sep16-Oct15, Tula(Libra) Oct16-Nov14, Vrishchik(Scorpio) Nov15-Dec14, Dhanu(Sagittarius) Dec15-Jan13, Makar(Capricorn) Jan14-Feb11, Kumbh(Aquarius) Feb12-Mar12, Meen(Pisces) Mar13-Apr13. 3) Examples: 28 Nov = Vrishchik(Scorpio). 29 Jan = Makar(Capricorn). 4) RASHI is primary sign — needs exact birth time+place. 5) Always mention Nakshatra, Lagna, Vimshottari Dasha. 6) Give Vedic remedies: Mantras, Gemstones, Colours, Fasting days. 7) Use Sanskrit+English: Vrishchik(Scorpio), Shani(Saturn). 8) Always ask: full name, DOB, exact birth time, birth place. 9) Reply in Hindi or English based on user. 10) Keep 3-5 paragraphs. End: 🙏 Note: Jyotish aatmik margdarshan ke liye hai.';
+
+window.addEventListener('load',function(){
+  document.getElementById('ui').disabled=false;
+  document.getElementById('sb').disabled=false;
+  document.getElementById('sb').style.opacity='1';
+  document.getElementById('fb').style.display='flex';
+  document.getElementById('qp').style.display='flex';
+  document.getElementById('ui').focus();
+});
+
+function addMsg(role,text){
+  var m=document.getElementById('ms');
+  var d=document.createElement('div');d.className='msg '+(role==='u'?'user':'ai');
+  var f=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  var pdf='';
+  if(role==='ai'&&prem&&text.length>100){
+    lastReading=text;
+    pdf='<div style="margin-top:10px"><button onclick="dlPDF()" style="background:linear-gradient(135deg,#FF6B00,#FFA500,#FFD700);border:none;padding:8px 16px;font-family:Cinzel,serif;font-size:0.65rem;letter-spacing:1px;color:#050200;cursor:pointer">📄 Reading PDF Download Karo</button></div>';
+  }
+  d.innerHTML='<div class="mav">'+(role==='u'?'🙏':'🪔')+'</div><div class="mbubble">'+f+pdf+'</div>';
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+
+function addTyping(){
+  var m=document.getElementById('ms');
+  var d=document.createElement('div');d.className='msg ai';d.id='ty';
+  d.innerHTML='<div class="mav">🪔</div><div class="mbubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+
+function updateDiyas(){
+  for(var i=1;i<=3;i++){document.getElementById('d'+i).className='fdiya'+(i>free?' off':'');}
+  document.getElementById('fc').textContent=free+' of 3 remaining';
+  if(free<=0&&!prem){
+    document.getElementById('ub').style.display='block';
+    document.getElementById('ia').style.display='none';
+    document.getElementById('qp').style.display='none';
+  }
+}
+
+function sendMsg(){
+  var i=document.getElementById('ui'),t=i.value.trim();
+  if(!t)return;
+  i.value='';addMsg('u',t);addTyping();
+  i.disabled=true;document.getElementById('sb').disabled=true;
+  hist.push({role:'user',content:t});
+  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist})})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var ty=document.getElementById('ty');if(ty)ty.remove();
+    if(data.error){addMsg('ai','⚠️ '+data.error);return;}
+    hist.push({role:'assistant',content:data.reply});
+    addMsg('ai',data.reply);
+    if(!prem){free=Math.max(0,free-1);updateDiyas();}
+  })
+  .catch(function(){
+    var ty=document.getElementById('ty');if(ty)ty.remove();
+    addMsg('ai','⚠️ Connection error. Please try again.');
+  })
+  .finally(function(){
+    if(free>0||prem){document.getElementById('ui').disabled=false;document.getElementById('sb').disabled=false;document.getElementById('ui').focus();}
+  });
+}
+
+function qa(p){document.getElementById('ui').value=p;document.getElementById('ui').focus();}
+function scrollToChat(){document.getElementById('ms').scrollIntoView({behavior:'smooth'});}
+document.getElementById('ui').addEventListener('keydown',function(e){if(e.key==='Enter')sendMsg();});
+
+function dlPDF(){
+  var name=prompt('Aapka naam:') || 'Jigyasu';
+  var date=new Date().toLocaleDateString('hi-IN',{day:'numeric',month:'long',year:'numeric'});
+  var clean=lastReading.replace(/<[^>]*>/g,'');
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>JyotishAI Reading</title>'
+    +'<style>body{font-family:Georgia,serif;max-width:750px;margin:0 auto;padding:50px;color:#1a1a1a;background:#FFFDF7}'
+    +'.header{text-align:center;padding-bottom:24px;margin-bottom:32px;border-bottom:3px solid #FF6B00}'
+    +'.logo{font-size:2rem;color:#FF6B00;letter-spacing:5px;font-family:serif}'
+    +'.sub{font-size:0.75rem;color:#8A7F6A;letter-spacing:3px;margin-top:6px}'
+    +'.info{background:#FFF8EE;border-left:3px solid #FF6B00;padding:16px 24px;margin-bottom:28px}'
+    +'.info p{margin:5px 0;font-size:0.9rem;color:#444}'
+    +'.reading{line-height:2;font-size:0.95rem;white-space:pre-wrap}'
+    +'.footer{margin-top:48px;text-align:center;padding-top:24px;border-top:1px solid #FFD700}'
+    +'</style></head><body>'
+    +'<div class="header"><div class="logo">🪔 JYOTISHAI</div>'
+    +'<div class="sub">VEDIC JYOTISH · NAKSHATRA VIGYAN · PRASHNA KUNDLI</div>'
+    +'<div style="font-size:1.2rem;color:#FF6B00;margin-top:8px">ॐ</div></div>'
+    +'<div class="info"><p><strong>Prepared for:</strong> '+name+'</p><p><strong>Date:</strong> '+date+'</p>'
+    +'<p><strong>System:</strong> Vedic Sidereal · Lahiri Ayanamsa</p></div>'
+    +'<div class="reading">'+clean+'</div>'
+    +'<div class="footer"><p style="color:#FF6B00;font-size:1.2rem">🪔 ॐ 🪔</p>'
+    +'<p><strong>JyotishAI</strong> — Vedic Jyotish · Ancient Wisdom</p>'
+    +'<p style="font-size:0.7rem;color:#8A7F6A">Spiritual guidance only · © 2025 JyotishAI</p></div>'
+    +'</body></html>';
+  var blob=new Blob([html],{type:'text/html'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='JyotishAI_'+name.replace(/ /g,'_')+'.html';
+  a.click();URL.revokeObjectURL(url);
+  setTimeout(function(){alert('📄 Reading download ho gayi!\nChrome mein kholein → Ctrl+P → Save as PDF');},500);
+}
+
+var rk=localStorage.getItem('jrk')||'';
+function pay(plan,amt){
+  if(!rk){var k=prompt('Enter Razorpay Key ID:');if(!k)return;rk=k;localStorage.setItem('jrk',k);}
+  try{
+    new Razorpay({key:rk,amount:amt*100,currency:'INR',name:'JyotishAI',description:plan,theme:{color:'#FF6B00'},
+    handler:function(r){prem=true;free=999;document.getElementById('fb').style.display='none';
+    alert('🙏 Jai Shri Ram! '+plan+' activated!\nPayment ID: '+r.razorpay_payment_id);}}).open();
+  }catch(e){alert('Error: '+e.message);}
+}
+</script>
+</body></html>
