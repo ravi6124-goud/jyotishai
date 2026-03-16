@@ -554,7 +554,7 @@ function sendMsg(){
   i.value='';addMsg('u',t);addTyping();
   i.disabled=true;document.getElementById('sb').disabled=true;
   hist.push({role:'user',content:t});
-  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist})})
+  fetch('https://jyotishai-backend.onrender.com/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist})})
   .then(function(r){return r.json();})
   .then(function(data){
     var ty=document.getElementById('ty');if(ty)ty.remove();
