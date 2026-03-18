@@ -110,7 +110,23 @@ async function sendMsg() {
   document.getElementById('sb').disabled = true;
   hist.push({ role: 'user', content: t });
 
-  var body = { messages: hist };
+  // Extract birth details from message text
+  var allText = hist.map(function(m){ return m.content; }).join(' ');
+  var dobMatch = allText.match(/(\d{1,2}[-\/]\d{1,2}[-\/]\d{4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/);
+  var timeMatch = allText.match(/(\d{1,2}:\d{2}\s*(?:AM|PM|am|pm)?)/i);
+  var placeMatch = allText.match(/(?:born?\s+(?:in|at)|from|place[:\s]+)\s*([A-Za-z][A-Za-z\s,]{2,30})(?=\s*[,.]|\s+\d|\s+on|\s+at|$)/i);
+
+  // Use saved profile details OR extract from message
+  var dob        = (CU && CU.dob)         || (dobMatch   ? dobMatch[1]           : null);
+  var birth_time = (CU && CU.birth_time)  || (timeMatch  ? timeMatch[1]          : null);
+  var birth_place= (CU && CU.birth_place) || (placeMatch ? placeMatch[1].trim()  : null);
+
+  var body = {
+    messages: hist,
+    dob: dob,
+    birth_time: birth_time,
+    birth_place: birth_place
+  };
   if (CU) { body.user_id = CU.id; body.plan = CU.plan; }
 
   var maxAttempts = 2;
