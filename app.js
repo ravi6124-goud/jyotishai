@@ -112,9 +112,20 @@ async function sendMsg() {
 
   // Extract birth details from conversation
   var allText = hist.map(function(m){ return m.content; }).join(' ');
-  var dobMatch = allText.match(/(\d{1,2}[-\/]\d{1,2}[-\/]\d{4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/);
+
+  // Match date: DD-MM-YYYY or DD/MM/YYYY or YYYY-MM-DD
+  var dobMatch = allText.match(/(\d{1,2}[-\/](?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?|\d{1,2})[-\/]\d{4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/i);
+
+  // Match time: HH:MM AM/PM
   var timeMatch = allText.match(/(\d{1,2}:\d{2}\s*(?:AM|PM|am|pm)?)/i);
-  var placeMatch = allText.match(/(?:born?\s+(?:in|at)|from|place[:\s]+)\s*([A-Za-z][A-Za-z\s,]{2,30})(?=\s*[,.]|\s+\d|\s+on|\s+at|$)/i);
+
+  // Match place: after time/comma OR known city names
+  // Strategy: find text after last time occurrence, or after last comma before known place keywords
+  var placeMatch = allText.match(/(?:\d{1,2}:\d{2}\s*(?:AM|PM)?[,\s]+)([A-Za-z][A-Za-z\s]{2,25}(?:,\s*[A-Za-z\s]{2,20})?)/i);
+  if (!placeMatch) {
+    // Fallback: any known Indian city/state name
+    placeMatch = allText.match(/\b(Mumbai|Delhi|Chennai|Kolkata|Bangalore|Bengaluru|Hyderabad|Pune|Ahmedabad|Jaipur|Nagpur|Lucknow|Nagaur|Coimbatore|Surat|Indore|Bhopal|Patna|Vadodara|Agra|Varanasi|Kanpur|Rajkot|Amritsar|Jodhpur|Kochi|Visakhapatnam|Mysore|Mysuru|Rajasthan|Maharashtra|Gujarat|TamilNadu|Karnataka|Kerala|Punjab|Haryana|UttarPradesh|Bihar|Madhya Pradesh|Tamil Nadu|Uttar Pradesh|Andhra Pradesh|West Bengal)(?:[,\s]+[A-Za-z\s]{0,20})?/i);
+  }
 
   var dob         = (CU && CU.dob)         || (dobMatch   ? dobMatch[1]          : null);
   var birth_time  = (CU && CU.birth_time)  || (timeMatch  ? timeMatch[1]         : null);
