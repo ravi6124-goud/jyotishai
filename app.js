@@ -75,15 +75,24 @@ function addTyping() {
 
 // ===== SEND MESSAGE with retry =====
 async function callChat(body, attempt) {
-  var r = await fetch(BACKEND + '/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  var text = await r.text();
-  if (!text || text.trim() === '') throw new Error('empty');
-  return JSON.parse(text);
+  var controller = new AbortController();
+  var timer = setTimeout(function() { controller.abort(); }, 25000);
+  try {
+    var r = await fetch(BACKEND + '/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    var text = await r.text();
+    if (!text || text.trim() === '') throw new Error('empty');
+    return JSON.parse(text);
+  } catch(e) {
+    clearTimeout(timer);
+    throw e;
+  }
 }
 
 async function sendMsg() {
@@ -100,7 +109,7 @@ async function sendMsg() {
   var body = { messages: hist };
   if (CU) { body.user_id = CU.id; body.plan = CU.plan; }
 
-  var maxAttempts = 3;
+  var maxAttempts = 4;
   var data = null;
   var lastErr = '';
 
@@ -111,7 +120,7 @@ async function sendMsg() {
     } catch (ex) {
       lastErr = ex.message;
       if (attempt < maxAttempts) {
-        await new Promise(function(res) { setTimeout(res, 5000); });
+        await new Promise(function(res) { setTimeout(res, 20000); });
       }
     }
   }
@@ -319,8 +328,10 @@ window.addEventListener('load', function() {
   document.getElementById('sb').disabled = false;
   document.getElementById('sb').style.opacity = '1';
   if (CU) { showUserNav(CU); applyPlan(CU); }
-  // Wake up Render server silently on page load
+  // Wake up Render server immediately on page load
+  fetch(BACKEND + '/ping').catch(function() {});
+  // Ping again after 30s to ensure server is warm
   setTimeout(function() {
     fetch(BACKEND + '/ping').catch(function() {});
-  }, 1000);
+  }, 30000);
 });
