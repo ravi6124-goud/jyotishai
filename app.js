@@ -74,16 +74,29 @@ function addTyping() {
 }
 
 // ===== SEND MESSAGE with retry =====
-async function callChat(body, attempt) {
-  var r = await fetch(BACKEND + '/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+function callChat(body) {
+  return new Promise(function(resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', BACKEND + '/chat', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.timeout = 120000; // 2 minutes
+    xhr.ontimeout = function() { reject(new Error('timeout')); };
+    xhr.onerror = function() { reject(new Error('network error')); };
+    xhr.onload = function() {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          resolve(data);
+        } catch(e) { reject(new Error('parse error')); }
+      } else {
+        try {
+          var err = JSON.parse(xhr.responseText);
+          resolve(err);
+        } catch(e) { reject(new Error('HTTP ' + xhr.status)); }
+      }
+    };
+    xhr.send(JSON.stringify(body));
   });
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  var text = await r.text();
-  if (!text || text.trim() === '') throw new Error('empty');
-  return JSON.parse(text);
 }
 
 async function sendMsg() {
@@ -106,12 +119,12 @@ async function sendMsg() {
 
   for (var attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      data = await callChat(body, attempt);
+      data = await callChat(body);
       break;
     } catch (ex) {
       lastErr = ex.message;
       if (attempt < maxAttempts) {
-        await new Promise(function(res) { setTimeout(res, 10000); });
+        await new Promise(function(res) { setTimeout(res, 5000); });
       }
     }
   }
