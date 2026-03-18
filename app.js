@@ -106,18 +106,12 @@ async function sendMsg() {
 
   for (var attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      var ty = document.getElementById('ty');
-      if (ty) {
-        if (attempt > 1) {
-          ty.querySelector('.mbubble').innerHTML = 'Server wakeup ho raha hai... (' + attempt + '/3) please wait...';
-        }
-      }
       data = await callChat(body, attempt);
       break;
     } catch (ex) {
       lastErr = ex.message;
       if (attempt < maxAttempts) {
-        await new Promise(function(res) { setTimeout(res, 4000); });
+        await new Promise(function(res) { setTimeout(res, 5000); });
       }
     }
   }
@@ -126,7 +120,7 @@ async function sendMsg() {
   if (ty) ty.remove();
 
   if (!data) {
-    addMsg('ai', 'Server abhi wakeup ho raha hai. Please 30 seconds baad dobara try karein.');
+    addMsg('ai', 'Thoda time lag raha hai. Please dobara try karein.');
     hist.pop();
   } else if (data.error) {
     addMsg('ai', data.error);
