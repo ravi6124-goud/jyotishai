@@ -205,7 +205,7 @@ footer{text-align:center;padding:50px 24px 36px;position:relative;z-index:10;bor
 .f-hin{font-family:'Noto Serif Devanagari',serif;font-size:0.78rem;color:var(--muted);letter-spacing:2px;margin-bottom:18px}
 .f-copy{font-size:0.65rem;color:var(--muted2);letter-spacing:1px}
 
-.nav-login{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:1.5px;color:var(--saffron);background:transparent;border:1px solid rgba(255,107,0,0.4);padding:7px 14px;cursor:pointer;transition:all 0.3s;border-radius:1px}
+.nav-login{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:1.5px;color:var(--ink);background:linear-gradient(135deg,var(--saffron),var(--saffron3));border:none;padding:8px 16px;cursor:pointer;transition:all 0.3s;border-radius:2px;font-weight:700}
 .nav-login:hover{background:rgba(255,107,0,0.1)}
 .user-pill{display:none;align-items:center;gap:8px;background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.3);border-radius:20px;padding:5px 12px 5px 6px;cursor:pointer}
 .uav{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:700;color:var(--ink)}
@@ -277,6 +277,16 @@ footer{text-align:center;padding:50px 24px 36px;position:relative;z-index:10;bor
 
 /* TRUST BADGES BETTER */
 .trust-row{background:rgba(255,107,0,0.04);border:1px solid rgba(255,107,0,0.1);border-radius:8px;padding:14px 20px;margin-bottom:0}
+
+
+#ovProfile .md{max-height:90vh;overflow-y:auto}
+#ovProfile .md-title{font-size:1.1rem}
+#pPlan{display:inline-block;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:2px;padding:4px 14px;border-radius:2px;color:var(--ink);font-weight:700;margin-bottom:12px}
+.profile-info{background:rgba(255,107,0,0.06);border:1px solid rgba(255,107,0,0.2);padding:14px 18px;margin-bottom:16px;border-radius:4px}
+.profile-info div{font-size:0.78rem;color:var(--saffron3);padding:5px 0;border-bottom:1px solid rgba(255,107,0,0.08);display:flex;justify-content:space-between}
+.profile-info div:last-child{border-bottom:none}
+.profile-info span{color:var(--text);font-style:italic}
+.readings-bar{text-align:center;margin-bottom:14px;font-family:'Cinzel',serif;font-size:0.65rem;color:var(--saffron);letter-spacing:1px}
 
 </style></head>
 <body>
@@ -677,7 +687,7 @@ function dlPDF(){
     +'.flogo{font-size:1.5rem;color:#FF6B00;letter-spacing:4px;font-weight:bold}'
     +'.ftxt{font-size:0.7rem;color:#8A7F6A;margin-top:8px;line-height:1.7}'
     +'
-.nav-login{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:1.5px;color:var(--saffron);background:transparent;border:1px solid rgba(255,107,0,0.4);padding:7px 14px;cursor:pointer;transition:all 0.3s;border-radius:1px}
+.nav-login{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:1.5px;color:var(--ink);background:linear-gradient(135deg,var(--saffron),var(--saffron3));border:none;padding:8px 16px;cursor:pointer;transition:all 0.3s;border-radius:2px;font-weight:700}
 .nav-login:hover{background:rgba(255,107,0,0.1)}
 .user-pill{display:none;align-items:center;gap:8px;background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.3);border-radius:20px;padding:5px 12px 5px 6px;cursor:pointer}
 .uav{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:0.65rem;font-weight:700;color:var(--ink)}
@@ -803,17 +813,31 @@ function dlPDF(){
 <div class="md">
 <div class="md-top"></div>
 <button class="md-close" onclick="closeOv('profile')">x</button>
-<div class="md-icon">&#128591;</div>
-<div class="md-title" id="pName">Namaste!</div>
-<div style="text-align:center;margin-bottom:16px"><span id="pPlan" style="font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:2px;padding:4px 12px;background:rgba(255,107,0,0.15);color:var(--saffron);border:1px solid rgba(255,107,0,0.3);border-radius:2px">FREE</span></div>
-<div style="background:rgba(255,107,0,0.06);border:1px solid rgba(255,107,0,0.15);padding:14px 18px;margin-bottom:16px;border-radius:4px;font-size:0.78rem;color:var(--muted);line-height:1.8">
-<div>DOB: <span id="pDob">-</span></div>
-<div>Time: <span id="pTime">-</span></div>
-<div>Place: <span id="pPlace">-</span></div>
+<div class="md-icon" style="font-size:2rem">&#9728;</div>
+<div class="md-title" id="pName" style="font-family:Cinzel,serif;font-size:1.1rem;color:var(--saffron3);text-align:center;margin-bottom:8px">Namaste!</div>
+<div style="text-align:center;margin-bottom:16px">
+  <span id="pPlan" style="display:inline-block;font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:2px;padding:5px 16px;background:linear-gradient(135deg,var(--saffron),var(--gold2));color:var(--ink);border-radius:2px;font-weight:700">FREE</span>
 </div>
-<div style="text-align:center;margin-bottom:14px;font-family:Cinzel,serif;font-size:0.65rem;color:var(--saffron)">AAJ KI READINGS: <span id="pReadings">0/3</span></div>
-<a href="#pricing" class="fb" style="display:block;text-align:center;text-decoration:none;border-radius:2px" onclick="closeOv('profile')" id="upgBtn">Upgrade to Rs 199/month</a>
-<button class="fb" style="background:rgba(255,255,255,0.05);color:var(--muted);margin-top:10px;border:1px solid rgba(255,255,255,0.1)" onclick="doLogout()">Logout</button>
+<div style="background:rgba(255,107,0,0.06);border:1px solid rgba(255,107,0,0.2);padding:16px 18px;margin-bottom:16px;border-radius:4px">
+  <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,107,0,0.1);font-size:0.78rem">
+    <span style="color:var(--saffron);font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:1px">DOB</span>
+    <span id="pDob" style="color:var(--text);font-style:italic">-</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,107,0,0.1);font-size:0.78rem">
+    <span style="color:var(--saffron);font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:1px">TIME</span>
+    <span id="pTime" style="color:var(--text);font-style:italic">-</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:0.78rem">
+    <span style="color:var(--saffron);font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:1px">PLACE</span>
+    <span id="pPlace" style="color:var(--text);font-style:italic">-</span>
+  </div>
+</div>
+<div style="text-align:center;margin-bottom:16px;background:rgba(255,107,0,0.04);border:1px solid rgba(255,107,0,0.15);padding:10px;border-radius:4px">
+  <span style="font-family:Cinzel,serif;font-size:0.62rem;color:var(--saffron);letter-spacing:1px">AAJ KI FREE READINGS: </span>
+  <span id="pReadings" style="color:var(--gold2);font-family:Cinzel,serif;font-size:0.75rem;font-weight:700">0/3</span>
+</div>
+<a href="#pricing" class="fb" style="display:block;text-align:center;text-decoration:none;border-radius:2px;margin-bottom:0" onclick="closeOv('profile')" id="upgBtn">Upgrade to Rs 199/month</a>
+<button style="width:100%;background:transparent;border:1px solid rgba(255,255,255,0.1);padding:11px;font-family:Cinzel,serif;font-size:0.65rem;letter-spacing:1px;color:var(--muted);cursor:pointer;margin-top:10px;border-radius:2px" onclick="doLogout()">Logout</button>
 </div></div>
 
 </body></html>';
@@ -875,17 +899,31 @@ function pay(plan,amt){
 <div class="md">
 <div class="md-top"></div>
 <button class="md-close" onclick="closeOv('profile')">x</button>
-<div class="md-icon">&#128591;</div>
-<div class="md-title" id="pName">Namaste!</div>
-<div style="text-align:center;margin-bottom:16px"><span id="pPlan" style="font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:2px;padding:4px 12px;background:rgba(255,107,0,0.15);color:var(--saffron);border:1px solid rgba(255,107,0,0.3);border-radius:2px">FREE</span></div>
-<div style="background:rgba(255,107,0,0.06);border:1px solid rgba(255,107,0,0.15);padding:14px 18px;margin-bottom:16px;border-radius:4px;font-size:0.78rem;color:var(--muted);line-height:1.8">
-<div>DOB: <span id="pDob">-</span></div>
-<div>Time: <span id="pTime">-</span></div>
-<div>Place: <span id="pPlace">-</span></div>
+<div class="md-icon" style="font-size:2rem">&#9728;</div>
+<div class="md-title" id="pName" style="font-family:Cinzel,serif;font-size:1.1rem;color:var(--saffron3);text-align:center;margin-bottom:8px">Namaste!</div>
+<div style="text-align:center;margin-bottom:16px">
+  <span id="pPlan" style="display:inline-block;font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:2px;padding:5px 16px;background:linear-gradient(135deg,var(--saffron),var(--gold2));color:var(--ink);border-radius:2px;font-weight:700">FREE</span>
 </div>
-<div style="text-align:center;margin-bottom:14px;font-family:Cinzel,serif;font-size:0.65rem;color:var(--saffron)">AAJ KI READINGS: <span id="pReadings">0/3</span></div>
-<a href="#pricing" class="fb" style="display:block;text-align:center;text-decoration:none;border-radius:2px" onclick="closeOv('profile')" id="upgBtn">Upgrade to Rs 199/month</a>
-<button class="fb" style="background:rgba(255,255,255,0.05);color:var(--muted);margin-top:10px;border:1px solid rgba(255,255,255,0.1)" onclick="doLogout()">Logout</button>
+<div style="background:rgba(255,107,0,0.06);border:1px solid rgba(255,107,0,0.2);padding:16px 18px;margin-bottom:16px;border-radius:4px">
+  <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,107,0,0.1);font-size:0.78rem">
+    <span style="color:var(--saffron);font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:1px">DOB</span>
+    <span id="pDob" style="color:var(--text);font-style:italic">-</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,107,0,0.1);font-size:0.78rem">
+    <span style="color:var(--saffron);font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:1px">TIME</span>
+    <span id="pTime" style="color:var(--text);font-style:italic">-</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:0.78rem">
+    <span style="color:var(--saffron);font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:1px">PLACE</span>
+    <span id="pPlace" style="color:var(--text);font-style:italic">-</span>
+  </div>
+</div>
+<div style="text-align:center;margin-bottom:16px;background:rgba(255,107,0,0.04);border:1px solid rgba(255,107,0,0.15);padding:10px;border-radius:4px">
+  <span style="font-family:Cinzel,serif;font-size:0.62rem;color:var(--saffron);letter-spacing:1px">AAJ KI FREE READINGS: </span>
+  <span id="pReadings" style="color:var(--gold2);font-family:Cinzel,serif;font-size:0.75rem;font-weight:700">0/3</span>
+</div>
+<a href="#pricing" class="fb" style="display:block;text-align:center;text-decoration:none;border-radius:2px;margin-bottom:0" onclick="closeOv('profile')" id="upgBtn">Upgrade to Rs 199/month</a>
+<button style="width:100%;background:transparent;border:1px solid rgba(255,255,255,0.1);padding:11px;font-family:Cinzel,serif;font-size:0.65rem;letter-spacing:1px;color:var(--muted);cursor:pointer;margin-top:10px;border-radius:2px" onclick="doLogout()">Logout</button>
 </div></div>
 
 </body></html>
