@@ -75,25 +75,15 @@ function addTyping() {
 
 // ===== SEND MESSAGE with retry =====
 async function callChat(body, attempt) {
-  console.log('Attempt ' + attempt + ' to ' + BACKEND + '/chat');
-  var controller = new AbortController();
-  var timer = setTimeout(function() { controller.abort(); }, 60000);
-  try {
-    var r = await fetch(BACKEND + '/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      signal: controller.signal
-    });
-    clearTimeout(timer);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    var text = await r.text();
-    if (!text || text.trim() === '') throw new Error('empty');
-    return JSON.parse(text);
-  } catch(e) {
-    clearTimeout(timer);
-    throw e;
-  }
+  var r = await fetch(BACKEND + '/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  var text = await r.text();
+  if (!text || text.trim() === '') throw new Error('empty');
+  return JSON.parse(text);
 }
 
 async function sendMsg() {
@@ -110,7 +100,7 @@ async function sendMsg() {
   var body = { messages: hist };
   if (CU) { body.user_id = CU.id; body.plan = CU.plan; }
 
-  var maxAttempts = 4;
+  var maxAttempts = 2;
   var data = null;
   var lastErr = '';
 
@@ -121,7 +111,7 @@ async function sendMsg() {
     } catch (ex) {
       lastErr = ex.message;
       if (attempt < maxAttempts) {
-        await new Promise(function(res) { setTimeout(res, 20000); });
+        await new Promise(function(res) { setTimeout(res, 10000); });
       }
     }
   }
