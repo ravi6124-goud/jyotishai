@@ -174,3 +174,14 @@ footer{position:relative;z-index:2;text-align:center;padding:50px 20px 30px;bord
 .readings-count{text-align:center;margin-bottom:14px;background:rgba(255,107,0,0.04);border:1px solid rgba(255,107,0,0.15);padding:10px;border-radius:4px;font-family:'Cinzel',serif;font-size:0.62rem;color:var(--saffron);letter-spacing:1px}
 .readings-count span{color:var(--gold);font-size:0.8rem;font-weight:700}
 .logout-btn{width:100%;background:transparent;border:1px solid rgba(255,255,255,0.1);padding:11px;font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:1px;color:var(--muted);cursor:pointer;margin-top:10px;border-radius:2px}
+
+/* CSS FLAME DIYA */
+.flame{width:22px;height:32px;position:relative;margin:0 auto}
+.flame::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:14px;height:6px;background:rgba(255,107,0,0.4);border-radius:50%;filter:blur(3px)}
+.flame::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:10px;height:22px;background:linear-gradient(to top,#FF6B00,#FFA500,#FFD700,rgba(255,255,200,0.9));border-radius:50% 50% 35% 35%;animation:flicker 1.5s ease-in-out infinite alternate;filter:drop-shadow(0 0 6px rgba(255,140,0,0.8))}
+.flame.sm::after{width:7px;height:16px}
+.flame.sm{width:16px;height:24px}
+.flame.md::after{width:12px;height:26px}
+.flame.md{width:20px;height:30px}
+@keyframes flicker{0%{transform:translateX(-50%) scaleX(1) rotate(-2deg);opacity:0.9}25%{transform:translateX(-50%) scaleX(0.9) rotate(2deg);opacity:1}50%{transform:translateX(-50%) scaleX(1.05) rotate(-1deg)}75%{transform:translateX(-50%) scaleX(0.95) rotate(1deg)}100%{transform:translateX(-50%) scaleX(1) rotate(0deg);opacity:0.95}}
+.guru-diya{width:50px;height:60px;display:flex;align-items:center;justify-content:center}
