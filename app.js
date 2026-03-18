@@ -73,7 +73,19 @@ function addTyping() {
   m.scrollTop = m.scrollHeight;
 }
 
-// ===== SEND MESSAGE =====
+// ===== SEND MESSAGE with retry =====
+async function callChat(body, attempt) {
+  var r = await fetch(BACKEND + '/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  var text = await r.text();
+  if (!text || text.trim() === '') throw new Error('empty');
+  return JSON.parse(text);
+}
+
 async function sendMsg() {
   var inp = document.getElementById('ui');
   var t = inp.value.trim();
@@ -84,40 +96,57 @@ async function sendMsg() {
   inp.disabled = true;
   document.getElementById('sb').disabled = true;
   hist.push({ role: 'user', content: t });
-  try {
-    var body = { messages: hist };
-    if (CU) { body.user_id = CU.id; body.plan = CU.plan; }
-    var r = await fetch(BACKEND + '/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    var data = await r.json();
-    var ty = document.getElementById('ty');
-    if (ty) ty.remove();
-    if (data.error) {
-      addMsg('ai', data.error);
-      if (data.error.indexOf('199') > -1) {
-        var ub = document.getElementById('ub');
-        if (ub) ub.style.display = 'block';
-        var ia = document.getElementById('ia');
-        if (ia) ia.style.display = 'none';
+
+  var body = { messages: hist };
+  if (CU) { body.user_id = CU.id; body.plan = CU.plan; }
+
+  var maxAttempts = 3;
+  var data = null;
+  var lastErr = '';
+
+  for (var attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      var ty = document.getElementById('ty');
+      if (ty) {
+        if (attempt > 1) {
+          ty.querySelector('.mbubble').innerHTML = 'Server wakeup ho raha hai... (' + attempt + '/3) please wait...';
+        }
       }
-      return;
+      data = await callChat(body, attempt);
+      break;
+    } catch (ex) {
+      lastErr = ex.message;
+      if (attempt < maxAttempts) {
+        await new Promise(function(res) { setTimeout(res, 4000); });
+      }
     }
+  }
+
+  var ty = document.getElementById('ty');
+  if (ty) ty.remove();
+
+  if (!data) {
+    addMsg('ai', 'Server abhi wakeup ho raha hai. Please 30 seconds baad dobara try karein.');
+    hist.pop();
+  } else if (data.error) {
+    addMsg('ai', data.error);
+    hist.pop();
+    if (data.error.indexOf('199') > -1 || data.error.indexOf('upgrade') > -1) {
+      var ub = document.getElementById('ub');
+      if (ub) ub.style.display = 'block';
+      var ia = document.getElementById('ia');
+      if (ia) ia.style.display = 'none';
+    }
+  } else {
     hist.push({ role: 'assistant', content: data.reply });
     addMsg('ai', data.reply);
     if (!prem) { free = Math.max(0, free - 1); updateDiyas(); }
-  } catch (ex) {
-    var ty = document.getElementById('ty');
-    if (ty) ty.remove();
-    addMsg('ai', 'Connection error. Please try again.');
-  } finally {
-    if (free > 0 || prem) {
-      inp.disabled = false;
-      document.getElementById('sb').disabled = false;
-      inp.focus();
-    }
+  }
+
+  if (free > 0 || prem) {
+    inp.disabled = false;
+    document.getElementById('sb').disabled = false;
+    inp.focus();
   }
 }
 
@@ -296,4 +325,8 @@ window.addEventListener('load', function() {
   document.getElementById('sb').disabled = false;
   document.getElementById('sb').style.opacity = '1';
   if (CU) { showUserNav(CU); applyPlan(CU); }
+  // Wake up Render server silently on page load
+  setTimeout(function() {
+    fetch(BACKEND + '/ping').catch(function() {});
+  }, 1000);
 });
