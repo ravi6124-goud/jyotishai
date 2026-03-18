@@ -75,8 +75,9 @@ function addTyping() {
 
 // ===== SEND MESSAGE with retry =====
 async function callChat(body, attempt) {
+  console.log('Attempt ' + attempt + ' to ' + BACKEND + '/chat');
   var controller = new AbortController();
-  var timer = setTimeout(function() { controller.abort(); }, 25000);
+  var timer = setTimeout(function() { controller.abort(); }, 60000);
   try {
     var r = await fetch(BACKEND + '/chat', {
       method: 'POST',
