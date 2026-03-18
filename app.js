@@ -56,7 +56,7 @@ function addMsg(role, text) {
   var d = document.createElement('div');
   d.className = 'msg ' + (role === 'u' ? 'user' : 'ai');
   var f = text.replace(/\n/g, '<br>');
-  d.innerHTML = '<div class="mav">' + (role === 'u' ? '[namaste]' : '[diya]') + '</div><div class="mbubble">' + f + '</div>';
+  d.innerHTML = '<div class="mav">' + (role === 'u' ? '&#x1F64F;' : '<div class="flame sm" style="margin:4px auto"></div>') + '</div><div class="mbubble">' + f + '</div>';
   m.appendChild(d);
   m.scrollTop = m.scrollHeight;
 }
@@ -67,7 +67,7 @@ function addTyping() {
   var d = document.createElement('div');
   d.className = 'msg ai';
   d.id = 'ty';
-  d.innerHTML = '<div class="mav">[diya]</div><div class="mbubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  d.innerHTML = '<div class="mav"><div class="flame sm" style="margin:4px auto"></div></div><div class="mbubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
   m.appendChild(d);
   m.scrollTop = m.scrollHeight;
 }
