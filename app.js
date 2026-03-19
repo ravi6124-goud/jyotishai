@@ -68,7 +68,7 @@ function addTyping() {
   var d = document.createElement('div');
   d.className = 'msg ai';
   d.id = 'ty';
-  d.innerHTML = '<div class="mav"><span class="flame-icon"></span></div><div class="mbubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  d.innerHTML = '<div class="msg-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
   m.appendChild(d);
   m.scrollTop = m.scrollHeight;
 }
@@ -110,33 +110,7 @@ async function sendMsg() {
   document.getElementById('sb').disabled = true;
   hist.push({ role: 'user', content: t });
 
-  // Extract birth details from conversation
-  var allText = hist.map(function(m){ return m.content; }).join(' ');
-
-  // Match date: DD-MM-YYYY or DD/MM/YYYY or YYYY-MM-DD
-  var dobMatch = allText.match(/(\d{1,2}[-\/](?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?|\d{1,2})[-\/]\d{4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/i);
-
-  // Match time: HH:MM AM/PM
-  var timeMatch = allText.match(/(\d{1,2}:\d{2}\s*(?:AM|PM|am|pm)?)/i);
-
-  // Match place: after time/comma OR known city names
-  // Strategy: find text after last time occurrence, or after last comma before known place keywords
-  var placeMatch = allText.match(/(?:\d{1,2}:\d{2}\s*(?:AM|PM)?[,\s]+)([A-Za-z][A-Za-z\s]{2,25}(?:,\s*[A-Za-z\s]{2,20})?)/i);
-  if (!placeMatch) {
-    // Fallback: any known Indian city/state name
-    placeMatch = allText.match(/\b(Mumbai|Delhi|Chennai|Kolkata|Bangalore|Bengaluru|Hyderabad|Pune|Ahmedabad|Jaipur|Nagpur|Lucknow|Nagaur|Coimbatore|Surat|Indore|Bhopal|Patna|Vadodara|Agra|Varanasi|Kanpur|Rajkot|Amritsar|Jodhpur|Kochi|Visakhapatnam|Mysore|Mysuru|Rajasthan|Maharashtra|Gujarat|TamilNadu|Karnataka|Kerala|Punjab|Haryana|UttarPradesh|Bihar|Madhya Pradesh|Tamil Nadu|Uttar Pradesh|Andhra Pradesh|West Bengal)(?:[,\s]+[A-Za-z\s]{0,20})?/i);
-  }
-
-  var dob         = (CU && CU.dob)         || (dobMatch   ? dobMatch[1]          : null);
-  var birth_time  = (CU && CU.birth_time)  || (timeMatch  ? timeMatch[1]         : null);
-  var birth_place = (CU && CU.birth_place) || (placeMatch ? placeMatch[1].trim() : null);
-
-  var body = {
-    messages: hist,
-    dob: dob,
-    birth_time: birth_time,
-    birth_place: birth_place
-  };
+  var body = { messages: hist };
   if (CU) { body.user_id = CU.id; body.plan = CU.plan; }
 
   var maxAttempts = 2;
@@ -365,3 +339,52 @@ window.addEventListener('load', function() {
     fetch(BACKEND + '/ping').catch(function() {});
   }, 30000);
 });
+
+// CATEGORY
+var currentCat = 'horoscope';
+var catPrompts = {
+  horoscope: 'What is my horoscope and prediction for today?',
+  kundli: 'Please analyze my Kundli - birth chart reading',
+  numerology: 'Give me my complete numerology reading with Janm Ank and Bhagya Ank',
+  prashna: 'I have a specific question for Prashna Kundli reading',
+  tarot: 'Give me a Tarot card reading - Past, Present, Future',
+  vivah: 'I want Vivah Milan compatibility check'
+};
+
+function setCategory(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  var inp = document.getElementById('ui');
+  if (inp) inp.placeholder = 'Ask about ' + cat + '...';
+}
+
+// SECTIONS
+function showSection(section) {
+  document.getElementById('plansSection').style.display = 'none';
+  document.getElementById('aboutSection').style.display = 'none';
+  document.querySelectorAll('.bn-item').forEach(function(b) { b.classList.remove('active'); });
+  if (section === 'plans') {
+    document.getElementById('plansSection').style.display = 'block';
+    document.querySelectorAll('.bn-item')[1].classList.add('active');
+  } else if (section === 'about') {
+    document.getElementById('aboutSection').style.display = 'block';
+    document.querySelectorAll('.bn-item')[2].classList.add('active');
+  } else {
+    document.querySelectorAll('.bn-item')[0].classList.add('active');
+  }
+}
+
+// ADD STARS
+(function() {
+  var sr = document.createElement('div');
+  sr.id = 'starRiver';
+  document.body.appendChild(sr);
+  for (var i = 0; i < 20; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = Math.random() * 3 + 1;
+    s.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(Math.random()*2+2)+'s';
+    sr.appendChild(s);
+  }
+})();
