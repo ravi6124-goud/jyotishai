@@ -375,16 +375,32 @@ function showSection(section) {
   }
 }
 
-// ADD STARS
+// SHOOTING STARS + TWINKLING STARS
 (function() {
-  var sr = document.createElement('div');
-  sr.id = 'starRiver';
-  document.body.appendChild(sr);
-  for (var i = 0; i < 20; i++) {
-    var s = document.createElement('div');
-    s.className = 'star';
-    var size = Math.random() * 3 + 1;
-    s.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(Math.random()*2+2)+'s';
-    sr.appendChild(s);
+  // Shooting stars
+  for (var i = 1; i <= 5; i++) {
+    var ss = document.createElement('div');
+    ss.className = 'shooting-star s' + i;
+    document.body.appendChild(ss);
+  }
+
+  // Twinkling stars
+  var colors = ['#fff', '#FFD700', '#FFA500', '#E0E0FF', '#FFE4B5'];
+  for (var j = 0; j < 35; j++) {
+    var ts = document.createElement('div');
+    ts.className = 'twinkle-star';
+    var size = Math.random() * 2.5 + 1;
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    ts.style.cssText = [
+      'width:' + size + 'px',
+      'height:' + size + 'px',
+      'left:' + Math.random() * 100 + '%',
+      'top:' + Math.random() * 100 + '%',
+      '--td:' + (Math.random() * 3 + 2) + 's',
+      '--tdelay:' + Math.random() * 4 + 's',
+      'background:' + color,
+      'box-shadow: 0 0 ' + (size*2) + 'px ' + color
+    ].join(';');
+    document.body.appendChild(ts);
   }
 })();
