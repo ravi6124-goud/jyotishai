@@ -28,6 +28,7 @@ html, body { height:100%; background:var(--bg); font-family:'DM Sans',sans-serif
 /* ANIMATED BG */
 body::before {
   content:'';
+  z-index:-4;
   position:fixed;
   inset:0;
   background:
@@ -119,7 +120,7 @@ body::before {
 .chat-main {
   position:fixed;
   top:calc(var(--top-h) + var(--cat-h));
-  bottom:calc(var(--nav-h) + var(--input-h) + 48px);
+  bottom:calc(var(--nav-h) + var(--input-h) + 52px);
   left:0; right:0;
   overflow-y:auto; padding:16px 14px 8px;
   scrollbar-width:none; z-index:1;
@@ -191,11 +192,11 @@ body::before {
 /* FREE BAR */
 .free-bar {
   position:fixed;
-  bottom:calc(var(--nav-h) + var(--input-h) + 50px);
+  bottom:calc(var(--nav-h) + var(--input-h) + 52px);
   left:0; right:0;
   background:#fff; border-top:1px solid var(--border);
   padding:8px 16px;
-  display:flex; align-items:center; gap:10px; z-index:90;
+  display:flex; align-items:center; gap:10px; z-index:92;
 }
 .fb-label { font-size:0.7rem; color:var(--text2); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
 .fb-dots { display:flex; gap:5px; }
@@ -210,7 +211,7 @@ body::before {
   bottom:calc(var(--nav-h) + var(--input-h));
   left:0; right:0;
   background:#fff; border-top:1px solid var(--border);
-  padding:9px 0; z-index:90;
+  padding:9px 0; z-index:91;
 }
 .qp-scroll { display:flex; gap:8px; padding:0 14px; overflow-x:auto; scrollbar-width:none; }
 .qp-scroll::-webkit-scrollbar { display:none; }
@@ -399,7 +400,7 @@ body::before {
 .p-readings { text-align:center; font-size:0.82rem; color:var(--text2); margin-bottom:16px; background:var(--bg2); padding:12px; border-radius:14px; border:1px solid var(--border); }
 
 /* SHOOTING STARS */
-.shooting-star {
+.shooting-star { z-index:-1;
   position:fixed;
   top:0; left:0;
   width:3px; height:3px;
@@ -450,7 +451,7 @@ body::before {
 }
 
 /* TWINKLING STARS */
-.twinkle-star {
+.twinkle-star { z-index:-1;
   position:fixed;
   border-radius:50%;
   background:#fff;
@@ -465,7 +466,7 @@ body::before {
 
 /* ═══ AURORA NORTHERN LIGHTS ═══ */
 .aurora {
-  position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  position:fixed; inset:0; z-index:-3; pointer-events:none; overflow:hidden;
 }
 .aurora-band {
   position:absolute; left:-50%; width:200%;
@@ -498,7 +499,7 @@ body::before {
 }
 
 /* ═══ CONSTELLATION PARTICLES ═══ */
-.constellation { position:fixed; inset:0; z-index:0; pointer-events:none; }
+.constellation { position:fixed; inset:0; z-index:-3; pointer-events:none; }
 .c-particle {
   position:absolute; border-radius:50%;
   background:rgba(255,255,255,0.7);
@@ -520,7 +521,7 @@ body::before {
 
 /* ═══ ANIMATED OM SYMBOL ═══ */
 .om-bg {
-  position:fixed; bottom:80px; right:-20px; z-index:0; pointer-events:none;
+  position:fixed; bottom:80px; right:-20px; z-index:-2; pointer-events:none;
   font-size:180px; line-height:1;
   color:rgba(124,58,237,0.04);
   font-family:'Playfair Display',serif;
@@ -529,7 +530,7 @@ body::before {
 }
 .om-center {
   position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-  z-index:0; pointer-events:none;
+  z-index:-2; pointer-events:none;
   font-size:300px; line-height:1;
   color:rgba(255,107,53,0.025);
   font-family:'Playfair Display',serif;
