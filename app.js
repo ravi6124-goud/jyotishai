@@ -375,32 +375,129 @@ function showSection(section) {
   }
 }
 
-// SHOOTING STARS + TWINKLING STARS
+//  ALL BACKGROUND EFFECTS 
 (function() {
-  // Shooting stars
+
+  // 1. AURORA BANDS
+  var aurora = document.createElement('div');
+  aurora.className = 'aurora';
+  for (var a = 0; a < 3; a++) {
+    var band = document.createElement('div');
+    band.className = 'aurora-band';
+    aurora.appendChild(band);
+  }
+  document.body.insertBefore(aurora, document.body.firstChild);
+
+  // 2. OM SYMBOLS
+  var omBg = document.createElement('div');
+  omBg.className = 'om-bg';
+  omBg.textContent = 'OM';
+  document.body.insertBefore(omBg, document.body.firstChild);
+
+  var omCenter = document.createElement('div');
+  omCenter.className = 'om-center';
+  omCenter.textContent = 'OM';
+  document.body.insertBefore(omCenter, document.body.firstChild);
+
+  // 3. SHOOTING STARS
   for (var i = 1; i <= 5; i++) {
     var ss = document.createElement('div');
     ss.className = 'shooting-star s' + i;
     document.body.appendChild(ss);
   }
 
-  // Twinkling stars
-  var colors = ['#fff', '#FFD700', '#FFA500', '#E0E0FF', '#FFE4B5'];
-  for (var j = 0; j < 35; j++) {
+  // 4. TWINKLING STARS
+  var colors = ['#fff','#FFD700','#FFA500','#E0E0FF','#FFE4B5','#C4B5FD'];
+  for (var j = 0; j < 40; j++) {
     var ts = document.createElement('div');
     ts.className = 'twinkle-star';
     var size = Math.random() * 2.5 + 1;
     var color = colors[Math.floor(Math.random() * colors.length)];
-    ts.style.cssText = [
-      'width:' + size + 'px',
-      'height:' + size + 'px',
-      'left:' + Math.random() * 100 + '%',
-      'top:' + Math.random() * 100 + '%',
-      '--td:' + (Math.random() * 3 + 2) + 's',
-      '--tdelay:' + Math.random() * 4 + 's',
-      'background:' + color,
-      'box-shadow: 0 0 ' + (size*2) + 'px ' + color
-    ].join(';');
+    ts.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--td:'+(Math.random()*3+2)+'s;--tdelay:'+Math.random()*4+'s;background:'+color+';box-shadow:0 0 '+(size*2)+'px '+color;
     document.body.appendChild(ts);
   }
+
+  // 5. CONSTELLATION PARTICLES + LINES
+  var constellation = document.createElement('div');
+  constellation.className = 'constellation';
+  var points = [];
+  for (var p = 0; p < 15; p++) {
+    var cp = document.createElement('div');
+    cp.className = 'c-particle';
+    var x = Math.random() * 100;
+    var y = Math.random() * 100;
+    var sz = Math.random() * 3 + 2;
+    cp.style.cssText = 'width:'+sz+'px;height:'+sz+'px;left:'+x+'%;top:'+y+'%;--cp:'+(Math.random()*3+2)+'s;--cpl:'+Math.random()*3+'s';
+    constellation.appendChild(cp);
+    points.push({x:x,y:y});
+  }
+  // Connect nearby points with lines
+  for (var l = 0; l < points.length; l++) {
+    for (var m = l+1; m < points.length; m++) {
+      var dx = points[m].x - points[l].x;
+      var dy = points[m].y - points[l].y;
+      var dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 20) {
+        var line = document.createElement('div');
+        line.className = 'c-line';
+        var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+        line.style.cssText = 'left:'+points[l].x+'%;top:'+points[l].y+'%;width:'+dist+'vw;transform:rotate('+angle+'deg);animation-delay:'+Math.random()*2+'s';
+        constellation.appendChild(line);
+      }
+    }
+  }
+  document.body.insertBefore(constellation, document.body.firstChild);
+
 })();
+
+//  RIPPLE EFFECT 
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.md-btn,.pc-btn,.tb-login,.cat,.send-btn');
+  if (!btn) return;
+  var r = document.createElement('div');
+  r.className = 'ripple';
+  var rect = btn.getBoundingClientRect();
+  var size = Math.max(rect.width, rect.height);
+  r.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+(e.clientX-rect.left-size/2)+'px;top:'+(e.clientY-rect.top-size/2)+'px';
+  btn.appendChild(r);
+  setTimeout(function(){r.remove();}, 700);
+});
+
+//  CHAT BUBBLE GLOW 
+var _origAddMsg2 = addMsg;
+addMsg = function(role, text) {
+  _origAddMsg2(role, text);
+  if (role === 'ai') {
+    var msgs = document.getElementById('ms');
+    var lastMsg = msgs ? msgs.lastElementChild : null;
+    if (lastMsg) {
+      lastMsg.classList.add('new');
+      setTimeout(function(){lastMsg.classList.remove('new');}, 2000);
+    }
+  }
+};
+
+//  CATEGORY SLIDE INDICATOR 
+window.addEventListener('load', function() {
+  var firstCat = document.querySelector('.cat.active');
+  if (firstCat) {
+    var ind = document.createElement('div');
+    ind.className = 'cat-indicator';
+    var catsEl = document.querySelector('.cats');
+    if (catsEl) catsEl.appendChild(ind);
+    moveCatIndicator(firstCat);
+  }
+});
+
+function moveCatIndicator(btn) {
+  var ind = document.querySelector('.cat-indicator');
+  if (!ind || !btn) return;
+  ind.style.left = btn.offsetLeft + 'px';
+  ind.style.width = btn.offsetWidth + 'px';
+}
+
+var _origSetCat = setCategory;
+setCategory = function(cat, btn) {
+  _origSetCat(cat, btn);
+  moveCatIndicator(btn);
+};
