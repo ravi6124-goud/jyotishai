@@ -2,273 +2,275 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JyotishAI - Apni Kundli Ka Raaz Jaano</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+Devanagari:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=10">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>JyotishAI - Your Personal Vedic Astrologer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
 
-<div id="bg"><div id="starRiver"></div></div>
-
-<!-- FLOATING DIYAS -->
-<div class="diya" style="left:3%;top:20%;--df:7s"><div class="flame"></div></div>
-<div class="diya" style="right:4%;top:35%;--df:9s;--dfd:2s"><div class="flame"></div></div>
-<div class="diya" style="left:6%;top:65%;--df:8s;--dfd:4s"><div class="flame sm"></div></div>
-<div class="diya" style="right:3%;top:75%;--df:10s;--dfd:1s"><div class="flame"></div></div>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">
-    <span class="nav-om">&#x950;</span>
-    <span class="nav-brand">Jyotish<span>AI</span></span>
-  </a>
-  <div class="nav-mid">&#x91C;&#x94D;&#x92F;&#x94B;&#x924;&#x93F;&#x937; &#x936;&#x93E;&#x938;&#x94D;&#x924;&#x94D;&#x930;</div>
-  <div class="nav-right">
-    <div class="live-pill"><div class="lpulse"></div><span id="lc">28 online</span></div>
-    <button class="nav-login" id="loginBtn" onclick="showOv('login')">Sign In</button>
-    <a href="#pricing" class="nav-cta" id="plansBtn">Plans</a>
-    <div class="user-pill" id="userPill" onclick="showProfile()" style="display:none">
-      <div class="uav" id="uav">R</div>
-      <span class="unm" id="unm">User</span>
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="tb-left">
+    <span class="tb-logo">JyotishAI</span>
+  </div>
+  <div class="tb-right">
+    <div class="live-dot"></div>
+    <span class="live-txt" id="lc">28 online</span>
+    <button class="tb-login" id="loginBtn" onclick="showOv('login')">Sign In</button>
+    <div class="tb-user" id="userPill" onclick="showProfile()" style="display:none">
+      <div class="tb-avatar" id="uav">R</div>
+      <span class="tb-uname" id="unm">User</span>
     </div>
   </div>
+</header>
+
+<!-- CATEGORY TABS -->
+<div class="cats" id="catBar">
+  <button class="cat active" onclick="setCategory('horoscope',this)">
+    <span class="cat-icon">&#9728;</span>
+    <span>Horoscope</span>
+  </button>
+  <button class="cat" onclick="setCategory('kundli',this)">
+    <span class="cat-icon">&#9678;</span>
+    <span>Kundli</span>
+  </button>
+  <button class="cat" onclick="setCategory('numerology',this)">
+    <span class="cat-icon">&#35;</span>
+    <span>Numerology</span>
+  </button>
+  <button class="cat" onclick="setCategory('prashna',this)">
+    <span class="cat-icon">&#63;</span>
+    <span>Prashna</span>
+  </button>
+  <button class="cat" onclick="setCategory('tarot',this)">
+    <span class="cat-icon">&#9829;</span>
+    <span>Tarot</span>
+  </button>
+  <button class="cat" onclick="setCategory('vivah',this)">
+    <span class="cat-icon">&#9825;</span>
+    <span>Vivah</span>
+  </button>
+</div>
+
+<!-- CHAT AREA -->
+<main class="chat-main">
+  <div class="msgs" id="ms">
+    <!-- Welcome card -->
+    <div class="welcome-card">
+      <div class="wc-avatar">&#9728;</div>
+      <div class="wc-content">
+        <div class="wc-name">Jyotish Guru AI</div>
+        <div class="wc-sub">Vedic Astrologer &bull; Sidereal System</div>
+        <div class="wc-status"><span class="wc-dot"></span> Active & Ready</div>
+      </div>
+    </div>
+
+    <div class="msg ai">
+      <div class="msg-bubble">
+        Namaste! I am your personal <strong>Jyotish Guru AI</strong>.<br><br>
+        Share your <strong>Name, Date of Birth, Time & Place</strong> for an accurate Vedic reading. Today's <strong>3 readings are FREE!</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREE READINGS -->
+  <div class="free-bar" id="fb" style="display:none">
+    <span class="fb-label">Free Readings</span>
+    <div class="fb-dots">
+      <span class="fb-dot on" id="d1"></span>
+      <span class="fb-dot on" id="d2"></span>
+      <span class="fb-dot on" id="d3"></span>
+    </div>
+    <span class="fb-count" id="fc">3 left</span>
+    <a href="#plans" class="fb-upgrade">Upgrade</a>
+  </div>
+</main>
+
+<!-- QUICK PROMPTS -->
+<div class="qprompts" id="qp" style="display:none">
+  <div class="qp-scroll">
+    <button class="qp" onclick="qa('What is my Sun sign, Moon sign and Ascendant?')">My Signs</button>
+    <button class="qp" onclick="qa('What is my career and job prediction for 2026?')">Career 2026</button>
+    <button class="qp" onclick="qa('When will I get married? What is my marriage prediction?')">Marriage</button>
+    <button class="qp" onclick="qa('What gemstone should I wear?')">Gemstone</button>
+    <button class="qp" onclick="qa('Give me my numerology reading')">Numerology</button>
+    <button class="qp" onclick="qa('What is today lucky for me?')">Today</button>
+  </div>
+</div>
+
+<!-- INPUT -->
+<div class="input-bar">
+  <input class="chat-inp" id="ui" placeholder="Ask anything about your future..." disabled>
+  <button class="send-btn" id="sb" onclick="sendMsg()" disabled>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a class="bn-item active" onclick="showSection('home')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    <span>Home</span>
+  </a>
+  <a class="bn-item" onclick="showSection('plans')" id="plansNav">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    <span>Plans</span>
+  </a>
+  <a class="bn-item" onclick="showSection('about')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>About</span>
+  </a>
+  <a class="bn-item" onclick="CU?showProfile():showOv('login')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <!-- LOTUS SVG -->
-  <div class="lotus-wrap">
-    <div class="lotus-glow"></div>
-    <svg viewBox="0 0 160 160" fill="none" width="160" height="160">
-      <g opacity="0.7">
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8"/>
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(45 80 80)"/>
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(90 80 80)"/>
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(135 80 80)"/>
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(180 80 80)"/>
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(225 80 80)"/>
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(270 80 80)"/>
-        <ellipse cx="80" cy="25" rx="12" ry="28" fill="rgba(255,107,0,0.2)" stroke="rgba(255,107,0,0.5)" stroke-width="0.8" transform="rotate(315 80 80)"/>
-      </g>
-      <circle cx="80" cy="80" r="22" fill="rgba(255,107,0,0.15)" stroke="rgba(255,107,0,0.5)" stroke-width="1.5"/>
-      <circle cx="80" cy="80" r="14" fill="rgba(255,140,0,0.2)" stroke="rgba(255,165,0,0.6)" stroke-width="1"/>
-      <text x="80" y="87" font-size="16" fill="rgba(255,200,50,0.9)" text-anchor="middle" font-family="serif">&#x950;</text>
-    </svg>
+<!-- PLANS SECTION (hidden by default) -->
+<div class="section-overlay" id="plansSection" style="display:none">
+  <div class="so-header">
+    <button class="so-back" onclick="showSection('home')">&#8592; Back</button>
+    <h2 class="so-title">Choose Your Plan</h2>
   </div>
-
-  <div class="hero-eyebrow">India Ka #1 AI Jyotishi</div>
-  <h1 class="hero-h1">JYOTISHAI</h1>
-  <p class="hero-hindi">&#x905;&#x92A;&#x928;&#x940; &#x915;&#x941;&#x923;&#x921;&#x932;&#x940; &#x915;&#x93E; &#x930;&#x93E;&#x93C;&#x91C;&#x93C; &#x91C;&#x93E;&#x928;&#x94B;</p>
-  <div class="hero-div"><div class="flame md" style="margin:0 auto"></div></div>
-  <p class="hero-sub"><strong>AI-powered Vedic Jyotishi</strong> - Career, Shaadi, Business - har sawaal ka jawab. <strong>Bilkul free mein try karo!</strong></p>
-
-  <!-- CHAT BOX -->
-  <div class="chat-section">
-    <div class="chat-frame">
-      <div class="chat-crown"></div>
-      <div class="chat-hd">
-        <div class="ch-left">
-          <div class="guru-diya"><div class="flame md"></div></div>
-          <div class="guru-info">
-            <div class="name">Jyotish Guru AI</div>
-            <div class="title">Vedic Jyotishi</div>
-            <div class="gstatus" id="gs">&#x25CF; Active &amp; Ready</div>
-          </div>
-        </div>
-        <div class="ch-right">
-          <div class="viewers">* <span id="vn">28</span> consulting</div>
-          <div class="sys-tag">Vedic Sidereal</div>
-        </div>
-      </div>
-
-      <div class="act-bar">
-        <div class="act-dot"></div>
-        <span class="act-txt">JYOTISH GURU AI ACTIVE HAI - ABHI POOCHHO, BILKUL FREE!</span>
-      </div>
-
-      <div class="free-bar" id="fb" style="display:none">
-        <span class="free-lbl">AAJ KI FREE READINGS</span>
-        <div class="free-diyas">
-          <span class="fdiya" id="d1"><div class="flame sm"></div></span>
-          <span class="fdiya" id="d2"><div class="flame sm"></div></span>
-          <span class="fdiya" id="d3"><div class="flame sm"></div></span>
-        </div>
-        <span class="free-cnt" id="fc">3 of 3 remaining</span>
-      </div>
-
-      <div class="qprompts" id="qp" style="display:none">
-        <button class="qp" onclick="qa('Meri job kab lagegi ya promotion kab milega?')">&#x1F4BC; Job</button>
-        <button class="qp" onclick="qa('Meri shaadi kab hogi? Vivah yog kab hai?')">&#x1F491; Shaadi</button>
-        <button class="qp" onclick="qa('Mera business succeed karega?')">&#x1F4C8; Business</button>
-        <button class="qp" onclick="qa('Meri Rashi aur Nakshatra kya hai?')">&#x1FA90; Rashi</button>
-        <button class="qp" onclick="qa('Mujhe kaunsa Ratna pehenna chahiye?')">&#x1F48E; Ratna</button>
-        <button class="qp" onclick="qa('Aaj ka din mera kaisa rahega?')">&#x1F305; Aaj</button>
-      </div>
-
-      <div class="msgs" id="ms">
-        <div class="msg ai">
-          <div class="mav">&#x1F54E;</div>
-          <div class="mbubble">Namaste! Main hoon aapka <strong>Jyotish Guru AI</strong>!<br><br>Career, Shaadi, Business - kuch bhi poochho. Apna <strong>naam, DOB, samay aur sthan</strong> batao for personalised reading. Aaj ke <strong>3 readings FREE</strong> hain!</div>
-        </div>
-      </div>
-
-      <div class="upg" id="ub" style="display:none">
-        <p>Aaj ki 3 FREE readings complete ho gayi!</p>
-        <a href="#pricing">Sirf Rs 6/din - Rs 199/month upgrade karo</a>
-      </div>
-
-      <div class="chat-input" id="ia">
-        <input class="inp" id="ui" placeholder="Kuch bhi poochho... Career? Shaadi? Business?" disabled>
-        <button class="sbtn" id="sb" onclick="sendMsg()" disabled style="opacity:0.4">&#x2736;</button>
-      </div>
-      <div class="chat-crown-bottom"></div>
+  <div class="so-body">
+    <div class="price-hero">
+      <div class="ph-badge">SAVE 90%</div>
+      <div class="ph-txt">Real astrologer charges <s>Rs 500-2000</s> per session</div>
+      <div class="ph-sub">JyotishAI = Just Rs 6.60/day!</div>
     </div>
-  </div>
-</section>
-
-<!-- DIVIDER -->
-<div class="lotus-div">~ &#x950; ~</div>
-
-<!-- FEATURES -->
-<div class="section" id="features">
-  <p class="sec-ey">Kya Milega Tumhe</p>
-  <h2 class="sec-h">Har Sawaal Ka Jawab</h2>
-  <div class="feat-grid">
-    <div class="fcard"><div class="fnum">01</div><div class="ficon">&#x1FA90;</div><h3>Kundli Vishleshan</h3><p>Vedic birth chart with Lahiri Ayanamsa - graha, bhav, dosha aur upay.</p></div>
-    <div class="fcard"><div class="fnum">02</div><div class="ficon">&#x2B50;</div><h3>Nakshatra Vigyan</h3><p>Birth Nakshatra, Pada, Devata - apna asli swabhav jaano.</p></div>
-    <div class="fcard"><div class="fnum">03</div><div class="ficon">&#x1F522;</div><h3>Ank Jyotish</h3><p>Janm Ank, Bhagya Ank, Naam Ank - destiny ke sacred numbers.</p></div>
-    <div class="fcard"><div class="fnum">04</div><div class="ficon">&#x1F0CF;</div><h3>Prashna Kundli</h3><p>Koi bhi ek sawaal - ancient Prashna Shastra se turant jawab.</p></div>
-    <div class="fcard"><div class="fnum">05</div><div class="ficon">&#x1F491;</div><h3>Vivah Milan</h3><p>Ashtakoot Guna Milan - 36 point compatibility check.</p></div>
-    <div class="fcard"><div class="fnum">06</div><div class="ficon">&#x1F319;</div><h3>Muhurta Shastra</h3><p>Shaadi, business, griha pravesh - sabse shubh samay.</p></div>
-  </div>
-</div>
-
-<!-- DIVIDER -->
-<div class="lotus-div">~ &#x950; ~</div>
-
-<!-- PRICING -->
-<div class="section" id="pricing">
-  <p class="sec-ey">Apna Plan Chuno</p>
-  <h2 class="sec-h">Sirf Rs 6 Per Din!</h2>
-  <p class="sec-sub">Ek chai se bhi sasta - aur faayda zindagi bhar ka!</p>
-  <div class="price-compare">
-    <span>Real Jyotishi = Rs 500-2000/session</span>
-    <span class="vs">VS</span>
-    <span class="highlight">JyotishAI = Sirf Rs 6/din!</span>
-  </div>
-  <div class="pgrid">
-    <div class="pcard">
-      <div class="plan-badge">Sadhak</div>
-      <div class="plan-pr">FREE</div>
-      <p class="plan-desc">Cosmic journey shuru karo</p>
-      <ul class="plan-feats">
-        <li>3 readings per day</li>
-        <li>Daily guidance</li>
-        <li>Basic Ank Jyotish</li>
-        <li>Hindi &amp; English</li>
-      </ul>
-      <a href="#" class="pbtn outline" onclick="document.getElementById('ui').focus()">Try Free</a>
-    </div>
-    <div class="pcard feat">
-      <div class="pop-tag">SABSE POPULAR</div>
-      <div class="plan-badge">Bhakt</div>
-      <div class="plan-pr">Rs 199 <span>/month</span></div>
-      <p class="plan-desc">Sirf Rs 6.60/din! Unlimited!</p>
-      <ul class="plan-feats">
-        <li>Unlimited readings</li>
-        <li>Full Kundli analysis</li>
-        <li>Weekly predictions</li>
-        <li>Prashna Kundli</li>
-        <li>Vivah Milan</li>
-        <li>PDF downloads</li>
-      </ul>
-      <button class="pbtn" onclick="pay('Bhakt',199)">Pay Rs 199</button>
-    </div>
-    <div class="pcard">
-      <div class="plan-badge">Gyani</div>
-      <div class="plan-pr">Rs 599 <span>/month</span></div>
-      <p class="plan-desc">Complete Vedic experience</p>
-      <ul class="plan-feats">
-        <li>Everything in Bhakt</li>
-        <li>Muhurta timing</li>
-        <li>Annual predictions</li>
-        <li>Gemstone advice</li>
-        <li>Dasha analysis</li>
-      </ul>
-      <button class="pbtn" style="background:linear-gradient(135deg,#8B1A3A,#FF6B00)" onclick="pay('Gyani',599)">Pay Rs 599</button>
+    <div class="plan-cards">
+      <div class="plan-card">
+        <div class="pc-name">Sadhak</div>
+        <div class="pc-price">FREE</div>
+        <div class="pc-desc">Start your cosmic journey</div>
+        <ul class="pc-feats">
+          <li>3 readings per day</li>
+          <li>All Vedic topics</li>
+          <li>Hindi & English</li>
+        </ul>
+        <button class="pc-btn outline" onclick="showSection('home')">Start Free</button>
+      </div>
+      <div class="plan-card featured">
+        <div class="pc-tag">POPULAR</div>
+        <div class="pc-name">Bhakt</div>
+        <div class="pc-price">Rs 199 <span>/mo</span></div>
+        <div class="pc-desc">Just Rs 6.60/day — unlimited!</div>
+        <ul class="pc-feats">
+          <li>Unlimited readings</li>
+          <li>Full Kundli analysis</li>
+          <li>Prashna Kundli</li>
+          <li>Vivah Milan</li>
+          <li>PDF reports</li>
+        </ul>
+        <button class="pc-btn" onclick="pay('Bhakt',199)">Get Bhakt</button>
+      </div>
+      <div class="plan-card">
+        <div class="pc-name">Gyani</div>
+        <div class="pc-price">Rs 599 <span>/mo</span></div>
+        <div class="pc-desc">Complete Vedic experience</div>
+        <ul class="pc-feats">
+          <li>Everything in Bhakt</li>
+          <li>Muhurta timing</li>
+          <li>Annual predictions</li>
+          <li>Gemstone advice</li>
+        </ul>
+        <button class="pc-btn gyani" onclick="pay('Gyani',599)">Get Gyani</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="f-om">&#x950;</div>
-  <div class="f-logo">JYOTISHAI</div>
-  <p class="f-tag">Ancient Wisdom. Cosmic Intelligence.</p>
-  <p class="f-copy">&copy; 2025 JyotishAI - Spiritual guidance only</p>
-</footer>
+<!-- ABOUT SECTION -->
+<div class="section-overlay" id="aboutSection" style="display:none">
+  <div class="so-header">
+    <button class="so-back" onclick="showSection('home')">&#8592; Back</button>
+    <h2 class="so-title">About JyotishAI</h2>
+  </div>
+  <div class="so-body">
+    <div class="about-card">
+      <div class="ac-icon">&#9728;</div>
+      <h3>Ancient Wisdom, Modern AI</h3>
+      <p>JyotishAI combines 5000+ years of Vedic astrology with advanced AI — giving you accurate, personalized readings instantly.</p>
+    </div>
+    <div class="about-feats">
+      <div class="af-item"><span class="af-icon">&#9734;</span><span>Vedic Sidereal System</span></div>
+      <div class="af-item"><span class="af-icon">&#9734;</span><span>Lahiri Ayanamsa</span></div>
+      <div class="af-item"><span class="af-icon">&#9734;</span><span>Hindi & English</span></div>
+      <div class="af-item"><span class="af-icon">&#9734;</span><span>Available 24/7</span></div>
+      <div class="af-item"><span class="af-icon">&#9734;</span><span>All Vedic Topics</span></div>
+      <div class="af-item"><span class="af-icon">&#9734;</span><span>Instant Responses</span></div>
+    </div>
+    <p class="about-note">JyotishAI is for spiritual guidance only. Always use your own judgment for major decisions.</p>
+  </div>
+</div>
 
-<!-- LOGIN MODAL -->
+<!-- UPGRADE OVERLAY -->
+<div class="upg-overlay" id="ub" style="display:none">
+  <div class="upg-card">
+    <div class="upg-icon">&#9728;</div>
+    <h3>3 Free Readings Used!</h3>
+    <p>Upgrade to get unlimited readings for just Rs 6.60/day</p>
+    <button class="pc-btn" onclick="showSection('plans');document.getElementById('ub').style.display='none'">See Plans</button>
+    <button class="upg-skip" onclick="document.getElementById('ub').style.display='none'">Maybe Later</button>
+  </div>
+</div>
+
+<!-- MODALS -->
 <div class="ov" id="ovLogin" style="display:none">
   <div class="md">
-    <div class="md-top"></div>
-    <button class="md-close" onclick="closeOv('login')">x</button>
-    <div class="md-icon">&#x1F54E;</div>
-    <div class="md-title">Swagat Hai!</div>
-    <div class="md-sub">Cosmic journey mein wapas aao</div>
-    <div class="fg"><label class="fl">Email</label><input type="email" class="fi" id="lEmail" placeholder="aapka@email.com"></div>
-    <div class="fg"><label class="fl">Password</label><input type="password" class="fi" id="lPass" placeholder="password"></div>
+    <button class="md-x" onclick="closeOv('login')">&#10005;</button>
+    <div class="md-logo">&#9728;</div>
+    <h2 class="md-title">Welcome Back</h2>
+    <p class="md-sub">Sign in to your JyotishAI account</p>
+    <div class="fg"><label class="fl">Email</label><input type="email" class="fi" id="lEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label class="fl">Password</label><input type="password" class="fi" id="lPass" placeholder="Enter password"></div>
     <div class="ferr" id="lErr" style="display:none"></div>
     <div class="fok" id="lOk" style="display:none"></div>
-    <button class="fb" onclick="doLogin()">Sign In</button>
-    <div class="fsw">Naya account? <a onclick="switchOv('login','register')">Register karein</a></div>
+    <button class="md-btn" onclick="doLogin()">Sign In</button>
+    <p class="md-sw">New here? <a onclick="switchOv('login','register')">Create account</a></p>
   </div>
 </div>
 
-<!-- REGISTER MODAL -->
 <div class="ov" id="ovRegister" style="display:none">
   <div class="md">
-    <div class="md-top"></div>
-    <button class="md-close" onclick="closeOv('register')">x</button>
-    <div class="md-icon">&#x2728;</div>
-    <div class="md-title">Journey Shuru!</div>
-    <div class="md-sub">Free account - koi credit card nahi</div>
-    <div class="fg"><label class="fl">Naam</label><input type="text" class="fi" id="rName" placeholder="Aapka naam"></div>
-    <div class="fg"><label class="fl">Email</label><input type="email" class="fi" id="rEmail" placeholder="aapka@email.com"></div>
-    <div class="fg"><label class="fl">Password (min 6)</label><input type="password" class="fi" id="rPass" placeholder="password"></div>
-    <div class="fg"><label class="fl">DOB</label><input type="date" class="fi" id="rDob"></div>
+    <button class="md-x" onclick="closeOv('register')">&#10005;</button>
+    <div class="md-logo">&#10024;</div>
+    <h2 class="md-title">Create Account</h2>
+    <p class="md-sub">Free account — no credit card needed</p>
+    <div class="fg"><label class="fl">Full Name</label><input type="text" class="fi" id="rName" placeholder="Your name"></div>
+    <div class="fg"><label class="fl">Email</label><input type="email" class="fi" id="rEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label class="fl">Password (min 6)</label><input type="password" class="fi" id="rPass" placeholder="Create password"></div>
+    <div class="fg"><label class="fl">Date of Birth</label><input type="date" class="fi" id="rDob"></div>
     <div class="fg"><label class="fl">Birth Time</label><input type="time" class="fi" id="rTime"></div>
     <div class="fg"><label class="fl">Birth Place</label><input type="text" class="fi" id="rPlace" placeholder="Chennai, Tamil Nadu"></div>
     <div class="ferr" id="rErr" style="display:none"></div>
     <div class="fok" id="rOk" style="display:none"></div>
-    <button class="fb" onclick="doRegister()">Account Banao - Free!</button>
-    <div class="fsw">Account hai? <a onclick="switchOv('register','login')">Sign in</a></div>
+    <button class="md-btn" onclick="doRegister()">Create Free Account</button>
+    <p class="md-sw">Have account? <a onclick="switchOv('register','login')">Sign in</a></p>
   </div>
 </div>
 
-<!-- PROFILE MODAL -->
 <div class="ov" id="ovProfile" style="display:none">
   <div class="md">
-    <div class="md-top"></div>
-    <button class="md-close" onclick="closeOv('profile')">x</button>
-    <div class="md-icon">&#x1F64F;</div>
-    <div class="md-title" id="pName">Namaste!</div>
-    <div style="text-align:center;margin-bottom:16px">
-      <span id="pPlan" style="display:inline-block;font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:2px;padding:5px 16px;background:rgba(255,107,0,0.2);color:#FF6B00;border-radius:2px">FREE</span>
+    <button class="md-x" onclick="closeOv('profile')">&#10005;</button>
+    <div class="md-logo" id="pAvatar">R</div>
+    <h2 class="md-title" id="pName">Namaste!</h2>
+    <div class="p-plan-badge" id="pPlan">FREE</div>
+    <div class="p-info">
+      <div class="pi-row"><span class="pi-label">DOB</span><span id="pDob">-</span></div>
+      <div class="pi-row"><span class="pi-label">Time</span><span id="pTime">-</span></div>
+      <div class="pi-row"><span class="pi-label">Place</span><span id="pPlace">-</span></div>
     </div>
-    <div class="profile-box">
-      <div class="prow"><span class="plbl">DOB</span><span id="pDob">-</span></div>
-      <div class="prow"><span class="plbl">TIME</span><span id="pTime">-</span></div>
-      <div class="prow"><span class="plbl">PLACE</span><span id="pPlace">-</span></div>
-    </div>
-    <div class="readings-count">AAJ KI READINGS: <span id="pReadings">0/3</span></div>
-    <a href="#pricing" class="fb" id="upgBtn" style="display:block;text-align:center;text-decoration:none" onclick="closeOv('profile')">Upgrade to Rs 199/month</a>
-    <button class="logout-btn" onclick="doLogout()">Logout</button>
+    <div class="p-readings">Today's readings: <strong id="pReadings">0/3</strong></div>
+    <button class="md-btn" id="upgBtn" onclick="showSection('plans');closeOv('profile')">Upgrade Plan</button>
+    <button class="md-btn outline" onclick="doLogout()">Sign Out</button>
   </div>
 </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="app.js?v=11"></script>
+<script src="app.js?v=12"></script>
 </body>
 </html>
