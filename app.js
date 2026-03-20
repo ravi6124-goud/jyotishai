@@ -98,7 +98,7 @@ async function sendMsg() {
   // Extract birth details from conversation
   var allText = hist.map(function(m) { return m.content; }).join(' ');
 
-  var dobMatch = allText.match(/(\d{1,2}[-\/](?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?|\d{1,2})[-\/]\d{4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/i);
+  var dobMatch = allText.match(/(\d{1,2}[-\/\s](?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)[-\/\s]\d{4}|\d{1,2}[-\/]\d{1,2}[-\/]\d{4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/i);
   var timeMatch = allText.match(/(\d{1,2}:\d{2}\s*(?:AM|PM|am|pm)?)/i);
   var placeMatch = allText.match(/(?:\d{1,2}:\d{2}\s*(?:AM|PM)?[,\s]+)([A-Za-z][A-Za-z\s]{2,25}(?:,\s*[A-Za-z\s]{2,20})?)/i);
   if (!placeMatch) {
