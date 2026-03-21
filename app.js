@@ -42,7 +42,11 @@ function addMsg(role, text) {
   var d = document.createElement('div');
   d.className = 'msg ' + (role === 'u' ? 'user' : 'ai');
   var f = text.replace(/\n/g, '<br>');
-  d.innerHTML = '<div class="msg-bubble">' + f + '</div>';
+  var pdfBtn = '';
+  if (role === 'ai' && text.length > 100 && prem) {
+    pdfBtn = '<button class="pdf-btn" onclick="generatePDF()">Download PDF</button>';
+  }
+  d.innerHTML = '<div class="msg-bubble">' + f + pdfBtn + '</div>';
   m.appendChild(d);
   m.scrollTop = m.scrollHeight;
   if (role === 'ai') {
@@ -143,6 +147,7 @@ async function sendMsg() {
     hist.push({ role: 'assistant', content: data.reply });
     addMsg('ai', data.reply);
     if (!prem) { free = Math.max(0, free - 1); updateDiyas(); }
+    if (prem) { var pb = document.getElementById('pdfBtn'); if (pb) pb.style.display = 'block'; }
   }
 
   if (free > 0 || prem) {
@@ -193,6 +198,8 @@ function applyPlan(u) {
     prem = true; free = 999;
     var fb = document.getElementById('fb');
     if (fb) fb.style.display = 'none';
+    var pb = document.getElementById('pdfBtn');
+    if (pb) pb.style.display = 'block';
   } else {
     free = Math.max(0, 3 - (u.readings_today || 0));
     updateDiyas();
@@ -456,3 +463,154 @@ window.addEventListener('load', function() {
   fetch(BACKEND + '/ping').catch(function() {});
   setTimeout(function() { fetch(BACKEND + '/ping').catch(function() {}); }, 30000);
 });
+
+
+// ===== PDF DOWNLOAD =====
+function downloadPDF() {
+  if (!prem) {
+    showSection('plans');
+    return;
+  }
+  var msgs = document.getElementById('ms');
+  if (!msgs) return;
+
+  // Collect all AI messages
+  var aiMsgs = msgs.querySelectorAll('.msg.ai .msg-bubble');
+  if (aiMsgs.length === 0) { alert('No reading to download!'); return; }
+
+  // Build PDF content
+  var content = '';
+  var date = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  var userName = CU ? CU.full_name : 'Valued User';
+
+  content += '<!DOCTYPE html><html><head><meta charset="UTF-8">';
+  content += '<style>';
+  content += 'body{font-family:Georgia,serif;max-width:700px;margin:40px auto;padding:20px;color:#1a0a2e}';
+  content += '.header{text-align:center;border-bottom:3px solid #FF6B35;padding-bottom:20px;margin-bottom:30px}';
+  content += '.logo{font-size:28px;font-weight:bold;color:#FF6B35;letter-spacing:2px}';
+  content += '.subtitle{color:#7C3AED;font-size:14px;letter-spacing:3px;margin-top:5px}';
+  content += '.date{color:#666;font-size:13px;margin-top:8px}';
+  content += '.user{background:linear-gradient(135deg,#FFF8F4,#F5F0FF);border:1px solid #FF6B35;padding:12px 20px;border-radius:8px;margin-bottom:25px;font-size:15px}';
+  content += '.reading{margin-bottom:25px;padding:20px;background:#FDFBFF;border-left:4px solid #FF6B35;border-radius:4px}';
+  content += '.reading-num{font-size:11px;color:#7C3AED;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}';
+  content += '.reading-text{font-size:15px;line-height:1.8;color:#1a0a2e}';
+  content += '.footer{text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #eee;color:#999;font-size:12px}';
+  content += '.om{font-size:24px;color:#FF6B35;margin-bottom:5px}';
+  content += '</style></head><body>';
+
+  // Header
+  content += '<div class="header">';
+  content += '<div class="om">&#x950;</div>';
+  content += '<div class="logo">JYOTISHAI</div>';
+  content += '<div class="subtitle">VEDIC ASTROLOGY READING</div>';
+  content += '<div class="date">Generated on ' + date + '</div>';
+  content += '</div>';
+
+  // User info
+  content += '<div class="user">&#x1F64F; Prepared for: <strong>' + userName + '</strong>';
+  if (CU && CU.dob) content += ' &nbsp;|&nbsp; DOB: ' + CU.dob;
+  if (CU && CU.birth_place) content += ' &nbsp;|&nbsp; ' + CU.birth_place;
+  content += '</div>';
+
+  // Readings
+  var count = 1;
+  aiMsgs.forEach(function(msg) {
+    var text = msg.innerHTML.replace(/<br>/g, '\n').replace(/<[^>]+>/g, '');
+    if (text.trim().length > 20) {
+      content += '<div class="reading">';
+      content += '<div class="reading-num">Reading ' + count + '</div>';
+      content += '<div class="reading-text">' + msg.innerHTML + '</div>';
+      content += '</div>';
+      count++;
+    }
+  });
+
+  // Footer
+  content += '<div class="footer">';
+  content += '<div class="om">&#x950;</div>';
+  content += '<p>JyotishAI - Ancient Wisdom, Modern AI</p>';
+  content += '<p>jyotishai.com &nbsp;|&nbsp; Note: Jyotish is for spiritual guidance only.</p>';
+  content += '</div>';
+  content += '</body></html>';
+
+  // Open print dialog
+  var win = window.open('', '_blank');
+  win.document.write(content);
+  win.document.close();
+  win.onload = function() {
+    win.print();
+  };
+}
+
+// ===== PDF GENERATION =====
+function generatePDF() {
+  if (!prem) {
+    showSection('plans');
+    return;
+  }
+
+  // Get last AI message
+  var msgs = document.getElementById('ms');
+  var aiMsgs = msgs ? msgs.querySelectorAll('.msg.ai .msg-bubble') : [];
+  var lastReading = '';
+  if (aiMsgs.length > 1) {
+    lastReading = aiMsgs[aiMsgs.length - 1].innerText;
+  }
+
+  if (!lastReading) {
+    alert('Please get a reading first!');
+    return;
+  }
+
+  var name = CU ? CU.full_name : 'Your';
+  var dob = CU ? (CU.dob || 'Not provided') : 'Not provided';
+  var place = CU ? (CU.birth_place || 'Not provided') : 'Not provided';
+  var time = CU ? (CU.birth_time || 'Not provided') : 'Not provided';
+  var date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  var html = '<html><head><style>' +
+    'body{font-family:Georgia,serif;background:#fff;color:#1A0A2E;margin:0;padding:0}' +
+    '.cover{background:linear-gradient(135deg,#1A0A2E,#2D1B4E);color:#fff;padding:40px;text-align:center;min-height:200px}' +
+    '.om{font-size:3rem;color:#FFB347;margin-bottom:10px}' +
+    '.brand{font-size:2rem;font-weight:bold;letter-spacing:4px;color:#FFB347}' +
+    '.subtitle{font-size:0.9rem;color:rgba(255,255,255,0.7);letter-spacing:2px;margin-top:6px}' +
+    '.divider{height:3px;background:linear-gradient(90deg,transparent,#FF6B35,#FFB347,transparent);margin:20px 0}' +
+    '.content{padding:30px 40px}' +
+    '.section{margin-bottom:24px}' +
+    '.section-title{font-size:0.7rem;letter-spacing:3px;color:#FF6B35;text-transform:uppercase;margin-bottom:10px;font-family:Arial,sans-serif}' +
+    '.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}' +
+    '.info-item{background:#F8F4FF;border-left:3px solid #FF6B35;padding:10px 14px;border-radius:0 6px 6px 0}' +
+    '.info-label{font-size:0.65rem;color:#666;text-transform:uppercase;letter-spacing:1px;font-family:Arial,sans-serif}' +
+    '.info-value{font-size:0.95rem;color:#1A0A2E;font-weight:bold;margin-top:3px}' +
+    '.reading{background:#FFF8F4;border:1px solid #FFD4B8;border-radius:8px;padding:20px;line-height:1.8;font-size:0.92rem;color:#2D1B4E;white-space:pre-wrap}' +
+    '.footer{text-align:center;padding:20px;font-size:0.75rem;color:#999;border-top:1px solid #eee;font-family:Arial,sans-serif}' +
+    '</style></head><body>' +
+    '<div class="cover">' +
+    '<div class="om">&#x950;</div>' +
+    '<div class="brand">JYOTISHAI</div>' +
+    '<div class="subtitle">VEDIC ASTROLOGY READING</div>' +
+    '</div>' +
+    '<div class="content">' +
+    '<div class="divider"></div>' +
+    '<div class="section">' +
+    '<div class="section-title">Birth Details</div>' +
+    '<div class="info-grid">' +
+    '<div class="info-item"><div class="info-label">Name</div><div class="info-value">' + name + '</div></div>' +
+    '<div class="info-item"><div class="info-label">Date of Birth</div><div class="info-value">' + dob + '</div></div>' +
+    '<div class="info-item"><div class="info-label">Birth Time</div><div class="info-value">' + time + '</div></div>' +
+    '<div class="info-item"><div class="info-label">Birth Place</div><div class="info-value">' + place + '</div></div>' +
+    '</div></div>' +
+    '<div class="section">' +
+    '<div class="section-title">Your Vedic Reading</div>' +
+    '<div class="reading">' + lastReading + '</div>' +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '</div>' +
+    '<div class="footer">Generated on ' + date + ' | JyotishAI &mdash; Ancient Wisdom, Modern AI | For spiritual guidance only</div>' +
+    '</body></html>';
+
+  var w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(function() { w.print(); }, 800);
+}
