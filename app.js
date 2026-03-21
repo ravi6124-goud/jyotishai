@@ -291,10 +291,13 @@ function doLogout() {
 }
 
 // ===== RAZORPAY =====
-function pay(plan, amt) {
+async function pay(plan, amt) {
   if (!CU) { showOv('login'); return; }
-  var rk = localStorage.getItem('jrk') || '';
-  if (!rk) { var k = prompt('Enter Razorpay Key ID:'); if (!k) return; rk = k; localStorage.setItem('jrk', k); }
+  try {
+    var cfgRes = await fetch(BACKEND + '/config');
+    var cfg = await cfgRes.json();
+    var rk = cfg.razorpay_key || '';
+    if (!rk) { alert('Payment not configured. Please try again later.'); return; }
   try {
     new Razorpay({
       key: rk, amount: amt * 100, currency: 'INR',
@@ -315,6 +318,7 @@ function pay(plan, amt) {
       }
     }).open();
   } catch (ex) { alert('Razorpay error: ' + ex.message); }
+  } catch(ex2) { alert('Payment setup failed. Try again!'); }
 }
 
 // ===== CATEGORY & SECTIONS =====
