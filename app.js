@@ -545,8 +545,19 @@ function downloadPDF() {
 // ===== PDF GENERATION =====
 async function generatePDF() {
   if (!prem) { showSection('plans'); return; }
-  if (!CU || !CU.dob || !CU.birth_time || !CU.birth_place) {
-    alert('Please update your birth details in Profile first!');
+
+  // Get birth details from profile OR from conversation
+  var allText = hist.map(function(m){ return m.content; }).join(' ');
+  var dobM = allText.match(/(\d{1,2}[-\/\s](?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)[-\/\s]\d{4}|\d{1,2}[-\/]\d{1,2}[-\/]\d{4})/i);
+  var timeM = allText.match(/(\d{1,2}:\d{2}\s*(?:AM|PM)?)/i);
+
+  var useDob = (CU && CU.dob) || (dobM ? dobM[1] : null);
+  var useTime = (CU && CU.birth_time) || (timeM ? timeM[1] : null);
+  var usePlace = (CU && CU.birth_place) || null;
+  var useName = (CU && CU.full_name) || 'User';
+
+  if (!useDob || !useTime || !usePlace) {
+    alert('Please provide your Name, Date of Birth, Birth Time and Birth Place in the chat first!');
     return;
   }
 
@@ -556,17 +567,17 @@ async function generatePDF() {
 
   try {
     // Request full Kundli report from AI
-    var reportPrompt = 'Generate a COMPLETE VEDIC KUNDLI REPORT for ' + CU.full_name + 
-      ' born on ' + CU.dob + ' at ' + CU.birth_time + ' in ' + CU.birth_place + 
+    var reportPrompt = 'Generate a COMPLETE VEDIC KUNDLI REPORT for ' + useName + 
+      ' born on ' + useDob + ' at ' + useTime + ' in ' + usePlace + 
       '. Include: 1) Birth Chart Summary (Sun/Moon/Lagna/Nakshatra) 2) Personality Analysis 3) Career & Finance 2026 4) Love & Marriage 5) Health 6) Current Dasha Period 7) Lucky Gems, Colors, Numbers 8) Remedies & Mantras. Write in detail, no tables, flowing paragraphs.';
 
     var body = {
       messages: [{ role: 'user', content: reportPrompt }],
-      dob: CU.dob,
-      birth_time: CU.birth_time,
-      birth_place: CU.birth_place,
-      user_id: CU.id,
-      plan: CU.plan
+      dob: useDob,
+      birth_time: useTime,
+      birth_place: usePlace,
+      user_id: CU ? CU.id : null,
+      plan: CU ? CU.plan : 'bhakt'
     };
 
     var xhr = new XMLHttpRequest();
@@ -579,7 +590,7 @@ async function generatePDF() {
         var data = JSON.parse(xhr.responseText);
         if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
         if (data.reply) {
-          buildAndPrintPDF(data.reply, data.chart);
+          buildAndPrintPDF(data.reply, data.chart, useName, useDob, useTime, usePlace);
         } else {
           alert('Could not generate report. Try again!');
         }
@@ -600,11 +611,11 @@ async function generatePDF() {
   }
 }
 
-function buildAndPrintPDF(report, chart) {
-  var name = CU ? CU.full_name : 'User';
-  var dob = CU ? (CU.dob || '-') : '-';
-  var place = CU ? (CU.birth_place || '-') : '-';
-  var time = CU ? (CU.birth_time || '-') : '-';
+function buildAndPrintPDF(report, chart, useName, useDob, useTime, usePlace) {
+  var name = useName || (CU ? CU.full_name : 'User');
+  var dob = useDob || (CU ? CU.dob : '-') || '-';
+  var place = usePlace || (CU ? CU.birth_place : '-') || '-';
+  var time = useTime || (CU ? CU.birth_time : '-') || '-';
   var date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
   var chartSection = '';
