@@ -593,3 +593,16 @@ body::before {
   to{ transform:scale(4); opacity:0; }
 }
 .md-btn, .pc-btn, .tb-login { position:relative; overflow:hidden; }
+
+/* PDF BUTTON */
+.pdf-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:12px; padding:8px 16px;
+  background:linear-gradient(135deg,var(--deep),var(--accent));
+  color:#fff; border:none; border-radius:20px;
+  font-size:0.72rem; font-weight:600; cursor:pointer;
+  font-family:'DM Sans',sans-serif; letter-spacing:0.5px;
+  transition:all 0.2s; box-shadow:0 2px 10px rgba(26,10,46,0.2);
+}
+.pdf-btn::before { content:''; font-size:0.8rem; }
+.pdf-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(26,10,46,0.3); }
