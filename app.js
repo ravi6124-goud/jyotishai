@@ -42,11 +42,7 @@ function addMsg(role, text) {
   var d = document.createElement('div');
   d.className = 'msg ' + (role === 'u' ? 'user' : 'ai');
   var f = text.replace(/\n/g, '<br>');
-  var pdfBtn = '';
-  if (role === 'ai' && text.length > 100 && prem) {
-    pdfBtn = '<button class="pdf-btn" onclick="generatePDF()">Download PDF</button>';
-  }
-  d.innerHTML = '<div class="msg-bubble">' + f + pdfBtn + '</div>';
+  d.innerHTML = '<div class="msg-bubble">' + f + '</div>';
   m.appendChild(d);
   m.scrollTop = m.scrollHeight;
   if (role === 'ai') {
@@ -147,6 +143,11 @@ async function sendMsg() {
     hist.push({ role: 'assistant', content: data.reply });
     addMsg('ai', data.reply);
     if (!prem) { free = Math.max(0, free - 1); updateDiyas(); }
+    // Show PDF button for paid users after response
+    if (prem) {
+      var pdfBtn = document.getElementById('pdfFloating');
+      if (pdfBtn) pdfBtn.style.display = 'block';
+    }
     if (prem) { var pb = document.getElementById('pdfBtn'); if (pb) pb.style.display = 'block'; }
   }
 
@@ -448,6 +449,9 @@ window.addEventListener('load', function() {
   document.getElementById('sb').style.opacity = '1';
   document.querySelectorAll('.bn-item')[0].classList.add('active');
   if (CU) { showUserNav(CU); applyPlan(CU); }
+  // Show PDF button only for paid users
+  var pdfFloating = document.getElementById('pdfFloating');
+  if (pdfFloating && prem) pdfFloating.style.display = 'block';
 
   // Cat indicator
   var firstCat = document.querySelector('.cat.active');
