@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <title>JyotishAI - Your Personal Vedic Astrologer</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=18">
+<link rel="stylesheet" href="style.css?v=22">
 </head>
 <body>
 
@@ -207,6 +207,14 @@
   </div>
 </div>
 
+<!-- PDF DOWNLOAD BTN - only for paid users -->
+<div id="pdfBtn" style="display:none;position:fixed;bottom:calc(var(--nav-h) + var(--input-h) + 52px + 40px);right:14px;z-index:95">
+  <button onclick="downloadPDF()" style="background:linear-gradient(135deg,#1A0A2E,#7C3AED);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:0.72rem;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;box-shadow:0 4px 14px rgba(124,58,237,0.4);display:flex;align-items:center;gap:6px">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download PDF
+  </button>
+</div>
+
 <!-- UPGRADE OVERLAY -->
 <div class="upg-overlay" id="ub" style="display:none">
   <div class="upg-card">
@@ -271,6 +279,6 @@
 </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="app.js?v=22"></script>
+<script src="app.js?v=23"></script>
 </body>
 </html>
