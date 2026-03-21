@@ -543,74 +543,148 @@ function downloadPDF() {
 }
 
 // ===== PDF GENERATION =====
-function generatePDF() {
-  if (!prem) {
-    showSection('plans');
+async function generatePDF() {
+  if (!prem) { showSection('plans'); return; }
+  if (!CU || !CU.dob || !CU.birth_time || !CU.birth_place) {
+    alert('Please update your birth details in Profile first!');
     return;
   }
 
-  // Get last AI message
-  var msgs = document.getElementById('ms');
-  var aiMsgs = msgs ? msgs.querySelectorAll('.msg.ai .msg-bubble') : [];
-  var lastReading = '';
-  if (aiMsgs.length > 1) {
-    lastReading = aiMsgs[aiMsgs.length - 1].innerText;
-  }
+  // Show loading
+  var btn = document.querySelector('.pdf-btn');
+  if (btn) { btn.textContent = 'Generating...'; btn.disabled = true; }
 
-  if (!lastReading) {
-    alert('Please get a reading first!');
-    return;
-  }
+  try {
+    // Request full Kundli report from AI
+    var reportPrompt = 'Generate a COMPLETE VEDIC KUNDLI REPORT for ' + CU.full_name + 
+      ' born on ' + CU.dob + ' at ' + CU.birth_time + ' in ' + CU.birth_place + 
+      '. Include: 1) Birth Chart Summary (Sun/Moon/Lagna/Nakshatra) 2) Personality Analysis 3) Career & Finance 2026 4) Love & Marriage 5) Health 6) Current Dasha Period 7) Lucky Gems, Colors, Numbers 8) Remedies & Mantras. Write in detail, no tables, flowing paragraphs.';
 
-  var name = CU ? CU.full_name : 'Your';
-  var dob = CU ? (CU.dob || 'Not provided') : 'Not provided';
-  var place = CU ? (CU.birth_place || 'Not provided') : 'Not provided';
-  var time = CU ? (CU.birth_time || 'Not provided') : 'Not provided';
+    var body = {
+      messages: [{ role: 'user', content: reportPrompt }],
+      dob: CU.dob,
+      birth_time: CU.birth_time,
+      birth_place: CU.birth_place,
+      user_id: CU.id,
+      plan: CU.plan
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', BACKEND + '/chat', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.timeout = 120000;
+
+    xhr.onload = function() {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
+        if (data.reply) {
+          buildAndPrintPDF(data.reply, data.chart);
+        } else {
+          alert('Could not generate report. Try again!');
+        }
+      } catch(e) {
+        if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
+        alert('Error generating PDF. Try again!');
+      }
+    };
+    xhr.onerror = function() {
+      if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
+      alert('Connection error. Try again!');
+    };
+    xhr.send(JSON.stringify(body));
+
+  } catch(e) {
+    if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
+    alert('Error: ' + e.message);
+  }
+}
+
+function buildAndPrintPDF(report, chart) {
+  var name = CU ? CU.full_name : 'User';
+  var dob = CU ? (CU.dob || '-') : '-';
+  var place = CU ? (CU.birth_place || '-') : '-';
+  var time = CU ? (CU.birth_time || '-') : '-';
   var date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  var html = '<html><head><style>' +
-    'body{font-family:Georgia,serif;background:#fff;color:#1A0A2E;margin:0;padding:0}' +
-    '.cover{background:linear-gradient(135deg,#1A0A2E,#2D1B4E);color:#fff;padding:40px;text-align:center;min-height:200px}' +
-    '.om{font-size:3rem;color:#FFB347;margin-bottom:10px}' +
-    '.brand{font-size:2rem;font-weight:bold;letter-spacing:4px;color:#FFB347}' +
-    '.subtitle{font-size:0.9rem;color:rgba(255,255,255,0.7);letter-spacing:2px;margin-top:6px}' +
-    '.divider{height:3px;background:linear-gradient(90deg,transparent,#FF6B35,#FFB347,transparent);margin:20px 0}' +
-    '.content{padding:30px 40px}' +
-    '.section{margin-bottom:24px}' +
-    '.section-title{font-size:0.7rem;letter-spacing:3px;color:#FF6B35;text-transform:uppercase;margin-bottom:10px;font-family:Arial,sans-serif}' +
-    '.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}' +
-    '.info-item{background:#F8F4FF;border-left:3px solid #FF6B35;padding:10px 14px;border-radius:0 6px 6px 0}' +
-    '.info-label{font-size:0.65rem;color:#666;text-transform:uppercase;letter-spacing:1px;font-family:Arial,sans-serif}' +
-    '.info-value{font-size:0.95rem;color:#1A0A2E;font-weight:bold;margin-top:3px}' +
-    '.reading{background:#FFF8F4;border:1px solid #FFD4B8;border-radius:8px;padding:20px;line-height:1.8;font-size:0.92rem;color:#2D1B4E;white-space:pre-wrap}' +
-    '.footer{text-align:center;padding:20px;font-size:0.75rem;color:#999;border-top:1px solid #eee;font-family:Arial,sans-serif}' +
+  var chartSection = '';
+  if (chart) {
+    chartSection =
+      '<div class="chart-grid">' +
+      (chart.sun_rashi ? '<div class="chart-item"><div class="ci-label">SUN SIGN</div><div class="ci-value">' + chart.sun_rashi + '</div><div class="ci-deg">' + chart.sun_degrees + ' deg</div></div>' : '') +
+      (chart.moon_rashi ? '<div class="chart-item"><div class="ci-label">MOON SIGN</div><div class="ci-value">' + chart.moon_rashi + '</div><div class="ci-deg">' + chart.moon_degrees + ' deg</div></div>' : '') +
+      (chart.lagna ? '<div class="chart-item"><div class="ci-label">ASCENDANT</div><div class="ci-value">' + chart.lagna + '</div><div class="ci-deg">' + chart.lagna_degrees + ' deg</div></div>' : '') +
+      (chart.nakshatra ? '<div class="chart-item"><div class="ci-label">NAKSHATRA</div><div class="ci-value">' + chart.nakshatra + '</div><div class="ci-deg">Pada ' + (chart.nakshatra_pada || '-') + '</div></div>' : '') +
+      '</div>';
+  }
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+    '<style>' +
+    '@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap");' +
+    '*{margin:0;padding:0;box-sizing:border-box}' +
+    'body{font-family:"DM Sans",sans-serif;background:#fff;color:#1A0A2E}' +
+    '.cover{background:linear-gradient(135deg,#1A0A2E 0%,#2D1B4E 100%);color:#fff;padding:50px 40px;text-align:center}' +
+    '.cover-om{font-size:3.5rem;color:#FFB347;margin-bottom:12px;font-family:serif}' +
+    '.cover-brand{font-family:"Playfair Display",serif;font-size:2.5rem;font-weight:700;letter-spacing:6px;color:#FFB347}' +
+    '.cover-sub{font-size:0.8rem;color:rgba(255,255,255,0.6);letter-spacing:3px;margin-top:8px;text-transform:uppercase}' +
+    '.cover-name{font-family:"Playfair Display",serif;font-size:1.6rem;color:#fff;margin-top:24px}' +
+    '.cover-dob{font-size:0.85rem;color:rgba(255,255,255,0.7);margin-top:6px}' +
+    '.shimmer{height:3px;background:linear-gradient(90deg,transparent,#FF6B35,#FFB347,#FF6B35,transparent);margin:20px 0}' +
+    '.content{padding:36px 44px}' +
+    '.section{margin-bottom:30px;page-break-inside:avoid}' +
+    '.section-hdr{font-family:"Playfair Display",serif;font-size:1rem;color:#FF6B35;border-bottom:2px solid #FF6B35;padding-bottom:6px;margin-bottom:14px;letter-spacing:1px}' +
+    '.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}' +
+    '.info-item{background:#F8F4FF;border-left:3px solid #FF6B35;padding:10px 14px}' +
+    '.info-label{font-size:0.6rem;color:#888;text-transform:uppercase;letter-spacing:1px}' +
+    '.info-value{font-size:0.92rem;color:#1A0A2E;font-weight:600;margin-top:2px}' +
+    '.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}' +
+    '.chart-item{background:linear-gradient(135deg,#FFF8F4,#FFF3EB);border:1px solid #FFD4B8;border-radius:6px;padding:12px;text-align:center}' +
+    '.ci-label{font-size:0.6rem;color:#FF6B35;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}' +
+    '.ci-value{font-family:"Playfair Display",serif;font-size:0.95rem;color:#1A0A2E;font-weight:700}' +
+    '.ci-deg{font-size:0.7rem;color:#888;margin-top:2px}' +
+    '.report{background:#FFF8F4;border:1px solid #FFE4CC;border-radius:6px;padding:20px;line-height:1.9;font-size:0.88rem;color:#2D1B4E;white-space:pre-wrap}' +
+    '.footer{text-align:center;padding:20px 40px;font-size:0.72rem;color:#aaa;border-top:1px solid #eee}' +
+    '.footer-brand{font-family:"Playfair Display",serif;color:#FF6B35;font-size:0.85rem}' +
+    '@media print{.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}.chart-item{-webkit-print-color-adjust:exact}}' +
     '</style></head><body>' +
+
     '<div class="cover">' +
-    '<div class="om">&#x950;</div>' +
-    '<div class="brand">JYOTISHAI</div>' +
-    '<div class="subtitle">VEDIC ASTROLOGY READING</div>' +
+    '<div class="cover-om">&#x950;</div>' +
+    '<div class="cover-brand">JYOTISHAI</div>' +
+    '<div class="cover-sub">Vedic Astrology Life Report</div>' +
+    '<div class="shimmer"></div>' +
+    '<div class="cover-name">' + name + '</div>' +
+    '<div class="cover-dob">' + dob + ' &bull; ' + time + ' &bull; ' + place + '</div>' +
     '</div>' +
+
     '<div class="content">' +
-    '<div class="divider"></div>' +
     '<div class="section">' +
-    '<div class="section-title">Birth Details</div>' +
+    '<div class="section-hdr">Birth Details</div>' +
     '<div class="info-grid">' +
-    '<div class="info-item"><div class="info-label">Name</div><div class="info-value">' + name + '</div></div>' +
+    '<div class="info-item"><div class="info-label">Full Name</div><div class="info-value">' + name + '</div></div>' +
     '<div class="info-item"><div class="info-label">Date of Birth</div><div class="info-value">' + dob + '</div></div>' +
     '<div class="info-item"><div class="info-label">Birth Time</div><div class="info-value">' + time + '</div></div>' +
     '<div class="info-item"><div class="info-label">Birth Place</div><div class="info-value">' + place + '</div></div>' +
     '</div></div>' +
+
+    (chart ? '<div class="section"><div class="section-hdr">Planetary Positions (Lahiri Ayanamsa)</div>' + chartSection + '</div>' : '') +
+
     '<div class="section">' +
-    '<div class="section-title">Your Vedic Reading</div>' +
-    '<div class="reading">' + lastReading + '</div>' +
+    '<div class="section-hdr">Complete Life Analysis</div>' +
+    '<div class="report">' + report + '</div>' +
     '</div>' +
-    '<div class="divider"></div>' +
+
+    '<div class="shimmer"></div>' +
     '</div>' +
-    '<div class="footer">Generated on ' + date + ' | JyotishAI &mdash; Ancient Wisdom, Modern AI | For spiritual guidance only</div>' +
+
+    '<div class="footer">' +
+    '<div class="footer-brand">JyotishAI</div>' +
+    'Generated on ' + date + ' &bull; Ancient Wisdom, Modern AI &bull; For spiritual guidance only' +
+    '</div>' +
     '</body></html>';
 
   var w = window.open('', '_blank');
   w.document.write(html);
   w.document.close();
-  setTimeout(function() { w.print(); }, 800);
+  setTimeout(function() { w.print(); }, 1000);
 }
