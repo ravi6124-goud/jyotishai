@@ -172,11 +172,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function showOv(t) {
   var id = 'ov' + t.charAt(0).toUpperCase() + t.slice(1);
   var el = document.getElementById(id);
-  if (el) { 
-    el.style.display = 'flex'; 
-    el.style.pointerEvents = 'auto';
-    el.style.zIndex = '9999';
-    document.body.style.overflow = 'hidden'; 
+  if (el) {
+    el.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
 }
 function closeOv(t) {
@@ -368,14 +366,14 @@ function setCategory(cat, btn) {
 function showSection(section) {
   var ps = document.getElementById('plansSection');
   var as = document.getElementById('aboutSection');
-  if (ps) { ps.style.display = 'none'; ps.style.pointerEvents = 'none'; }
-  if (as) { as.style.display = 'none'; as.style.pointerEvents = 'none'; }
+  if (ps) ps.classList.remove('visible');
+  if (as) as.classList.remove('visible');
   document.querySelectorAll('.bn-item').forEach(function(b) { b.classList.remove('active'); });
   if (section === 'plans') {
-    if (ps) { ps.style.display = 'block'; ps.style.pointerEvents = 'auto'; }
+    if (ps) ps.classList.add('visible');
     document.querySelectorAll('.bn-item')[1].classList.add('active');
   } else if (section === 'about') {
-    if (as) { as.style.display = 'block'; as.style.pointerEvents = 'auto'; }
+    if (as) as.classList.add('visible');
     document.querySelectorAll('.bn-item')[2].classList.add('active');
   } else {
     document.querySelectorAll('.bn-item')[0].classList.add('active');
