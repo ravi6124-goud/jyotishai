@@ -243,21 +243,32 @@ async function doRegister() {
   }
   var btn = document.querySelector('#ovRegister .md-btn');
   if (btn) { btn.textContent = 'Creating...'; btn.disabled = true; }
-  try {
-    var res = await fetch(BACKEND + '/register', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: e, password: p, full_name: n, dob: d, birth_time: t, birth_place: pl })
-    });
-    var data = await res.json();
+  var xhr2 = new XMLHttpRequest();
+  xhr2.open('POST', BACKEND + '/register', true);
+  xhr2.setRequestHeader('Content-Type', 'application/json');
+  xhr2.timeout = 30000;
+  xhr2.ontimeout = function() {
     if (btn) { btn.textContent = 'Create Free Account'; btn.disabled = false; }
-    if (data.error) { if (err) { err.textContent = data.error; err.style.display = 'block'; } return; }
-    if (ok) { ok.textContent = 'Account ban gaya! Welcome!'; ok.style.display = 'block'; }
-    CU = data.user; localStorage.setItem('jai_u', JSON.stringify(CU));
-    setTimeout(function() { closeOv('register'); showUserNav(CU); applyPlan(CU); }, 1500);
-  } catch (ex) {
+    if (err) { err.textContent = 'Timeout. Try again!'; err.style.display = 'block'; }
+  };
+  xhr2.onerror = function() {
     if (btn) { btn.textContent = 'Create Free Account'; btn.disabled = false; }
     if (err) { err.textContent = 'Connection error. Try again!'; err.style.display = 'block'; }
-  }
+  };
+  xhr2.onload = function() {
+    try {
+      var data = JSON.parse(xhr2.responseText);
+      if (btn) { btn.textContent = 'Create Free Account'; btn.disabled = false; }
+      if (data.error) { if (err) { err.textContent = data.error; err.style.display = 'block'; } return; }
+      if (ok) { ok.textContent = 'Account ban gaya! Welcome!'; ok.style.display = 'block'; }
+      CU = data.user; localStorage.setItem('jai_u', JSON.stringify(CU));
+      setTimeout(function() { closeOv('register'); showUserNav(CU); applyPlan(CU); }, 1500);
+    } catch(e) {
+      if (btn) { btn.textContent = 'Create Free Account'; btn.disabled = false; }
+      if (err) { err.textContent = 'Server error. Try again!'; err.style.display = 'block'; }
+    }
+  };
+  xhr2.send(JSON.stringify({ email: e, password: p, full_name: n, dob: d, birth_time: t, birth_place: pl }));
 }
 
 async function doLogin() {
@@ -273,21 +284,32 @@ async function doLogin() {
   }
   var btn = document.querySelector('#ovLogin .md-btn');
   if (btn) { btn.textContent = 'Signing in...'; btn.disabled = true; }
-  try {
-    var res = await fetch(BACKEND + '/login', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: e, password: p })
-    });
-    var data = await res.json();
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', BACKEND + '/login', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.timeout = 30000;
+  xhr.ontimeout = function() {
     if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
-    if (data.error) { if (err) { err.textContent = data.error; err.style.display = 'block'; } return; }
-    if (ok) { ok.textContent = data.message || 'Login successful!'; ok.style.display = 'block'; }
-    CU = data.user; localStorage.setItem('jai_u', JSON.stringify(CU));
-    setTimeout(function() { closeOv('login'); showUserNav(CU); applyPlan(CU); }, 1200);
-  } catch (ex) {
+    if (err) { err.textContent = 'Timeout. Try again!'; err.style.display = 'block'; }
+  };
+  xhr.onerror = function() {
     if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
     if (err) { err.textContent = 'Connection error. Try again!'; err.style.display = 'block'; }
-  }
+  };
+  xhr.onload = function() {
+    try {
+      var data = JSON.parse(xhr.responseText);
+      if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
+      if (data.error) { if (err) { err.textContent = data.error; err.style.display = 'block'; } return; }
+      if (ok) { ok.textContent = data.message || 'Login successful!'; ok.style.display = 'block'; }
+      CU = data.user; localStorage.setItem('jai_u', JSON.stringify(CU));
+      setTimeout(function() { closeOv('login'); showUserNav(CU); applyPlan(CU); }, 1200);
+    } catch(e) {
+      if (btn) { btn.textContent = 'Sign In'; btn.disabled = false; }
+      if (err) { err.textContent = 'Server error. Try again!'; err.style.display = 'block'; }
+    }
+  };
+  xhr.send(JSON.stringify({ email: e, password: p }));
 }
 
 function doLogout() {
