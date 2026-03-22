@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>About - JyotishAI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#FDFBFF; min-height:100vh; padding-bottom:80px; }
+.header { background:linear-gradient(135deg,#1A0A2E,#2D1B4E); padding:16px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:100; }
+.back { background:rgba(255,255,255,0.2); border:none; font-size:0.88rem; cursor:pointer; color:#fff; font-family:'DM Sans',sans-serif; font-weight:600; padding:8px 16px; border-radius:20px; text-decoration:none; }
+.title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#fff; }
+.body { padding:20px 16px; }
+.about-card { text-align:center; padding:24px 0; border-bottom:1px solid #F0E6FF; margin-bottom:20px; }
+.ac-icon { font-size:3rem; margin-bottom:12px; }
+.about-card h3 { font-family:'Playfair Display',serif; font-size:1.15rem; margin-bottom:10px; color:#1A0A2E; }
+.about-card p { font-size:0.85rem; color:#6B7280; line-height:1.8; }
+.feats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+.feat { display:flex; align-items:center; gap:8px; font-size:0.82rem; color:#1A0A2E; background:#F5F0FF; padding:12px; border-radius:14px; border:1px solid #F0E6FF; }
+.feat-icon { color:#FF6B35; font-size:1rem; }
+.note { font-size:0.75rem; color:#9CA3AF; text-align:center; font-style:italic; line-height:1.7; padding:16px; background:#F5F0FF; border-radius:14px; }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; height:64px; background:#fff; border-top:1px solid #F0E6FF; display:flex; align-items:center; justify-content:space-around; }
+.bn { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 20px; text-decoration:none; border:none; background:none; font-family:'DM Sans',sans-serif; }
+.bn span { font-size:0.62rem; color:#9CA3AF; font-weight:600; }
+.bn svg { color:#9CA3AF; }
+.bn.active span { color:#1A0A2E; }
+.bn.active svg { color:#7C3AED; }
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back" href="index.html">&#8592; Back</a>
+  <span class="title">About JyotishAI</span>
+</div>
+<div class="body">
+  <div class="about-card">
+    <div class="ac-icon">&#9728;</div>
+    <h3>Ancient Wisdom, Modern AI</h3>
+    <p>JyotishAI combines 5000+ years of Vedic astrology with advanced AI — giving you accurate, personalized readings instantly.</p>
+  </div>
+  <div class="feats">
+    <div class="feat"><span class="feat-icon">&#9734;</span><span>Vedic Sidereal System</span></div>
+    <div class="feat"><span class="feat-icon">&#9734;</span><span>Lahiri Ayanamsa</span></div>
+    <div class="feat"><span class="feat-icon">&#9734;</span><span>Hindi &amp; English</span></div>
+    <div class="feat"><span class="feat-icon">&#9734;</span><span>Available 24/7</span></div>
+    <div class="feat"><span class="feat-icon">&#9734;</span><span>All Vedic Topics</span></div>
+    <div class="feat"><span class="feat-icon">&#9734;</span><span>Instant Responses</span></div>
+  </div>
+  <p class="note">JyotishAI is for spiritual guidance only. Always use your own judgment for major decisions.</p>
+</div>
+<nav class="bottom-nav">
+  <a class="bn" href="index.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    <span>Home</span>
+  </a>
+  <a class="bn" href="plans.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    <span>Plans</span>
+  </a>
+  <a class="bn active" href="about.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>About</span>
+  </a>
+  <a class="bn" href="login.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </a>
+</nav>
+</body>
+</html>
