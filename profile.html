@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>Profile - JyotishAI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#FDFBFF; min-height:100vh; padding-bottom:80px; }
+.header { background:linear-gradient(135deg,#1A0A2E,#2D1B4E); padding:16px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:100; }
+.back { background:rgba(255,255,255,0.2); border:none; font-size:0.88rem; cursor:pointer; color:#fff; font-family:'DM Sans',sans-serif; font-weight:600; padding:8px 16px; border-radius:20px; text-decoration:none; }
+.title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#fff; }
+.body { padding:24px 16px; }
+.avatar-section { text-align:center; margin-bottom:24px; }
+.avatar { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#FF6B35,#FFB347); color:#fff; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; margin:0 auto 12px; }
+.user-name { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:#1A0A2E; }
+.plan-badge { display:inline-block; background:linear-gradient(135deg,#FF6B35,#FFB347); color:#fff; font-size:0.72rem; font-weight:800; letter-spacing:1.5px; padding:5px 16px; border-radius:20px; margin-top:8px; }
+.plan-badge.free { background:rgba(255,107,53,0.15); color:#FF6B35; }
+.info-card { background:#F5F0FF; border-radius:16px; padding:16px; margin-bottom:16px; border:1px solid #F0E6FF; }
+.info-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #F0E6FF; font-size:0.85rem; }
+.info-row:last-child { border-bottom:none; }
+.info-label { color:#6B7280; font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.5px; }
+.info-value { color:#1A0A2E; font-weight:500; }
+.readings-bar { background:#F5F0FF; border-radius:14px; padding:14px; margin-bottom:20px; text-align:center; font-size:0.85rem; color:#6B7280; border:1px solid #F0E6FF; }
+.readings-bar strong { color:#FF6B35; }
+.btn { width:100%; padding:14px; border-radius:14px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; margin-bottom:12px; border:none; }
+.btn-upgrade { background:linear-gradient(135deg,#1A0A2E,#7C3AED); color:#fff; }
+.btn-logout { background:#fff; color:#7C3AED; border:2px solid #A855F7 !important; border:none; }
+.not-logged { text-align:center; padding:40px 20px; }
+.not-logged p { color:#6B7280; margin-bottom:20px; font-size:0.9rem; }
+.btn-login { display:block; background:linear-gradient(135deg,#1A0A2E,#7C3AED); color:#fff; padding:14px; border-radius:14px; font-size:0.9rem; font-weight:700; text-decoration:none; text-align:center; }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; height:64px; background:#fff; border-top:1px solid #F0E6FF; display:flex; align-items:center; justify-content:space-around; }
+.bn { display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 20px; text-decoration:none; border:none; background:none; font-family:'DM Sans',sans-serif; }
+.bn span { font-size:0.62rem; color:#9CA3AF; font-weight:600; }
+.bn svg { color:#9CA3AF; }
+.bn.active span { color:#1A0A2E; }
+.bn.active svg { color:#7C3AED; }
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back" href="index.html">&#8592; Back</a>
+  <span class="title">My Profile</span>
+</div>
+<div class="body" id="mainBody">
+  <!-- Content will be filled by JS -->
+</div>
+<nav class="bottom-nav">
+  <a class="bn" href="index.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    <span>Home</span>
+  </a>
+  <a class="bn" href="plans.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    <span>Plans</span>
+  </a>
+  <a class="bn" href="about.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>About</span>
+  </a>
+  <a class="bn active" href="profile.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </a>
+</nav>
+<script>
+var CU = JSON.parse(localStorage.getItem('jai_u') || 'null');
+var body = document.getElementById('mainBody');
+
+if (!CU) {
+  body.innerHTML = '<div class="not-logged"><p>Please sign in to view your profile</p><a href="login.html" class="btn-login">Sign In / Register</a></div>';
+} else {
+  var paid = CU.plan === 'bhakt';
+  body.innerHTML =
+    '<div class="avatar-section">' +
+      '<div class="avatar">' + CU.full_name.charAt(0).toUpperCase() + '</div>' +
+      '<div class="user-name">' + CU.full_name + '</div>' +
+      '<div class="plan-badge' + (paid ? '' : ' free') + '">' + (paid ? 'BHAKT' : 'FREE') + '</div>' +
+    '</div>' +
+    '<div class="info-card">' +
+      '<div class="info-row"><span class="info-label">Email</span><span class="info-value">' + CU.email + '</span></div>' +
+      '<div class="info-row"><span class="info-label">Date of Birth</span><span class="info-value">' + (CU.dob || 'Not set') + '</span></div>' +
+      '<div class="info-row"><span class="info-label">Birth Time</span><span class="info-value">' + (CU.birth_time || 'Not set') + '</span></div>' +
+      '<div class="info-row"><span class="info-label">Birth Place</span><span class="info-value">' + (CU.birth_place || 'Not set') + '</span></div>' +
+    '</div>' +
+    '<div class="readings-bar">Today\'s readings: <strong>' + (CU.readings_today || 0) + '/3</strong></div>' +
+    (!paid ? '<a href="plans.html" class="btn btn-upgrade" style="display:block;text-align:center;text-decoration:none">Upgrade to Bhakt</a>' : '') +
+    '<button class="btn btn-logout" onclick="doLogout()">Sign Out</button>';
+}
+
+function doLogout() {
+  localStorage.removeItem('jai_u');
+  window.location.href = 'index.html';
+}
+</script>
+</body>
+</html>
