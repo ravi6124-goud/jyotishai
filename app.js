@@ -172,7 +172,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function showOv(t) {
   var id = 'ov' + t.charAt(0).toUpperCase() + t.slice(1);
   var el = document.getElementById(id);
-  if (el) { el.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  if (el) { 
+    el.style.display = 'flex'; 
+    el.style.pointerEvents = 'auto';
+    el.style.zIndex = '9999';
+    document.body.style.overflow = 'hidden'; 
+  }
 }
 function closeOv(t) {
   var id = 'ov' + t.charAt(0).toUpperCase() + t.slice(1);
@@ -361,14 +366,16 @@ function setCategory(cat, btn) {
 }
 
 function showSection(section) {
-  document.getElementById('plansSection').style.display = 'none';
-  document.getElementById('aboutSection').style.display = 'none';
+  var ps = document.getElementById('plansSection');
+  var as = document.getElementById('aboutSection');
+  if (ps) { ps.style.display = 'none'; ps.style.pointerEvents = 'none'; }
+  if (as) { as.style.display = 'none'; as.style.pointerEvents = 'none'; }
   document.querySelectorAll('.bn-item').forEach(function(b) { b.classList.remove('active'); });
   if (section === 'plans') {
-    document.getElementById('plansSection').style.display = 'block';
+    if (ps) { ps.style.display = 'block'; ps.style.pointerEvents = 'auto'; }
     document.querySelectorAll('.bn-item')[1].classList.add('active');
   } else if (section === 'about') {
-    document.getElementById('aboutSection').style.display = 'block';
+    if (as) { as.style.display = 'block'; as.style.pointerEvents = 'auto'; }
     document.querySelectorAll('.bn-item')[2].classList.add('active');
   } else {
     document.querySelectorAll('.bn-item')[0].classList.add('active');
