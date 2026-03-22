@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>Sign In - JyotishAI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:linear-gradient(135deg,#1A0A2E,#2D1B4E); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+.card { background:#fff; border-radius:24px; padding:32px 24px 40px; width:100%; max-width:400px; }
+.logo { text-align:center; margin-bottom:24px; }
+.logo-om { font-size:2.5rem; color:#FF6B35; }
+.logo-name { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:#1A0A2E; }
+.logo-name span { color:#FF6B35; }
+.logo-sub { font-size:0.78rem; color:#9CA3AF; margin-top:4px; }
+.tabs { display:flex; background:#F5F0FF; border-radius:14px; padding:4px; margin-bottom:24px; }
+.tab { flex:1; text-align:center; padding:10px; border-radius:10px; cursor:pointer; font-size:0.85rem; font-weight:600; color:#6B7280; border:none; background:none; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+.tab.active { background:#fff; color:#1A0A2E; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+.form { display:none; }
+.form.active { display:block; }
+.fg { margin-bottom:14px; }
+.fl { font-size:0.7rem; font-weight:700; color:#6B7280; display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.8px; }
+.fi { width:100%; background:#F5F0FF; border:1.5px solid #F0E6FF; border-radius:12px; padding:13px 16px; font-size:0.9rem; color:#1A0A2E; outline:none; font-family:'DM Sans',sans-serif; }
+.fi:focus { border-color:#A855F7; background:#fff; }
+.fi::placeholder { color:#9CA3AF; }
+.btn { width:100%; background:linear-gradient(135deg,#1A0A2E,#7C3AED); color:#fff; border:none; padding:15px; border-radius:14px; font-size:0.95rem; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:8px; }
+.err { font-size:0.78rem; color:#EF4444; background:#FEF2F2; border:1px solid #FCA5A5; border-radius:10px; padding:10px 14px; margin-top:8px; display:none; }
+.ok { font-size:0.78rem; color:#16A34A; background:#F0FDF4; border:1px solid #86EFAC; border-radius:10px; padding:10px 14px; margin-top:8px; text-align:center; font-weight:600; display:none; }
+.back { display:block; text-align:center; margin-top:20px; color:#7C3AED; font-size:0.85rem; font-weight:600; text-decoration:none; }
+.divider { height:1px; background:#F0E6FF; margin:16px 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-om">&#x950;</div>
+    <div class="logo-name">Jyotish<span>AI</span></div>
+    <div class="logo-sub">Ancient Wisdom, Modern AI</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('login')">Sign In</button>
+    <button class="tab" onclick="switchTab('register')">Register</button>
+  </div>
+
+  <!-- LOGIN FORM -->
+  <div class="form active" id="loginForm">
+    <div class="fg">
+      <label class="fl">Email</label>
+      <input type="email" class="fi" id="lEmail" placeholder="your@email.com">
+    </div>
+    <div class="fg">
+      <label class="fl">Password</label>
+      <input type="password" class="fi" id="lPass" placeholder="Enter password">
+    </div>
+    <div class="err" id="lErr"></div>
+    <div class="ok" id="lOk"></div>
+    <button class="btn" id="lBtn" onclick="doLogin()">Sign In</button>
+  </div>
+
+  <!-- REGISTER FORM -->
+  <div class="form" id="registerForm">
+    <div class="fg">
+      <label class="fl">Full Name</label>
+      <input type="text" class="fi" id="rName" placeholder="Your name">
+    </div>
+    <div class="fg">
+      <label class="fl">Email</label>
+      <input type="email" class="fi" id="rEmail" placeholder="your@email.com">
+    </div>
+    <div class="fg">
+      <label class="fl">Password (min 6)</label>
+      <input type="password" class="fi" id="rPass" placeholder="Create password">
+    </div>
+    <div class="fg">
+      <label class="fl">Date of Birth</label>
+      <input type="date" class="fi" id="rDob">
+    </div>
+    <div class="fg">
+      <label class="fl">Birth Time</label>
+      <input type="time" class="fi" id="rTime">
+    </div>
+    <div class="fg">
+      <label class="fl">Birth Place</label>
+      <input type="text" class="fi" id="rPlace" placeholder="Chennai, Tamil Nadu">
+    </div>
+    <div class="err" id="rErr"></div>
+    <div class="ok" id="rOk"></div>
+    <button class="btn" id="rBtn" onclick="doRegister()">Create Free Account</button>
+  </div>
+
+  <a href="index.html" class="back">&#8592; Back to JyotishAI</a>
+</div>
+
+<script>
+var BACKEND = 'https://jyotishai-backend.onrender.com';
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.form').forEach(function(f){ f.classList.remove('active'); });
+  if (tab === 'login') {
+    document.querySelectorAll('.tab')[0].classList.add('active');
+    document.getElementById('loginForm').classList.add('active');
+  } else {
+    document.querySelectorAll('.tab')[1].classList.add('active');
+    document.getElementById('registerForm').classList.add('active');
+  }
+}
+
+function doLogin() {
+  var e = document.getElementById('lEmail').value.trim();
+  var p = document.getElementById('lPass').value;
+  var err = document.getElementById('lErr');
+  var ok = document.getElementById('lOk');
+  var btn = document.getElementById('lBtn');
+  err.style.display = 'none'; ok.style.display = 'none';
+  if (!e || !p) { err.textContent = 'Email aur password chahiye!'; err.style.display = 'block'; return; }
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', BACKEND + '/login', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.timeout = 30000;
+  xhr.ontimeout = function() { btn.textContent = 'Sign In'; btn.disabled = false; err.textContent = 'Timeout. Try again!'; err.style.display = 'block'; };
+  xhr.onerror = function() { btn.textContent = 'Sign In'; btn.disabled = false; err.textContent = 'Connection error!'; err.style.display = 'block'; };
+  xhr.onload = function() {
+    try {
+      var data = JSON.parse(xhr.responseText);
+      btn.textContent = 'Sign In'; btn.disabled = false;
+      if (data.error) { err.textContent = data.error; err.style.display = 'block'; return; }
+      ok.textContent = 'Login successful! Redirecting...'; ok.style.display = 'block';
+      localStorage.setItem('jai_u', JSON.stringify(data.user));
+      setTimeout(function(){ window.location.href = 'index.html'; }, 1200);
+    } catch(e) { btn.textContent = 'Sign In'; btn.disabled = false; err.textContent = 'Server error!'; err.style.display = 'block'; }
+  };
+  xhr.send(JSON.stringify({ email: e, password: p }));
+}
+
+function doRegister() {
+  var n = document.getElementById('rName').value.trim();
+  var e = document.getElementById('rEmail').value.trim();
+  var p = document.getElementById('rPass').value;
+  var d = document.getElementById('rDob').value;
+  var t = document.getElementById('rTime').value;
+  var pl = document.getElementById('rPlace').value.trim();
+  var err = document.getElementById('rErr');
+  var ok = document.getElementById('rOk');
+  var btn = document.getElementById('rBtn');
+  err.style.display = 'none'; ok.style.display = 'none';
+  if (!n || !e || !p) { err.textContent = 'Naam, email aur password zaroori hai!'; err.style.display = 'block'; return; }
+  btn.textContent = 'Creating...'; btn.disabled = true;
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', BACKEND + '/register', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.timeout = 30000;
+  xhr.ontimeout = function() { btn.textContent = 'Create Free Account'; btn.disabled = false; err.textContent = 'Timeout. Try again!'; err.style.display = 'block'; };
+  xhr.onerror = function() { btn.textContent = 'Create Free Account'; btn.disabled = false; err.textContent = 'Connection error!'; err.style.display = 'block'; };
+  xhr.onload = function() {
+    try {
+      var data = JSON.parse(xhr.responseText);
+      btn.textContent = 'Create Free Account'; btn.disabled = false;
+      if (data.error) { err.textContent = data.error; err.style.display = 'block'; return; }
+      ok.textContent = 'Account ban gaya! Redirecting...'; ok.style.display = 'block';
+      localStorage.setItem('jai_u', JSON.stringify(data.user));
+      setTimeout(function(){ window.location.href = 'index.html'; }, 1500);
+    } catch(e) { btn.textContent = 'Create Free Account'; btn.disabled = false; err.textContent = 'Server error!'; err.style.display = 'block'; }
+  };
+  xhr.send(JSON.stringify({ email: e, password: p, full_name: n, dob: d, birth_time: t, birth_place: pl }));
+}
+</script>
+</body>
+</html>
