@@ -550,9 +550,20 @@ async function generatePDF() {
 
   try {
     // Request full Kundli report from AI
-    var reportPrompt = 'Generate a COMPLETE VEDIC KUNDLI REPORT for ' + useName + 
-      ' born on ' + useDob + ' at ' + useTime + ' in ' + usePlace + 
-      '. Include: 1) Birth Chart Summary (Sun/Moon/Lagna/Nakshatra) 2) Personality Analysis 3) Career & Finance 2026 4) Love & Marriage 5) Health 6) Current Dasha Period 7) Lucky Gems, Colors, Numbers 8) Remedies & Mantras. Write in detail, no tables, flowing paragraphs.';
+    var reportPrompt = 'Generate a COMPLETE DETAILED VEDIC KUNDLI LIFE REPORT for ' + useName + ' born on ' + useDob + ' at ' + useTime + ' in ' + usePlace + '. Write a VERY DETAILED report with ALL these sections:\n\n' +
+      '1. BIRTH CHART SUMMARY - Sun sign, Moon sign, Ascendant, Nakshatra, Nakshatra Pada, Nakshatra deity and characteristics\n' +
+      '2. ALL 9 PLANETS POSITIONS - For each planet (Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu): which house, which sign, strong or weak, effects\n' +
+      '3. PERSONALITY ANALYSIS - Physical appearance, nature, strengths, weaknesses based on Lagna and Moon sign\n' +
+      '4. YOGA ANALYSIS - Identify all major yogas present: Raj Yoga, Dhana Yoga, Gaja Kesari Yoga, Hamsa Yoga, Malavya Yoga, Pancha Mahapurusha Yoga, Neech Bhanga Raj Yoga etc. Explain each yoga and its effects\n' +
+      '5. CAREER & FINANCE 2026 - Best career fields, current opportunities, financial predictions for 2026, best months for career growth\n' +
+      '6. LOVE & MARRIAGE - Marriage timing, partner characteristics, compatibility, relationship predictions\n' +
+      '7. HEALTH - Potential health concerns, body parts to take care of, health predictions for 2026\n' +
+      '8. CURRENT DASHA PERIOD - Current Mahadasha and Antardasha, effects, duration, what to expect\n' +
+      '9. FULL DASHA TIMELINE - List next 20 years of Mahadasha periods with years and brief effects\n' +
+      '10. NUMEROLOGY - Janm Ank (Life Path), Bhagya Ank (Destiny), Naam Ank (Name number), their meanings\n' +
+      '11. LUCKY GEMS, COLORS, NUMBERS - Recommended gemstones with mantras, lucky colors, lucky numbers, lucky days\n' +
+      '12. REMEDIES & MANTRAS - Specific remedies for weak planets, mantras to chant, charity to do, fasting recommendations\n\n' +
+      'Write everything in DETAIL. No tables. Flowing paragraphs. Be specific with predictions.';
 
     var body = {
       messages: [{ role: 'user', content: reportPrompt }],
