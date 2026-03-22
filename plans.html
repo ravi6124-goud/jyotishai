@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>Plans - JyotishAI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#FDFBFF; min-height:100vh; padding-bottom:80px; }
+.header { background:linear-gradient(135deg,#1A0A2E,#2D1B4E); padding:16px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:100; }
+.back { background:rgba(255,255,255,0.2); border:none; font-size:0.88rem; cursor:pointer; color:#fff; font-family:'DM Sans',sans-serif; font-weight:600; padding:8px 16px; border-radius:20px; text-decoration:none; }
+.title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#fff; }
+.body { padding:20px 16px; }
+.price-hero { background:linear-gradient(135deg,#1A0A2E,#2D1B4E); border-radius:20px; padding:24px; margin-bottom:20px; color:#fff; text-align:center; }
+.ph-badge { background:linear-gradient(135deg,#FF6B35,#FFB347); display:inline-block; padding:5px 16px; border-radius:20px; font-size:0.72rem; font-weight:800; letter-spacing:1.5px; margin-bottom:10px; }
+.ph-txt { font-size:0.85rem; opacity:0.7; margin-bottom:6px; }
+.ph-sub { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:#FFB347; }
+.plan-cards { display:flex; flex-direction:column; gap:16px; }
+.plan-card { background:#fff; border:1.5px solid #F0E6FF; border-radius:20px; padding:22px; position:relative; }
+.plan-card.featured { border-color:#A855F7; background:linear-gradient(135deg,#FAF5FF,#fff); }
+.pc-tag { position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,#7C3AED,#A855F7); color:#fff; font-size:0.65rem; font-weight:800; letter-spacing:2px; padding:5px 16px; border-radius:20px; white-space:nowrap; }
+.pc-name { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; margin-bottom:4px; color:#1A0A2E; }
+.pc-price { font-size:2rem; font-weight:800; color:#FF6B35; margin-bottom:4px; }
+.pc-price span { font-size:0.9rem; color:#6B7280; font-weight:400; }
+.pc-desc { font-size:0.78rem; color:#6B7280; margin-bottom:16px; font-style:italic; }
+.pc-feats { list-style:none; margin-bottom:18px; }
+.pc-feats li { font-size:0.82rem; padding:6px 0; border-bottom:1px solid #F0E6FF; display:flex; align-items:center; gap:10px; color:#1A0A2E; }
+.pc-feats li::before { content:"✦"; color:#FF6B35; font-size:0.7rem; }
+.pc-btn { width:100%; background:linear-gradient(135deg,#1A0A2E,#7C3AED); color:#fff; border:none; padding:14px; border-radius:14px; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; }
+.pc-btn.outline { background:#fff; color:#7C3AED; border:2px solid #A855F7; }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; height:64px; background:#fff; border-top:1px solid #F0E6FF; display:flex; align-items:center; justify-content:space-around; }
+.bn { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 20px; text-decoration:none; border:none; background:none; font-family:'DM Sans',sans-serif; }
+.bn span { font-size:0.62rem; color:#9CA3AF; font-weight:600; }
+.bn svg { color:#9CA3AF; }
+.bn.active span { color:#1A0A2E; }
+.bn.active svg { color:#7C3AED; }
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back" href="index.html">&#8592; Back</a>
+  <span class="title">Choose Your Plan</span>
+</div>
+<div class="body">
+  <div class="price-hero">
+    <div class="ph-badge">SAVE 90%</div>
+    <div class="ph-txt">Real astrologer charges <s>Rs 500-2000</s> per session</div>
+    <div class="ph-sub">JyotishAI = Just Rs 6.60/day!</div>
+  </div>
+  <div class="plan-cards">
+    <div class="plan-card">
+      <div class="pc-name">Sadhak</div>
+      <div class="pc-price">FREE</div>
+      <div class="pc-desc">Start your cosmic journey</div>
+      <ul class="pc-feats">
+        <li>3 readings per day</li>
+        <li>All Vedic topics</li>
+        <li>Hindi &amp; English</li>
+      </ul>
+      <a href="index.html" class="pc-btn outline" style="display:block;text-align:center;text-decoration:none;padding:14px;border-radius:14px">Start Free</a>
+    </div>
+    <div class="plan-card featured">
+      <div class="pc-tag">POPULAR</div>
+      <div class="pc-name">Bhakt</div>
+      <div class="pc-price">Rs 199 <span>/mo</span></div>
+      <div class="pc-desc">Just Rs 6.60/day — unlimited!</div>
+      <ul class="pc-feats">
+        <li>Unlimited readings</li>
+        <li>Full Kundli analysis</li>
+        <li>Prashna Kundli</li>
+        <li>Vivah Milan</li>
+        <li>PDF reports</li>
+      </ul>
+      <button class="pc-btn" onclick="pay()">Get Bhakt — Rs 199/mo</button>
+    </div>
+  </div>
+</div>
+<nav class="bottom-nav">
+  <a class="bn" href="index.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    <span>Home</span>
+  </a>
+  <a class="bn active" href="plans.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    <span>Plans</span>
+  </a>
+  <a class="bn" href="about.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>About</span>
+  </a>
+  <a class="bn" href="login.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </a>
+</nav>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var BACKEND = 'https://jyotishai-backend.onrender.com';
+var CU = JSON.parse(localStorage.getItem('jai_u') || 'null');
+
+async function pay() {
+  if (!CU) { window.location.href = 'login.html'; return; }
+  try {
+    var cfgRes = await fetch(BACKEND + '/config');
+    var cfg = await cfgRes.json();
+    var rk = cfg.razorpay_key || '';
+    if (!rk) { alert('Payment not configured. Try again!'); return; }
+    new Razorpay({
+      key: rk, amount: 199 * 100, currency: 'INR',
+      name: 'JyotishAI', description: 'Bhakt Plan', theme: { color: '#FF6B35' },
+      prefill: { name: CU.full_name, email: CU.email },
+      handler: async function(response) {
+        try {
+          await fetch(BACKEND + '/payment-success', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: CU.id, razorpay_payment_id: response.razorpay_payment_id, plan: 'bhakt', amount: 199 })
+          });
+        } catch(e) {}
+        CU.plan = 'bhakt';
+        localStorage.setItem('jai_u', JSON.stringify(CU));
+        alert('Payment successful! Bhakt plan activated!');
+        window.location.href = 'index.html';
+      }
+    }).open();
+  } catch(e) { alert('Payment error: ' + e.message); }
+}
+</script>
+</body>
+</html>
