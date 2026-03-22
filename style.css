@@ -21,7 +21,6 @@
 }
 
 html, body { height:100%; background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); overflow:hidden; }
-body.modal-open { overflow:hidden !important; }
 
 /* TOP BAR */
 .topbar {
@@ -170,8 +169,8 @@ body.modal-open { overflow:hidden !important; }
 .upg-skip { background:none; border:none; color:var(--text3); font-size:0.82rem; cursor:pointer; margin-top:12px; font-family:'DM Sans',sans-serif; display:block; width:100%; }
 
 /* MODALS */
-.ov { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(26,10,46,0.6); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:9999; display:none; align-items:flex-end; justify-content:center; overflow:hidden; }
-.md { background:#fff; border-radius:24px 24px 0 0; width:100%; max-width:480px; padding:28px 22px 40px; position:relative; animation:slideUp 0.3s ease; max-height:92vh; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.ov { position:fixed; inset:0; background:rgba(26,10,46,0.6); backdrop-filter:blur(8px); z-index:2000; display:none; align-items:flex-end; justify-content:center; }
+.md { background:#fff; border-radius:24px 24px 0 0; width:100%; max-width:480px; padding:28px 22px 40px; position:relative; animation:slideUp 0.3s ease; max-height:92vh; overflow-y:auto; }
 @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 .md::before { content:''; display:block; width:40px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 20px; }
 .md-x { position:absolute; top:20px; right:18px; background:var(--bg2); border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:0.8rem; color:var(--text2); display:flex; align-items:center; justify-content:center; }
