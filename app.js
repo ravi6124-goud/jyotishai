@@ -550,20 +550,20 @@ async function generatePDF() {
 
   try {
     // Request full Kundli report from AI
-    var reportPrompt = 'Generate a COMPLETE DETAILED VEDIC KUNDLI LIFE REPORT for ' + useName + ' born on ' + useDob + ' at ' + useTime + ' in ' + usePlace + '. Write a VERY DETAILED report with ALL these sections:\n\n' +
-      '1. BIRTH CHART SUMMARY - Sun sign, Moon sign, Ascendant, Nakshatra, Nakshatra Pada, Nakshatra deity and characteristics\n' +
-      '2. ALL 9 PLANETS POSITIONS - For each planet (Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu): which house, which sign, strong or weak, effects\n' +
-      '3. PERSONALITY ANALYSIS - Physical appearance, nature, strengths, weaknesses based on Lagna and Moon sign\n' +
-      '4. YOGA ANALYSIS - Identify all major yogas present: Raj Yoga, Dhana Yoga, Gaja Kesari Yoga, Hamsa Yoga, Malavya Yoga, Pancha Mahapurusha Yoga, Neech Bhanga Raj Yoga etc. Explain each yoga and its effects\n' +
-      '5. CAREER & FINANCE 2026 - Best career fields, current opportunities, financial predictions for 2026, best months for career growth\n' +
-      '6. LOVE & MARRIAGE - Marriage timing, partner characteristics, compatibility, relationship predictions\n' +
-      '7. HEALTH - Potential health concerns, body parts to take care of, health predictions for 2026\n' +
-      '8. CURRENT DASHA PERIOD - Current Mahadasha and Antardasha, effects, duration, what to expect\n' +
-      '9. FULL DASHA TIMELINE - List next 20 years of Mahadasha periods with years and brief effects\n' +
-      '10. NUMEROLOGY - Janm Ank (Life Path), Bhagya Ank (Destiny), Naam Ank (Name number), their meanings\n' +
-      '11. LUCKY GEMS, COLORS, NUMBERS - Recommended gemstones with mantras, lucky colors, lucky numbers, lucky days\n' +
-      '12. REMEDIES & MANTRAS - Specific remedies for weak planets, mantras to chant, charity to do, fasting recommendations\n\n' +
-      'Write everything in DETAIL. No tables. Flowing paragraphs. Be specific with predictions.';
+    var reportPrompt = 'Generate a DETAILED VEDIC KUNDLI REPORT for ' + useName + ' born on ' + useDob + ' at ' + useTime + ' in ' + usePlace + '. Include ALL sections below. Keep each section concise but complete (2-3 paragraphs each):\n\n' +
+      '1. BIRTH CHART SUMMARY - Sun, Moon, Lagna, Nakshatra details\n' +
+      '2. ALL 9 PLANETS - Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu - house and sign for each\n' +
+      '3. PERSONALITY - Nature, strengths, weaknesses\n' +
+      '4. YOGA ANALYSIS - Major yogas present (Raj Yoga, Dhana Yoga, Gaja Kesari etc)\n' +
+      '5. CAREER & FINANCE 2026 - Predictions and best months\n' +
+      '6. LOVE & MARRIAGE - Timing and predictions\n' +
+      '7. HEALTH - Key concerns and predictions\n' +
+      '8. CURRENT DASHA - Mahadasha and Antardasha period\n' +
+      '9. DASHA TIMELINE - Next 15 years of Mahadasha periods\n' +
+      '10. NUMEROLOGY - Janm Ank, Bhagya Ank, Naam Ank\n' +
+      '11. LUCKY GEMS & COLORS - Gemstones with mantras, lucky colors and numbers\n' +
+      '12. REMEDIES & MANTRAS - Specific remedies and mantras\n\n' +
+      'Be concise but specific. No markdown headers with ##. Use plain numbered sections.';
 
     var body = {
       messages: [{ role: 'user', content: reportPrompt }],
