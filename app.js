@@ -574,30 +574,38 @@ async function generatePDF() {
       plan: CU ? CU.plan : 'bhakt'
     };
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', BACKEND + '/chat', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.timeout = 120000;
+    // Split into 2 API calls for complete report
+    var prompt1 = 'Generate PART 1 of Vedic Kundli for ' + useName + ' born ' + useDob + ' at ' + useTime + ' in ' + usePlace + '. Cover sections 1-6 only, concisely (3-4 lines each):\n1. BIRTH CHART SUMMARY\n2. ALL 9 PLANETS (sign for each)\n3. PERSONALITY ANALYSIS\n4. YOGA ANALYSIS\n5. CAREER & FINANCE 2026\n6. LOVE & MARRIAGE\nNo markdown headers.';
 
-    xhr.onload = function() {
-      try {
-        var data = JSON.parse(xhr.responseText);
-        if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
-        if (data.reply) {
-          buildAndPrintPDF(data.reply, data.chart, useName, useDob, useTime, usePlace);
-        } else {
-          alert('Could not generate report. Try again!');
-        }
-      } catch(e) {
-        if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
-        alert('Error generating PDF. Try again!');
+    var prompt2 = 'Generate PART 2 of Vedic Kundli for ' + useName + ' born ' + useDob + ' at ' + useTime + ' in ' + usePlace + '. Cover sections 7-12 only, concisely (3-4 lines each):\n7. HEALTH 2026\n8. CURRENT DASHA PERIOD\n9. DASHA TIMELINE (next 15 years)\n10. NUMEROLOGY\n11. LUCKY GEMS & COLORS\n12. REMEDIES & MANTRAS\nNo markdown headers.';
+
+    var savedChart = null;
+
+    function pdfXHR(prompt, callback) {
+      var b = { messages: [{role:'user', content: prompt}], dob: useDob, birth_time: useTime, birth_place: usePlace, user_id: CU ? CU.id : null, plan: CU ? CU.plan : 'bhakt' };
+      var x = new XMLHttpRequest();
+      x.open('POST', BACKEND + '/chat', true);
+      x.setRequestHeader('Content-Type', 'application/json');
+      x.timeout = 120000;
+      x.onload = function() { try { callback(JSON.parse(x.responseText)); } catch(e) { callback(null); } };
+      x.onerror = function() { callback(null); };
+      x.send(JSON.stringify(b));
+    }
+
+    if (btn) btn.textContent = 'Generating Part 1/2...';
+    pdfXHR(prompt1, function(data1) {
+      if (!data1 || !data1.reply) {
+        if (btn) { btn.textContent = 'Full Kundli PDF'; btn.disabled = false; }
+        alert('Could not generate report. Try again!'); return;
       }
-    };
-    xhr.onerror = function() {
-      if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
-      alert('Connection error. Try again!');
-    };
-    xhr.send(JSON.stringify(body));
+      savedChart = data1.chart;
+      if (btn) btn.textContent = 'Generating Part 2/2...';
+      pdfXHR(prompt2, function(data2) {
+        if (btn) { btn.textContent = 'Full Kundli PDF'; btn.disabled = false; }
+        var full = data1.reply + '\n\n' + (data2 ? data2.reply || '' : '');
+        buildAndPrintPDF(full, savedChart, useName, useDob, useTime, usePlace);
+      });
+    });
 
   } catch(e) {
     if (btn) { btn.textContent = 'Download PDF'; btn.disabled = false; }
