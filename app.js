@@ -3,9 +3,29 @@ var BACKEND = 'https://jyotishai-backend.onrender.com';
 
 // ===== STATE =====
 var hist = [];
-var free = 3;
 var prem = false;
 var CU = JSON.parse(localStorage.getItem('jai_u') || 'null');
+
+// Load free reading count from localStorage
+function getTodayKey() {
+  return 'free_' + new Date().toISOString().split('T')[0];
+}
+function getFreeCount() {
+  if (CU && (CU.plan === 'bhakt')) return 999;
+  var key = getTodayKey();
+  var saved = localStorage.getItem(key);
+  return saved !== null ? parseInt(saved) : 3;
+}
+function saveFreeCount(n) {
+  localStorage.setItem(getTodayKey(), n);
+  // Clean old keys
+  for (var k in localStorage) {
+    if (k.startsWith('free_') && k !== getTodayKey()) {
+      localStorage.removeItem(k);
+    }
+  }
+}
+var free = getFreeCount();
 
 // ===== LIVE COUNTER =====
 var base = 28;
@@ -142,7 +162,7 @@ async function sendMsg() {
   } else {
     hist.push({ role: 'assistant', content: data.reply });
     addMsg('ai', data.reply);
-    if (!prem) { free = Math.max(0, free - 1); updateDiyas(); }
+    if (!prem) { free = Math.max(0, free - 1); saveFreeCount(free); updateDiyas(); }
     // Show PDF button for paid users after response
     if (prem) {
       var pdfBtn = document.getElementById('pdfFloating');
@@ -321,7 +341,7 @@ async function doLogin() {
 
 function doLogout() {
   CU = null; localStorage.removeItem('jai_u');
-  prem = false; free = 3;
+  prem = false; free = 3; saveFreeCount(3);
   var lb = document.getElementById('loginBtn'); if (lb) lb.style.display = 'block';
   var up = document.getElementById('userPill'); if (up) up.style.display = 'none';
   closeOv('profile'); updateDiyas();
