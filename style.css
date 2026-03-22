@@ -44,7 +44,7 @@ body::before {
   position:fixed; top:0; left:0; right:0; height:var(--top-h);
   background:linear-gradient(135deg, var(--deep) 0%, var(--deep2) 100%);
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 16px; z-index:50;
+  padding:0 16px; z-index:1000;
   box-shadow: 0 2px 20px rgba(26,10,46,0.3);
 }
 .topbar::after {
@@ -274,7 +274,7 @@ body::before {
 /* SECTION OVERLAYS */
 .section-overlay {
   position:fixed; inset:0; background:var(--bg);
-  z-index:200; pointer-events:none; overflow-y:auto; padding-bottom:30px;
+  z-index:200; pointer-events:none !important; overflow-y:auto; padding-bottom:30px;
 }
 .so-header {
   display:flex; align-items:center; gap:12px; padding:16px;
@@ -451,7 +451,7 @@ body::before {
 }
 
 /* TWINKLING STARS */
-.twinkle-star { z-index:-1;
+.twinkle-star { z-index:-10; pointer-events:none !important;
   position:fixed;
   border-radius:50%;
   background:#fff;
@@ -466,7 +466,7 @@ body::before {
 
 /* ═══ AURORA NORTHERN LIGHTS ═══ */
 .aurora {
-  position:fixed; inset:0; z-index:-3; pointer-events:none !important; overflow:hidden;
+  position:fixed; inset:0; z-index:-10; pointer-events:none !important; overflow:hidden;
 }
 .aurora-band {
   position:absolute; left:-50%; width:200%;
@@ -499,7 +499,7 @@ body::before {
 }
 
 /* ═══ CONSTELLATION PARTICLES ═══ */
-.constellation { position:fixed; inset:0; z-index:-3; pointer-events:none; }
+.constellation { position:fixed; inset:0; z-index:-10; pointer-events:none; }
 .c-particle {
   position:absolute; border-radius:50%;
   background:rgba(255,255,255,0.7);
@@ -521,7 +521,7 @@ body::before {
 
 /* ═══ ANIMATED OM SYMBOL ═══ */
 .om-bg {
-  position:fixed; bottom:80px; right:-20px; z-index:-2; pointer-events:none;
+  position:fixed; bottom:80px; right:-20px; z-index:-10; pointer-events:none;
   font-size:180px; line-height:1;
   color:rgba(124,58,237,0.04);
   font-family:'Playfair Display',serif;
@@ -547,19 +547,7 @@ body::before {
 }
 
 /* ═══ PAGE LOAD ANIMATION ═══ */
-.topbar, .cats, .chat-main, .input-bar, .bottom-nav, .qprompts {
-  animation:fadeSlideIn 0.4s ease forwards;
-}
-.topbar { animation-delay:0s; }
-.cats { animation-delay:0.1s; }
-.chat-main { animation-delay:0.2s; }
-.qprompts { animation-delay:0.25s; }
-.input-bar { animation-delay:0.3s; }
-.bottom-nav { animation-delay:0.35s; }
-@keyframes fadeSlideIn {
-  from{ opacity:0; transform:translateY(10px); }
-  to{ opacity:1; transform:translateY(0); }
-}
+/* Page load animation removed for mobile compatibility */
 
 /* ═══ CATEGORY TAB SLIDE ANIMATION ═══ */
 .cats { position:relative; }
