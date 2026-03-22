@@ -614,12 +614,18 @@ function buildAndPrintPDF(report, chart, useName, useDob, useTime, usePlace) {
 
   var chartSection = '';
   if (chart) {
-    chartSection =
-      '<div class="chart-grid">' +
-      (chart.sun_rashi ? '<div class="chart-item"><div class="ci-label">SUN SIGN</div><div class="ci-value">' + chart.sun_rashi + '</div><div class="ci-deg">' + chart.sun_degrees + ' deg</div></div>' : '') +
-      (chart.moon_rashi ? '<div class="chart-item"><div class="ci-label">MOON SIGN</div><div class="ci-value">' + chart.moon_rashi + '</div><div class="ci-deg">' + chart.moon_degrees + ' deg</div></div>' : '') +
+    chartSection = '<div class="chart-grid">' +
+      (chart.sun_rashi ? '<div class="chart-item"><div class="ci-label">SUN</div><div class="ci-value">' + chart.sun_rashi + '</div><div class="ci-deg">' + chart.sun_degrees + ' deg</div></div>' : '') +
+      (chart.moon_rashi ? '<div class="chart-item"><div class="ci-label">MOON</div><div class="ci-value">' + chart.moon_rashi + '</div><div class="ci-deg">' + chart.moon_degrees + ' deg</div></div>' : '') +
       (chart.lagna ? '<div class="chart-item"><div class="ci-label">ASCENDANT</div><div class="ci-value">' + chart.lagna + '</div><div class="ci-deg">' + chart.lagna_degrees + ' deg</div></div>' : '') +
       (chart.nakshatra ? '<div class="chart-item"><div class="ci-label">NAKSHATRA</div><div class="ci-value">' + chart.nakshatra + '</div><div class="ci-deg">Pada ' + (chart.nakshatra_pada || '-') + '</div></div>' : '') +
+      (chart.mars ? '<div class="chart-item"><div class="ci-label">MARS</div><div class="ci-value">' + chart.mars + '</div><div class="ci-deg">' + chart.mars_deg + ' deg</div></div>' : '') +
+      (chart.mercury ? '<div class="chart-item"><div class="ci-label">MERCURY</div><div class="ci-value">' + chart.mercury + '</div><div class="ci-deg">' + chart.mercury_deg + ' deg</div></div>' : '') +
+      (chart.jupiter ? '<div class="chart-item"><div class="ci-label">JUPITER</div><div class="ci-value">' + chart.jupiter + '</div><div class="ci-deg">' + chart.jupiter_deg + ' deg</div></div>' : '') +
+      (chart.venus ? '<div class="chart-item"><div class="ci-label">VENUS</div><div class="ci-value">' + chart.venus + '</div><div class="ci-deg">' + chart.venus_deg + ' deg</div></div>' : '') +
+      (chart.saturn ? '<div class="chart-item"><div class="ci-label">SATURN</div><div class="ci-value">' + chart.saturn + '</div><div class="ci-deg">' + chart.saturn_deg + ' deg</div></div>' : '') +
+      (chart.rahu ? '<div class="chart-item"><div class="ci-label">RAHU</div><div class="ci-value">' + chart.rahu + '</div><div class="ci-deg">' + chart.rahu_deg + ' deg</div></div>' : '') +
+      (chart.ketu ? '<div class="chart-item"><div class="ci-label">KETU</div><div class="ci-value">' + chart.ketu + '</div><div class="ci-deg">' + chart.ketu_deg + ' deg</div></div>' : '') +
       '</div>';
   }
 
