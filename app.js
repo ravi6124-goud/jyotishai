@@ -194,7 +194,7 @@ function showUserNav(u) {
 }
 
 function applyPlan(u) {
-  var paid = u.plan === 'bhakt' || u.plan === 'gyani';
+  var paid = u.plan === 'bhakt';
   if (paid) {
     prem = true; free = 999;
     var fb = document.getElementById('fb');
@@ -211,7 +211,7 @@ function showProfile() {
   if (!CU) { showOv('login'); return; }
   var pn = document.getElementById('pName');
   if (pn) pn.textContent = 'Namaste, ' + CU.full_name + '!';
-  var paid = CU.plan === 'bhakt' || CU.plan === 'gyani';
+  var paid = CU.plan === 'bhakt';
   var pp = document.getElementById('pPlan');
   if (pp) {
     pp.textContent = paid ? CU.plan.toUpperCase() : 'FREE';
