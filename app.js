@@ -500,6 +500,8 @@ window.addEventListener('load', function() {
   document.getElementById('sb').style.opacity = '1';
   document.querySelectorAll('.bn-item')[0].classList.add('active');
   if (CU) { showUserNav(CU); applyPlan(CU); }
+  // Save current free count on load so refresh remembers it
+  if (!prem) { saveFreeCount(free); updateDiyas(); }
   // Show PDF button only for paid users
   var pdfFloating = document.getElementById('pdfFloating');
   if (pdfFloating && prem) pdfFloating.style.display = 'block';
