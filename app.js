@@ -169,6 +169,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== MODAL SYSTEM =====
+function goLogin() {
+  window.location.href = 'login.html';
+}
+
 function showOv(t) {
   var id = 'ov' + t.charAt(0).toUpperCase() + t.slice(1);
   var el = document.getElementById(id);
@@ -211,7 +215,7 @@ function applyPlan(u) {
 }
 
 function showProfile() {
-  if (!CU) { showOv('login'); return; }
+  if (!CU) { window.location.href = 'login.html'; return; }
   var pn = document.getElementById('pName');
   if (pn) pn.textContent = 'Namaste, ' + CU.full_name + '!';
   var paid = CU.plan === 'bhakt';
@@ -325,7 +329,7 @@ function doLogout() {
 
 // ===== RAZORPAY =====
 async function pay(plan, amt) {
-  if (!CU) { showOv('login'); return; }
+  if (!CU) { window.location.href = 'login.html'; return; }
   try {
     var cfgRes = await fetch(BACKEND + '/config');
     var cfg = await cfgRes.json();
